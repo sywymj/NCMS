@@ -1,0 +1,8 @@
+INSERT INTO ZYBR(ZYH, MZDM, BAH, CKH, YBKH, BRXM, XB,CSRQ, HYZK, CSD_SS, CSD_XQ, CSD_Z, GJ, SFZH, ZY, MZKS, NL, JSDW) VALUES(45455,1,45455,NULL,'','测试二','男',NULL,'未','十堰市','茅箭','','中国','personinfocode','工人',44,50,'岁')
+               
+			   
+INSERT INTO RY(RYH, ZYH, RYKS, ZYBRLX, RYYJJE, YJKZJE, BJX, RYQKDM, YS, CZY, ZT, ZF, RYCH,YBBM, KSDM, HZ_HZZH,PatientID,BudgetDay) VALUES(45455,45455,37,1,0,0,0,1,215,74,0,0,0,NULL,37,'hzylzh',0,NULL)
+
+
+INSERT INTO BASY(RYH, GZDW_DZ, GZDW_DH, GZDW_YZBM, HK_DZ, HK_YZBM, LXR_XM, LXR_GX, LXR_DZ, LXR_DH, MZZD_ICD, MZZD, RYZD_ICD, RYZD, MZZD_YS, DBR, BSCSZ, KKCD) VALUES(45455,'workaddress','phone','zone_code1','hkaddress','hk_zone','lxrname','lxrgx','lxraddress','lxrphone','K83.801','奥狄氏括约肌狭窄','J06.901','病毒性上呼吸道感染',110,'dbr', '患者本人','可靠')
+                       

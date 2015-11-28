@@ -1,0 +1,122 @@
+CREATE TABLE [ZYBR] (
+	[ZYH] [int]  	 ,
+	[MZDM] [smallint] NOT NULL ,
+	[BAH] [int] NULL ,
+	[CKH] [int] NULL ,
+	[YBKH] [char] (20) COLLATE Chinese_PRC_CI_AS NULL ,
+	[BRXM] [varchar] (20) COLLATE Chinese_PRC_CI_AS NOT NULL ,
+	[XB] [char] (2) COLLATE Chinese_PRC_CI_AS NULL ,
+	[CSRQ] [datetime] NULL CONSTRAINT [DF_ZYBR_CSRQ] DEFAULT (null),
+	[HYZK] [char] (10) COLLATE Chinese_PRC_CI_AS NULL ,
+	[CSD_SS] [varchar] (30) COLLATE Chinese_PRC_CI_AS NULL ,
+	[CSD_XQ] [varchar] (30) COLLATE Chinese_PRC_CI_AS NULL ,
+	[CSD_Z] [varchar] (30) COLLATE Chinese_PRC_CI_AS NULL ,
+	[GJ] [varchar] (10) COLLATE Chinese_PRC_CI_AS NULL ,
+	[SFZH] [varchar] (20) COLLATE Chinese_PRC_CI_AS NULL ,
+	[ZY] [varchar] (20) COLLATE Chinese_PRC_CI_AS NULL ,
+	[mzks] [smallint] NULL ,
+	[NL] [smallint] NULL ,
+	[JSDW] [char] (10) COLLATE Chinese_PRC_CI_AS NULL ,
+	CONSTRAINT [PK_ZYBR] PRIMARY KEY  CLUSTERED 
+	(
+		[ZYH]
+	)  ON [PRIMARY] 
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [RY] (
+	[RYH] [int] NOT NULL ,
+	[ZYH] [int] NOT NULL ,
+	[RYKS] [smallint] NOT NULL ,
+	[ZYBRLX] [tinyint] NOT NULL ,
+	[RYYJJE] [money] NOT NULL CONSTRAINT [DF__RY__RYYJJE__6B84DD35] DEFAULT (0),
+	[BJX] [money] NULL ,
+	[YJKZJE] [money] NOT NULL CONSTRAINT [DF__RY__YJKZJE__6C79016E] DEFAULT (0),
+	[JZZJE] [money] NOT NULL CONSTRAINT [DF__RY__JZZJE__6D6D25A7] DEFAULT (0),
+	[RYRQ] [datetime] NOT NULL CONSTRAINT [DF__RY__RYRQ__6E6149E0] DEFAULT (getdate()),
+	[CYRQ] [datetime] NULL ,
+	[RYQKDM] [tinyint] NOT NULL ,
+	[QFZJE] [money] NOT NULL CONSTRAINT [DF__RY__QFZJE__6F556E19] DEFAULT (0),
+	[XJJFZJE] [money] NOT NULL CONSTRAINT [DF__RY__XJJFZJE__70499252] DEFAULT (0),
+	[CWFZJE] [money] NOT NULL CONSTRAINT [DF__RY__CWFZJE__713DB68B] DEFAULT (0),
+	[CYBJJE] [money] NOT NULL CONSTRAINT [DF__RY__CYBJJE__7231DAC4] DEFAULT (0),
+	[YE] [money] NOT NULL CONSTRAINT [DF__RY__YE__7325FEFD] DEFAULT (0),
+	[BXJE] [money] NOT NULL CONSTRAINT [DF__RY__BXJE__741A2336] DEFAULT (0),
+	[YS] [smallint] NULL ,
+	[CZY] [smallint] NOT NULL ,
+	[ZT] [tinyint] NOT NULL CONSTRAINT [DF__RY__ZT__750E476F] DEFAULT (0),
+	[ZF] [tinyint] NOT NULL CONSTRAINT [DF__RY__ZF__76026BA8] DEFAULT (0),
+	[RYCH] [smallint] NOT NULL CONSTRAINT [DF__RY__RYCH__76F68FE1] DEFAULT (1),
+	[YBBM] [char] (20) COLLATE Chinese_PRC_CI_AS NULL ,
+	[YLFKFSDM] [smallint] NULL ,
+	[KSDM] [smallint] NULL ,
+	[ycy] [tinyint] NULL CONSTRAINT [DF__ry__ycy__35BDC961] DEFAULT (0),
+	[REGCARD_DATE] [datetime] NULL ,
+	[YCYRQ] [datetime] NULL ,
+	[HZ_HZZH] [varchar] (40) COLLATE Chinese_PRC_CI_AS NULL ,
+	[RegID] [varchar] (20) COLLATE Chinese_PRC_CI_AS NULL ,
+	[JZZJE_YS] [money] NULL CONSTRAINT [DF__RY__JZZJE_YS__19E17019] DEFAULT (0),
+	[HZ_REG] [varchar] (40) COLLATE Chinese_PRC_CI_AS NULL ,
+	[PatientID] [int] NULL ,
+	[JBSJ] [datetime] NULL ,
+	[FLAG] [varchar] (10) COLLATE Chinese_PRC_CI_AS NULL ,
+	[BudgetDay] [smallint] NULL ,
+	CONSTRAINT [PK_RY] PRIMARY KEY  CLUSTERED 
+	(
+		[RYH]
+	)  ON [PRIMARY] ,
+	CONSTRAINT [fk_ry_bm] FOREIGN KEY 
+	(
+		[RYKS]
+	) REFERENCES [BM] (
+		[BMDM]
+	),
+	CONSTRAINT [FK_RY_ZYBR] FOREIGN KEY 
+	(
+		[ZYH]
+	) REFERENCES [ZYBR] (
+		[ZYH]
+	)
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [BASY] (
+	[RYH] [int] NOT NULL ,
+	[GZDW_DZ] [varchar] (60) COLLATE Chinese_PRC_CI_AS NULL ,
+	[GZDW_DH] [varchar] (40) COLLATE Chinese_PRC_CI_AS NULL ,
+	[GZDW_YZBM] [varchar] (10) COLLATE Chinese_PRC_CI_AS NULL ,
+	[HK_DZ] [varchar] (60) COLLATE Chinese_PRC_CI_AS NULL ,
+	[HK_YZBM] [varchar] (10) COLLATE Chinese_PRC_CI_AS NULL ,
+	[LXR_XM] [varchar] (20) COLLATE Chinese_PRC_CI_AS NULL ,
+	[LXR_GX] [varchar] (20) COLLATE Chinese_PRC_CI_AS NULL ,
+	[LXR_DZ] [varchar] (80) COLLATE Chinese_PRC_CI_AS NULL ,
+	[LXR_DH] [varchar] (40) COLLATE Chinese_PRC_CI_AS NULL ,
+	[MZZD_ICD] [char] (20) COLLATE Chinese_PRC_CI_AS NULL ,
+	[MZZD] [varchar] (100) COLLATE Chinese_PRC_CI_AS NULL ,
+	[RYZD_ICD] [char] (20) COLLATE Chinese_PRC_CI_AS NULL ,
+	[RYZD] [varchar] (100) COLLATE Chinese_PRC_CI_AS NULL ,
+	[CYZYZD_ICD] [char] (20) COLLATE Chinese_PRC_CI_AS NULL ,
+	[CYZYZD] [varchar] (100) COLLATE Chinese_PRC_CI_AS NULL ,
+	[CYZYZD_LX] [char] (10) COLLATE Chinese_PRC_CI_AS NULL ,
+	[MZZD_YS] [smallint] NULL ,
+	[nl] [smallint] NULL ,
+	[jsdw] [varchar] (10) COLLATE Chinese_PRC_CI_AS NULL ,
+	[DBR] [varchar] (30) COLLATE Chinese_PRC_CI_AS NULL ,
+	[bscsz] [varchar] (20) COLLATE Chinese_PRC_CI_AS NULL ,
+	[kkcd] [varchar] (20) COLLATE Chinese_PRC_CI_AS NULL ,
+	[cyzyzd_zdyj] [varchar] (30) COLLATE Chinese_PRC_CI_AS NULL ,
+	CONSTRAINT [PK_BASY] PRIMARY KEY  CLUSTERED 
+	(
+		[RYH]
+	)  ON [PRIMARY] ,
+	CONSTRAINT [FK_BASY_RY] FOREIGN KEY 
+	(
+		[RYH]
+	) REFERENCES [RY] (
+		[RYH]
+	)
+) ON [PRIMARY]
+GO
+
+
+
