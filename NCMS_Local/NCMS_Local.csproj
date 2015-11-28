@@ -48,7 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTO\PatientInfo.cs" />
-    <Compile Include="HisComponent.cs" />
+    <Compile Include="Component\HisComponent.cs" />
     <Compile Include="LTSQL\DCCbhis.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
