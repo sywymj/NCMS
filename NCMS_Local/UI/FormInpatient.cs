@@ -15,5 +15,10 @@ namespace NCMS_Local.UI
         {
             InitializeComponent();
         }
+
+        private void FormInpatient_Load(object sender, EventArgs e)
+        {
+            
+        }
     }
 }

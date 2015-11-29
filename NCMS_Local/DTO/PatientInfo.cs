@@ -9,7 +9,7 @@ namespace NCMS_Local.DTO
     public class PatientInfo
     {
         public string Name { get; set; }
-        public int? Age { get; set; }
+        public short? Age { get; set; }
         public string AgeUnit { get; set; }
         public DateTime? BirthDay { get; set; }
         public string Marray { get; set; }
@@ -25,7 +25,7 @@ namespace NCMS_Local.DTO
         public short? HisNationCode { get; set; }
         public string HisNation { get; set; }
 
-        public int? HisRyksCode { get; set; }
+        public short? HisRyksCode { get; set; }
         public string HisRyksDesc{get;set;}
         public int? HisZybrlx { get; set; }
         public DateTime? Ryrq { get; set; }
@@ -35,8 +35,10 @@ namespace NCMS_Local.DTO
         public string HisMzzdDesc { get; set; }
         public string HisRyzdCode{get;set;}
         public string HisRyzdDesc{get;set;}
-        public int? HisDoctorCode{get;set;}
-        public string HisDoctorName{get;set;}
+        public short? HisDoctorCode { get; set; }
+        public string HisDoctorName { get; set; }
+        public short? HisMzDoctorCode { get; set; }
+        public string HisMzDoctorName { get; set; }
 
     }
 }
