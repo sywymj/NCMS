@@ -20,3 +20,15 @@ F:\NCMS\NCMS_Local\obj\Debug\NCMS_Local.UI.FormInpatient.resources
 F:\NCMS\NCMS_Local\obj\Debug\NCMS_Local.csproj.GenerateResource.Cache
 F:\NCMS\NCMS_Local\obj\Debug\NCMS_Local.dll
 F:\NCMS\NCMS_Local\obj\Debug\NCMS_Local.pdb
+E:\NCMS\NCMS\NCMS_Local\obj\Debug\NCMS_Local.csprojResolveAssemblyReference.cache
+E:\NCMS\NCMS\NCMS_Local\obj\Debug\NCMS_Local.UI.FormInpatient.resources
+E:\NCMS\NCMS\NCMS_Local\obj\Debug\NCMS_Local.csproj.GenerateResource.Cache
+E:\NCMS\NCMS\NCMS_Local\obj\Debug\NCMS_Local.dll
+E:\NCMS\NCMS\NCMS_Local\obj\Debug\NCMS_Local.pdb
+E:\NCMS\NCMS\NCMS_Local\bin\Debug\NCMS_Local.dll.config
+E:\NCMS\NCMS\NCMS_Local\bin\Debug\NCMS_Local.dll
+E:\NCMS\NCMS\NCMS_Local\bin\Debug\NCMS_Local.pdb
+E:\NCMS\NCMS\NCMS_Local\bin\Debug\CommonUtil.dll
+E:\NCMS\NCMS\NCMS_Local\bin\Debug\DataUtil.dll
+E:\NCMS\NCMS\NCMS_Local\bin\Debug\nunit.framework.dll
+E:\NCMS\NCMS\NCMS_Local\bin\Debug\nunit.framework.xml
