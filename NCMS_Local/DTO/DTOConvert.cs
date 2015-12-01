@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing.Design;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms.Design;
 
 namespace NCMS_Local.DTO
 {
@@ -30,7 +32,7 @@ namespace NCMS_Local.DTO
         }
         public override TypeConverter.StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
-            return new TypeConverter.StandardValuesCollection(new string[] { "未", "婚","离","丧" });
+            return new TypeConverter.StandardValuesCollection(new string[] { "未婚", "已婚","离婚","丧偶" });
         }
         public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
         {
@@ -52,7 +54,7 @@ namespace NCMS_Local.DTO
             return true;
         }
     }
-    public class ConvertAge :TypeConverter
+    public class ConvertAge :ExpandableObjectConverter
     {
         public override object ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destinationType)
         {
@@ -83,6 +85,62 @@ namespace NCMS_Local.DTO
                 return obj;
             }
             return base.ConvertFrom(context, culture, value);
+        }
+    }
+    public class ConvertDoctor : ExpandableObjectConverter
+    {
+        
+        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
+        {
+            return base.CanConvertTo(context, destinationType);
+        }
+        public override object ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destinationType)
+        {
+            if (destinationType == typeof(System.String) && value is CDoctor)
+            {
+                CDoctor obj = (CDoctor)value;
+                return string.Format(@"{0}{1}", obj.bm.bmdm, obj.zgmc);
+            }
+            return base.ConvertTo(context, culture, value, destinationType);
+        }
+    }
+    public class MzDoctorEdit : UITypeEditor
+    {
+        public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
+        {
+            return UITypeEditorEditStyle.Modal;
+        }
+        public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
+        {
+            IWindowsFormsEditorService edSvc = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
+            if (edSvc != null)
+            {
+                DTOUI.DUIDoctorSel ds = new DTOUI.DUIDoctorSel();
+                ds.doctorSelEnum = DTOUI.DoctorSelEnum.医生;
+                edSvc.ShowDialog(ds);
+                return ds.SelDoctor;
+            }
+            return value;
+        }
+    }
+
+    public class NhIllEdit : UITypeEditor
+    {
+        public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
+        {
+            return UITypeEditorEditStyle.Modal;
+        }
+        public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
+        {
+            IWindowsFormsEditorService edSvc = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
+            if (edSvc != null)
+            {
+                DTOUI.DUIIllSel ds = new DTOUI.DUIIllSel();
+                
+                edSvc.ShowDialog(ds);
+                return ds.SelIll;
+            }
+            return value;
         }
     }
 }

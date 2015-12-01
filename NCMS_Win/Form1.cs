@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using NCMS_Local.LTSQL;
+using NCMS_Local;
 namespace NCMS_Win
 {
     public partial class Form1 : Form
@@ -32,7 +33,8 @@ namespace NCMS_Win
             pInfo = new NCMS_Local.DTO.PatientInfo();
             this.propertyGrid1.SelectedObject = pInfo;
             //this.propertyGrid1.SelectedObject = new CustomClass();
-            propertyGrid1.ExpandAllGridItems();
+            //propertyGrid1.ExpandAllGridItems();
+            this.dataGridView1.DataSource = GSettings.Doctors;
         }
 
         private void button1_Click(object sender, EventArgs e)

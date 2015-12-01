@@ -32,5 +32,15 @@ namespace NCMS_Local.Properties {
                 return ((string)(this["cbhisConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.;Initial Catalog=HNXT_interface;Integrated Security=True")]
+        public string HNXT_interfaceConnectionString {
+            get {
+                return ((string)(this["HNXT_interfaceConnectionString"]));
+            }
+        }
     }
 }

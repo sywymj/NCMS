@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="HNXT_interface" Class="DCNhDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.;Initial Catalog=HNXT_interface;Integrated Security=True" SettingsObjectName="NCMS_Local.Properties.Settings" SettingsPropertyName="HNXT_interfaceConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.p_Illness" Member="p_Illness">
+    <Type Name="p_Illness">
+      <Column Name="OrganID" Type="System.String" DbType="VarChar(8) NOT NULL" CanBeNull="false" />
+      <Column Name="IllCode" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="IllName" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Spell" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="FiveStrokes" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="If_Modified" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+</Database>

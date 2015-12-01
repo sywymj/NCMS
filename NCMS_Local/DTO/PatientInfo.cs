@@ -1,22 +1,71 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing.Design;
 using System.Linq;
 using System.Text;
 
 namespace NCMS_Local.DTO
 {
+    public enum EnumNation
+    {
+        汉族=1,
+        苗族=2,
+        彝族=3
+    }
+    public struct CDepart
+    {
+        [DisplayName("ID")]
+        public int bmdm { get; set; }
+        [DisplayName("科室名称")]
+        public string bmmc { get; set; }
+        [Browsable(false)]
+        public string pym { get; set; }
+        [Browsable(false)]
+        public int kslb { get; set; }
+        public override string ToString()
+        {
+            return bmmc;
+        }
+    }
+    public struct CDoctor
+    {
+        [DisplayName("ID")]
+        public int zgdm { get; set; }
+        [DisplayName("医师名称")]
+        public string zgmc { get; set; }
+        [DisplayName("科别")]
+        public CDepart bm { get; set; }
+        [Browsable(false)]
+        public string pym { get; set; }
+        [Browsable(false)]
+        public int zglb { get; set; }
 
-    public class CAge
+        public override string ToString()
+        {
+            return string.Format("{1}  {0}", zgmc, bm.bmmc);
+        }
+    }
+    public struct CIll
+    {
+        [DisplayName("疾病编码")]
+        public string IllCode { get; set; }
+         [DisplayName("疾病名称")]
+        public string IllDesc { get; set; }
+        [Browsable(false)]
+        public string Spell { get; set; }
+        public override string ToString()
+        {
+            return string.Format(@"{0}  {1}", IllCode, IllDesc);
+        }
+    }
+    public struct CAge
     {
         public int Age{ get; set; }
 
         [TypeConverter(typeof(ConvertAgeUnit)),DisplayName("年龄单位")]
         public string Unit { get; set; }
-        public CAge()
-        {
-            this.Unit = "岁";
-        }
+        
     }
     
     public class PatientInfo:INotifyPropertyChanged
@@ -24,8 +73,7 @@ namespace NCMS_Local.DTO
         private CAge _oAge;
         private DateTime? _birthday;
 
-        [Category("基本信息")]
-        [DisplayName("姓名")]
+        [Category("基本信息"),DisplayName("姓名")]
         public string Name { get; set; }
 
         [Browsable(false)]
@@ -33,15 +81,15 @@ namespace NCMS_Local.DTO
         [Browsable(false)]
         public string AgeUnit { get; set; }
 
-        [Category("基本信息")]
-        [DisplayName("年龄")]
+        [Category("基本信息"), DisplayName("年龄")]
         [TypeConverter(typeof(ConvertAge))]
+        [RefreshProperties(RefreshProperties.All)]
         public CAge oAge
         {
             get { return this._oAge; }
             set
             {
-                if (value!=this._oAge)
+                if (!value.Equals(this._oAge))
                 {
                     this._oAge = value;
                     switch (value.Unit)
@@ -61,8 +109,7 @@ namespace NCMS_Local.DTO
             }
         }
 
-        [Category("基本信息")]
-        [DisplayName("出生日期")]
+        [Category("基本信息"),DisplayName("出生日期"),ReadOnly(true)]
         public DateTime? BirthDay
         {
             get { return _birthday; }
@@ -71,13 +118,11 @@ namespace NCMS_Local.DTO
                 if (this._birthday!=value)
                 {
                     this._birthday = value;
-                    OnPropertyChanged("BirthDay");
                 }
             }
         }
 
-        [Category("基本信息")]
-        [DisplayName("婚姻状况")]
+        [Category("基本信息"),DisplayName("婚姻状况")]
         [TypeConverter(typeof(ConvertMarray))]
         public string Marray { get; set; }
 
@@ -90,19 +135,38 @@ namespace NCMS_Local.DTO
         [DisplayName("身份证号")]
         public string PSN { get; set; }
 
+        
+
+        [Category("基本信息")]
+        [DisplayName("民族")]
+        public EnumNation HisNationCode { get; set; }
+        
+
+        //[Category(""),DisplayName("")]
+        [Category("入院登记信息"), DisplayName("住院号"),RefreshProperties(RefreshProperties.All)]
         public int? HisZyh { get; set; }
+        //[Browsable(false)]
         public int? HisRyh
         {
             get { return HisZyh; }
             set { HisZyh = value; }
         }
-        public short? HisNationCode { get; set; }
-        public string HisNation { get; set; }
+        [Category("入院登记信息"), DisplayName("入院时间")]
+        public DateTime? Ryrq { get; set; }
+        [Category("入院登记信息"), DisplayName("门诊医生")]
+        [Editor(typeof(MzDoctorEdit),typeof(UITypeEditor))]
+        public CDoctor oMzDoctor { get; set; }
+        [Category("入院登记信息"), DisplayName("住院医生")]
+        [Editor(typeof(MzDoctorEdit), typeof(UITypeEditor))]
+        public CDoctor oZyDoctor { get; set; }
+        [Category("入院登记信息"), DisplayName("入院诊断")]
+        [Editor(typeof(NhIllEdit),typeof(UITypeEditor))]
+        public CIll oRyIll { get; set; }
+
 
         public short? HisRyksCode { get; set; }
         public string HisRyksDesc{get;set;}
         public int? HisZybrlx { get; set; }
-        public DateTime? Ryrq { get; set; }
         public int? HisCzyCode { get; set; }
 
         public string HisMzzdCode { get; set; }
@@ -116,7 +180,8 @@ namespace NCMS_Local.DTO
 
         public PatientInfo()
         {
-            this.oAge = new CAge();
+            this.oAge = new CAge() { Unit="岁"};
+            this.Ryrq = DateTime.Now;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

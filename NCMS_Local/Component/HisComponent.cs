@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NCMS_Local.LTSQL;
+using NCMS_Local.DTO;
 
 namespace NCMS_Local
 {
@@ -13,6 +14,26 @@ namespace NCMS_Local
         public HisComponent(string hisConn){
             this._hisConn=hisConn;
         }
+        public IEnumerable<CDoctor> GetDoctors()
+        {
+            LTSQL.DCCbhisDataContext db = new LTSQL.DCCbhisDataContext(_hisConn);
+            try
+            {
+                return (from b in db.ZG select new CDoctor {
+                zgdm= b.ZGDM,
+                zgmc=b.ZGXM,
+                pym = b.PYM,
+                zglb = (int)b.ZGLBDM,
+                bm = new CDepart() { bmdm=(int)b.BMDM,bmmc=b.BM.BMMC}
+                }).ToArray();
+            }
+            catch (System.Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+
 
         public int InpatientRegister(DTO.PatientInfo pInfo)
         {
@@ -58,7 +79,7 @@ namespace NCMS_Local
         private static void PInfoToEntitys(DTO.PatientInfo pInfo, ZYBR zybr, RY ry, BASY basy)
         {
             zybr.ZYH = pInfo.HisZyh.Value;
-            zybr.MZDM = pInfo.HisNationCode ?? 1;
+            zybr.MZDM = (short)pInfo.HisNationCode;
             zybr.BRXM = pInfo.Name;
             zybr.XB = pInfo.Sex;
             zybr.CSRQ = pInfo.BirthDay;

@@ -66,6 +66,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Component\NhComponent.cs" />
+    <Compile Include="DTOUI\DUIDoctorSel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DTOUI\DUIDoctorSel.Designer.cs">
+      <DependentUpon>DUIDoctorSel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DTOUI\DUIIllSel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DTOUI\DUIIllSel.Designer.cs">
+      <DependentUpon>DUIIllSel.cs</DependentUpon>
+    </Compile>
     <Compile Include="DTO\DTOConvert.cs" />
     <Compile Include="DTO\PatientInfo.cs" />
     <Compile Include="Component\HisComponent.cs" />
@@ -74,6 +87,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DCCbhis.dbml</DependentUpon>
+    </Compile>
+    <Compile Include="LTSQL\DCNh.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DCNh.dbml</DependentUpon>
     </Compile>
     <Compile Include="NhLocalWrap.cs" />
     <Compile Include="NunitTest.cs" />
@@ -111,15 +129,30 @@
     <None Include="LTSQL\DCCbhis.dbml.layout">
       <DependentUpon>DCCbhis.dbml</DependentUpon>
     </None>
+    <EmbeddedResource Include="DTOUI\DUIDoctorSel.resx">
+      <DependentUpon>DUIDoctorSel.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="LTSQL\DCNh.dbml.layout">
+      <DependentUpon>DCNh.dbml</DependentUpon>
+    </None>
+    <EmbeddedResource Include="DTOUI\DUIIllSel.resx">
+      <DependentUpon>DUIIllSel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\FormInpatient.resx">
       <DependentUpon>FormInpatient.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="LTSQL\DCNh.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>DCNh.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
