@@ -34,3 +34,4 @@ E:\NCMS\NCMS\NCMS_Local\bin\Debug\nunit.framework.dll
 E:\NCMS\NCMS\NCMS_Local\bin\Debug\nunit.framework.xml
 E:\NCMS\NCMS\NCMS_Local\obj\Debug\NCMS_Local.DTOUI.DUIDoctorSel.resources
 E:\NCMS\NCMS\NCMS_Local\obj\Debug\NCMS_Local.DTOUI.DUIIllSel.resources
+E:\NCMS\NCMS\NCMS_Local\obj\Debug\NCMS_Local.DTOUI.DTOUINhInfoReader.resources

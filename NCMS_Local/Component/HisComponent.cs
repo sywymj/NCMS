@@ -93,7 +93,7 @@ namespace NCMS_Local
             ry.ZYH = pInfo.HisZyh.Value;
             ry.RYH = pInfo.HisRyh.Value;
             ry.RYKS = pInfo.HisRyksCode.Value;
-            ry.ZYBRLX = (Byte)pInfo.HisZybrlx.Value;
+            ry.ZYBRLX = (Byte)pInfo.HisZybrlx;
             ry.RYRQ = pInfo.Ryrq.Value;
             //ry.JBSJ = DateTime.Now;
 

@@ -16,12 +16,14 @@ namespace NCMS_Win
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            //Application.Run(new Form1());
             //Application.Run(new NCMS_Local.UI.FormInpatientRegister());
 
             //DUIDoctorSel dsForm = new DUIDoctorSel();
             //Application.Run(new NCMS_Local.DTOUI.DUIDoctorSel());
             //Console.WriteLine(dsForm.SelDoctor.zgmc);
+            DTOUINhInfoReader nhReader = new DTOUINhInfoReader();
+            Application.Run(nhReader);
         }
     }
 }

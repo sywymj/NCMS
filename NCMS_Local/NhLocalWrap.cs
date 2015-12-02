@@ -22,6 +22,17 @@ namespace NCMS_Local
         public static extern int GetCoopMedCodeByCardID([MarshalAs(UnmanagedType.LPStr)]string aOrganID, [MarshalAs(UnmanagedType.LPStr)] string aCardID, [MarshalAs(UnmanagedType.LPStr)]StringBuilder dataBuf);
 
         /// <summary>
+        /// 转诊：：根据卡号获取农合证号
+        /// </summary>
+        /// <param name="aOrganID"></param>
+        /// <param name="aAreaCode"></param>
+        /// <param name="aCardID"></param>
+        /// <param name="dataBuf"></param>
+        /// <returns></returns>
+        [DllImport("LxClient.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
+        public static extern int zzGetCoopMedCodeByCardID([MarshalAs(UnmanagedType.LPStr)]string aOrganID,[MarshalAs(UnmanagedType.LPStr)]string aAreaCode, [MarshalAs(UnmanagedType.LPStr)] string aCardID, [MarshalAs(UnmanagedType.LPStr)]StringBuilder dataBuf);
+
+        /// <summary>
         /// 获取参合人鱼信息
         /// </summary>
         /// <param name="AsOrganID"></param>

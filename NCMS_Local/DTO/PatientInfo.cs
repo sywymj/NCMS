@@ -13,6 +13,22 @@ namespace NCMS_Local.DTO
         苗族=2,
         彝族=3
     }
+    public enum EnumRyLb
+    {
+        普通病人=1,
+        农村合作医疗病人=9
+    }
+    public struct CNhBaseInfo
+    {
+        public string OrganID { get; set; }
+        public string OrganDesc { get; set; }
+        public string CoopMedCode { get; set; }
+        public int AiIDNo { get; set; }
+        public int TurnID { get; set; }
+        public string Name { get; set; }
+    }
+    
+
     public struct CDepart
     {
         [DisplayName("ID")]
@@ -151,6 +167,9 @@ namespace NCMS_Local.DTO
             get { return HisZyh; }
             set { HisZyh = value; }
         }
+
+        [Category("入院登记信息"), DisplayName("患者类别")]
+        public EnumRyLb HisZybrlx { get; set; }
         [Category("入院登记信息"), DisplayName("入院时间")]
         public DateTime? Ryrq { get; set; }
         [Category("入院登记信息"), DisplayName("门诊医生")]
@@ -164,9 +183,12 @@ namespace NCMS_Local.DTO
         public CIll oRyIll { get; set; }
 
 
+        [Category("农合信息")]
+        public CNhBaseInfo NhInfo { get; set; }
+
         public short? HisRyksCode { get; set; }
         public string HisRyksDesc{get;set;}
-        public int? HisZybrlx { get; set; }
+        
         public int? HisCzyCode { get; set; }
 
         public string HisMzzdCode { get; set; }
@@ -182,6 +204,9 @@ namespace NCMS_Local.DTO
         {
             this.oAge = new CAge() { Unit="岁"};
             this.Ryrq = DateTime.Now;
+            this.HisZybrlx = EnumRyLb.普通病人;
+            this.NhInfo = new CNhBaseInfo() { OrganID = "420302", OrganDesc = "茅箭区" };
+            
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -67,6 +67,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Component\NhComponent.cs" />
+    <Compile Include="DTOUI\DTOUINhInfoReader.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DTOUI\DTOUINhInfoReader.Designer.cs">
+      <DependentUpon>DTOUINhInfoReader.cs</DependentUpon>
+    </Compile>
     <Compile Include="DTOUI\DUIDoctorSel.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -93,6 +99,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DCNh.dbml</DependentUpon>
     </Compile>
+    <Compile Include="NHFUN\FunResultConvert.cs" />
+    <Compile Include="NHFUN\FunResults.cs" />
     <Compile Include="NhLocalWrap.cs" />
     <Compile Include="NunitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -129,6 +137,9 @@
     <None Include="LTSQL\DCCbhis.dbml.layout">
       <DependentUpon>DCCbhis.dbml</DependentUpon>
     </None>
+    <EmbeddedResource Include="DTOUI\DTOUINhInfoReader.resx">
+      <DependentUpon>DTOUINhInfoReader.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DTOUI\DUIDoctorSel.resx">
       <DependentUpon>DUIDoctorSel.cs</DependentUpon>
     </EmbeddedResource>
