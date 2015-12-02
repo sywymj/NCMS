@@ -99,7 +99,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DCNh.dbml</DependentUpon>
     </Compile>
-    <Compile Include="NHFUN\FunResultConvert.cs" />
     <Compile Include="NHFUN\FunResults.cs" />
     <Compile Include="NhLocalWrap.cs" />
     <Compile Include="NunitTest.cs" />

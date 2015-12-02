@@ -18,6 +18,7 @@ namespace NCMS_Local.DTOUI
         }
 
         List<AreaItem> areas = null;
+        public object NhObj { get; set; }
         
         private void DTOUINhInfoReader_Load(object sender, EventArgs e)
         {
@@ -39,12 +40,12 @@ namespace NCMS_Local.DTOUI
         private void buttonQuery_Click(object sender, EventArgs e)
         {
             string SelAreaID=((AreaItem)this.comboBox1.SelectedItem).areaID;
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = null;
             string CoopMedCode = string.Empty;
             int AiIDNo = -1;
             int hr = -1;
             string nhCodeID = this.textBox1.Text.Trim();
-            
+            object targetObj = null;
 
 
             if (string.IsNullOrEmpty(nhCodeID))
@@ -59,7 +60,8 @@ namespace NCMS_Local.DTOUI
                     if (radioButtonKh.Checked)
                     {
                         //通过卡号获取农合证号
-                        hr=NhLocalWrap.GetCoopMedCodeByCardID(GSettings.LocalOrganID, nhCodeID, sb);
+                        sb = new StringBuilder(1024);
+                        hr=NhLocalWrap.GetCoopMedCodeByCardID(GSettings.ParamLocalOrganID, nhCodeID, sb);
                         if (hr<0)
                         {
                             throw new Exception(sb.ToString());
@@ -68,23 +70,64 @@ namespace NCMS_Local.DTOUI
                         AiIDNo =int.Parse(sb.ToString().Split(new string[] { "$$" }, StringSplitOptions.None)[1]) ;
                     }
                     sb = new StringBuilder(1024);
-                    hr = NhLocalWrap.GetHzPersonInfo(GSettings.LocalOrganID, CoopMedCode, sb);
+                    hr = NhLocalWrap.GetHzPersonInfo(GSettings.ParamLocalOrganID, CoopMedCode, sb);
                     if (hr < 0)
                     {
                         throw new Exception(sb.ToString());
                     }
-                    this.propertyGrid1.SelectedObject =(HrGetHzPersonInfo) sb.ToString();
+                    targetObj = (HrGetHzPersonInfo)sb.ToString();
                     
                 }
                 else
                 {
                     //异地农合
+                    if (radioButtonKh.Checked)
+                    {
+                        //通过卡号获取农合号
+                        sb = new StringBuilder(1024);
+                        hr = NhLocalWrap.zzGetCoopMedCodeByCardID(GSettings.ParamRemoteOrganID,SelAreaID, nhCodeID, sb);
+                        if (hr < 0)
+                        {
+                            throw new Exception(sb.ToString());
+                        }
+                        CoopMedCode = sb.ToString().Split(new string[] { "|" }, StringSplitOptions.None)[0];
+                        AiIDNo = int.Parse(sb.ToString().Split(new string[] { "|" }, StringSplitOptions.None)[1]);
+                    }
+                    sb = new StringBuilder(1024);
+                    hr = NhLocalWrap.GetZzinfo_zz(
+                        string.Format(@"{0}$${1}", "1", GSettings.AccountYear),
+                        string.Format("{0}$${1}$${2}$${3}", GSettings.OrganIDRemote, SelAreaID, CoopMedCode, AiIDNo),
+                        sb
+                        );
+                    if (hr < 0)
+                    {
+                        throw new Exception(sb.ToString());
+                    }
+
+                    targetObj =(HrGetZzinfo_zz) sb.ToString();
                 }
+
+                this.propertyGrid1.SelectedObject = targetObj;
             }
             catch (System.Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                MessageBox.Show(ex.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void toolStripButtonOK_Click(object sender, EventArgs e)
+        {
+            NhObj = this.propertyGrid1.SelectedObject;
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+
+        private void toolStripButtonCancel_Click(object sender, EventArgs e)
+        {
+            this.NhObj = null;
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
         }
     }
     struct AreaItem

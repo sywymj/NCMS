@@ -33,59 +33,120 @@ namespace NCMS_Local.NHFUN
         本地人
     }
 
-    [TypeConverter(typeof(ConvertHrGetHzPersonInfo))]
-    public class HrGetHzPersonInfo
-    {
-        public string coopMedCode { get; set; }
-        public int aiIDNo { get; set; }
-        public string areaCode { get; set; }
-        public string name { get; set; }
-        public string spellPy { get; set; }
-        public string spellWb { get; set; }
-        public string sex { get; set; }
-        public string birthday { get; set; }
-        public string address { get; set; }
-        public string relationShipCode { get; set; }
-        public string relationShipDesc { get; set; }
-        public string psn { get; set; }
-        public string operCode { get; set; }
-        public string operName { get; set; }
-        public EnFamilyType familyType { get; set; }
-        public EnYesOrNo familyMaster { get; set; }
-        public EnYesOrNo isSocial { get; set; }
-        public EnManStatus manStatus { get; set; }
-        public string changeDate { get; set; }
-        public string socialYears { get; set; }
-        public EnIsLocal isLocal { get; set; }
-        public string bankAccount { get; set; }
 
-        public static implicit operator HrGetHzPersonInfo(string val)
+    public class NhPersonInfoBase
+    {
+        [Category("基本信息"),DisplayName("农合证号")]
+        public string coopMedCode { get; set; }
+
+        [Browsable(false)]
+        public int aiIDNo { get; set; }
+
+
+        [Category("基本信息"),DisplayName("区域代码")]
+        public string areaCode { get; set; }
+        [Category("基本信息"),DisplayName("姓名")]
+        public string name { get; set; }
+        [Category("基本信息"),DisplayName("性别")]
+        public string sex { get; set; }
+        [Category("基本信息"),DisplayName("出生日期")]
+        public string birthday { get; set; }
+        [Category("基本信息"), DisplayName("身份证号")]
+        public string psn { get; set; }
+        [Category("基本信息"), DisplayName("家庭地址")]
+        public string address { get; set; }
+
+    }
+    public class HrGetZzinfo_zz : NhPersonInfoBase
+    {
+        [DisplayName("转诊序号")]
+        public int transfNo { get; set; }
+        [DisplayName("转诊疾病编码")]
+        public string illCode { get; set; }
+        [DisplayName("转诊疾病名称")]
+        public string illDesc { get; set; }
+        [DisplayName("转诊前医院")]
+        public string preHosp { get; set; }
+        [DisplayName("转诊原因")]
+        public string transfCase { get; set; }
+        [Browsable(false)]
+        public string approveOpinio { get; set; }
+        [DisplayName("转诊部门")]
+        public string approveDepart { get; set; }
+        [DisplayName("转诊时间")]
+        public string approveDate { get; set; }
+
+        public static implicit operator HrGetZzinfo_zz(string value)
         {
-            ConvertHrGetHzPersonInfo convertObj = new ConvertHrGetHzPersonInfo();
-            return (HrGetHzPersonInfo)convertObj.ConvertFrom(val);
+            try
+            {
+                string[] temStrArray = value.ToString().Split(new string[] { "|" }, StringSplitOptions.None);
+                return new HrGetZzinfo_zz()
+                {
+                    coopMedCode = temStrArray[0],
+                    name = temStrArray[1],
+                    aiIDNo = int.Parse(temStrArray[2]),
+                    areaCode = temStrArray[3],
+                    transfNo = int.Parse(temStrArray[4]),
+                    illCode = temStrArray[5],
+                    illDesc = temStrArray[6],
+                    preHosp = temStrArray[7],
+                    transfCase = temStrArray[8],
+                    approveOpinio = temStrArray[9],
+                    approveDepart = temStrArray[10],
+                    approveDate = temStrArray[11],
+                    psn = temStrArray[12],
+                    birthday = temStrArray[13],
+                    sex = temStrArray[14],
+                    address = temStrArray[15]
+                };
+            }
+            catch (System.Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+
         }
     }
-    public class ConvertHrGetHzPersonInfo:ExpandableObjectConverter
+    public class HrGetHzPersonInfo:NhPersonInfoBase
     {
-        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
+        [Browsable(false)]
+        public string spellPy { get; set; }
+        [Browsable(false)]
+        public string spellWb { get; set; }
+        
+        
+        [Browsable(false)]
+        public string relationShipCode { get; set; }
+        [Browsable(false)]
+        public string relationShipDesc { get; set; }
+        
+        [Browsable(false)]
+        public string operCode { get; set; }
+        [Browsable(false)]
+        public string operName { get; set; }
+        [DisplayName("户属性")]
+        public EnFamilyType familyType { get; set; }
+        [Browsable(false)]
+        public EnYesOrNo familyMaster { get; set; }
+       
+        [DisplayName("是否参合")]
+        public EnYesOrNo isSocial { get; set; }
+        [DisplayName("人员状态")]
+        public EnManStatus manStatus { get; set; }
+        [Browsable(false)]
+        public string changeDate { get; set; }
+        [Browsable(false)]
+        public string socialYears { get; set; }
+         [Browsable(false)]
+        public EnIsLocal isLocal { get; set; }
+        [Browsable(false)]
+        public string bankAccount { get; set; }
+
+        public static implicit operator HrGetHzPersonInfo(string value)
         {
-            if (destinationType==typeof(System.String))
-            {
-                return false;
-            }
-            return base.CanConvertTo(context, destinationType);
-        }
-        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
-        {
-            if (sourceType==typeof(System.String))
-            {
-                return true;
-            }
-            return base.CanConvertFrom(context, sourceType);
-        }
-        public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
-        {
-            if (value is string)
+            try
             {
                 string[] temStrArray = value.ToString().Split(new string[] { "|" }, StringSplitOptions.None);
                 return new HrGetHzPersonInfo()
@@ -113,9 +174,13 @@ namespace NCMS_Local.NHFUN
                     isLocal = (EnIsLocal)int.Parse(temStrArray[20]),
                     bankAccount = temStrArray[21]
                 };
-
             }
-            return base.ConvertFrom(context, culture, value);
+            catch (System.Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+            
         }
     }
 }

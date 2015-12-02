@@ -29,14 +29,14 @@ namespace NCMS_Local
         public static string OrganIDRemote = "420000";
         public static string AccountYear = "2015";
 
-        public static string LocalOrganID
+        public static string ParamLocalOrganID
         {
             get
             {
                 return GetOrganIDParam(NhType.Local);
             }
         }
-        public static string RemoteOrganID
+        public static string ParamRemoteOrganID
         {
             get
             {
