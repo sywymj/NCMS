@@ -56,6 +56,19 @@ namespace NCMS_Local.NHFUN
         [Category("基本信息"), DisplayName("家庭地址")]
         public string address { get; set; }
 
+        public override string ToString()
+        {
+            if (areaCode.StartsWith("420302"))
+            {
+                return string.Format(@"本地农合：{0}  {1}", name, coopMedCode);
+            } 
+            else
+            {
+                return string.Format(@"异地农合：{0}  {1}", name, coopMedCode);
+            }
+        }
+        [Browsable(false)]
+        public string FunHrStr { get; set; }
     }
     public class HrGetZzinfo_zz : NhPersonInfoBase
     {
@@ -83,6 +96,7 @@ namespace NCMS_Local.NHFUN
                 string[] temStrArray = value.ToString().Split(new string[] { "|" }, StringSplitOptions.None);
                 return new HrGetZzinfo_zz()
                 {
+                    FunHrStr=value,
                     coopMedCode = temStrArray[0],
                     name = temStrArray[1],
                     aiIDNo = int.Parse(temStrArray[2]),
@@ -151,6 +165,7 @@ namespace NCMS_Local.NHFUN
                 string[] temStrArray = value.ToString().Split(new string[] { "|" }, StringSplitOptions.None);
                 return new HrGetHzPersonInfo()
                 {
+                    FunHrStr=value,
                     coopMedCode = temStrArray[0],
                     aiIDNo = int.Parse(temStrArray[1]),
                     areaCode = temStrArray[2],

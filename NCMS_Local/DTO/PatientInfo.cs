@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NCMS_Local.NHFUN;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing.Design;
@@ -88,6 +89,7 @@ namespace NCMS_Local.DTO
     {
         private CAge _oAge;
         private DateTime? _birthday;
+        private object _nhInfo;
 
         [Category("基本信息"),DisplayName("姓名")]
         public string Name { get; set; }
@@ -182,10 +184,30 @@ namespace NCMS_Local.DTO
         [Editor(typeof(NhIllEdit),typeof(UITypeEditor))]
         public CIll oRyIll { get; set; }
 
-
-        [Category("农合信息")]
-        public CNhBaseInfo NhInfo { get; set; }
-
+        
+        [Category("农合信息"), DisplayName("参保信息")]
+        [Editor(typeof(NhInforReaderEdit), typeof(UITypeEditor))]
+        [TypeConverter(typeof(ExpandableObjectConverter))]
+        public object NhInfo
+        {
+            get { return _nhInfo; }
+            set
+            {
+                if (value!=_nhInfo)
+                {
+                    _nhInfo = value;
+                    if (string.IsNullOrEmpty(Name) && value is NhPersonInfoBase)
+                    {
+                        NhPersonInfoBase oo = _nhInfo as NhPersonInfoBase;
+                        this.Name = oo.name;
+                        this.Sex = oo.sex;
+                        this.BirthDay = DateTime.Parse(oo.birthday);
+                        this.PSN = oo.psn;
+                        this.HisZybrlx = EnumRyLb.农村合作医疗病人;
+                    }
+                }
+            }
+        }
         public short? HisRyksCode { get; set; }
         public string HisRyksDesc{get;set;}
         
@@ -205,8 +227,6 @@ namespace NCMS_Local.DTO
             this.oAge = new CAge() { Unit="岁"};
             this.Ryrq = DateTime.Now;
             this.HisZybrlx = EnumRyLb.普通病人;
-            this.NhInfo = new CNhBaseInfo() { OrganID = "420302", OrganDesc = "茅箭区" };
-            
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

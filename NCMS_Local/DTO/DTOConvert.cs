@@ -140,7 +140,26 @@ namespace NCMS_Local.DTO
                 edSvc.ShowDialog(ds);
                 return ds.SelIll;
             }
-            return value;
+            return base.EditValue(context, provider, value);
+        }
+    }
+    public class NhInforReaderEdit : UITypeEditor
+    {
+        public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
+        {
+            return UITypeEditorEditStyle.Modal;
+        }
+        public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
+        {
+            IWindowsFormsEditorService edSvc = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
+            if (edSvc != null)
+            {
+                DTOUI.DTOUINhInfoReader ds = new DTOUI.DTOUINhInfoReader();
+
+                edSvc.ShowDialog(ds);
+                return ds.NhObj;
+            }
+            return base.EditValue(context, provider, value);
         }
     }
 }
