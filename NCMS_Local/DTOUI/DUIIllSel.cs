@@ -29,7 +29,7 @@ namespace NCMS_Local.DTOUI
 
         private void DUIIllSel_Load(object sender, EventArgs e)
         {
-            NhDb = new NhComponent(GSettings.NhConnStr);
+            NhDb = new NhComponent();
         }
 
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)

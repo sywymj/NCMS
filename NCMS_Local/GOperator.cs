@@ -20,7 +20,8 @@ namespace NCMS_Local
 
     public static class GSettings
     {
-        internal static string HisConnStr = @"Data Source=.;Initial Catalog=cbhis;Integrated Security=True";
+        //internal static string HisConnStr = @"Data Source=.;Initial Catalog=cbhis;Integrated Security=True";
+        internal static string HisConnStr = @"Data Source=192.0.2.2;Initial Catalog=wycs;uid=sa;pwd=11003";
         internal static string NhConnStr = @"Data Source=.;Initial Catalog=HNXT_interface;Integrated Security=True";
         public static IEnumerable<CDoctor> Doctors = null;
         public  static IEnumerable<CDepart> Departs = null;
@@ -51,7 +52,7 @@ namespace NCMS_Local
         }
         static GSettings()
         {
-            HisComponent his=new HisComponent(HisConnStr);
+            HisComponent his=new HisComponent();
 
             Doctors = his.GetDoctors();
         }

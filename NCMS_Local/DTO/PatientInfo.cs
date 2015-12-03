@@ -8,6 +8,12 @@ using System.Text;
 
 namespace NCMS_Local.DTO
 {
+    public enum EnumZybxGS
+    {
+        二级医院=2,
+        低保五保二级医院=10,
+        产后并发症或合并症=13
+    }
     public enum EnumNation
     {
         汉族=1,
@@ -89,9 +95,9 @@ namespace NCMS_Local.DTO
     {
         private CAge _oAge;
         private DateTime? _birthday;
-        private object _nhInfo;
+        private NhPersonInfoBase _nhInfo;
 
-        [Category("基本信息"),DisplayName("姓名")]
+        [Category("\t\t基本信息"),DisplayName("姓名")]
         public string Name { get; set; }
 
         [Browsable(false)]
@@ -99,7 +105,7 @@ namespace NCMS_Local.DTO
         [Browsable(false)]
         public string AgeUnit { get; set; }
 
-        [Category("基本信息"), DisplayName("年龄")]
+        [Category("\t\t基本信息"), DisplayName("年龄")]
         [TypeConverter(typeof(ConvertAge))]
         [RefreshProperties(RefreshProperties.All)]
         public CAge oAge
@@ -127,7 +133,7 @@ namespace NCMS_Local.DTO
             }
         }
 
-        [Category("基本信息"),DisplayName("出生日期"),ReadOnly(true)]
+        [Category("\t\t基本信息"),DisplayName("出生日期"),ReadOnly(true)]
         public DateTime? BirthDay
         {
             get { return _birthday; }
@@ -140,28 +146,28 @@ namespace NCMS_Local.DTO
             }
         }
 
-        [Category("基本信息"),DisplayName("婚姻状况")]
+        [Category("\t\t基本信息"),DisplayName("婚姻状况")]
         [TypeConverter(typeof(ConvertMarray))]
         public string Marray { get; set; }
 
-        [Category("基本信息")]
+        [Category("\t\t基本信息")]
         [DisplayName("性别")]
         [TypeConverter(typeof(ConvertSex))]
         public string Sex { get; set; }
 
-        [Category("基本信息")]
+        [Category("\t\t基本信息")]
         [DisplayName("身份证号")]
         public string PSN { get; set; }
 
         
 
-        [Category("基本信息")]
+        [Category("\t\t基本信息")]
         [DisplayName("民族")]
         public EnumNation HisNationCode { get; set; }
         
 
         //[Category(""),DisplayName("")]
-        [Category("入院登记信息"), DisplayName("住院号"),RefreshProperties(RefreshProperties.All)]
+        [Category("\t入院登记信息"), DisplayName("住院号"),RefreshProperties(RefreshProperties.All)]
         public int? HisZyh { get; set; }
         //[Browsable(false)]
         public int? HisRyh
@@ -170,17 +176,17 @@ namespace NCMS_Local.DTO
             set { HisZyh = value; }
         }
 
-        [Category("入院登记信息"), DisplayName("患者类别")]
+        [Category("\t入院登记信息"), DisplayName("患者类别")]
         public EnumRyLb HisZybrlx { get; set; }
-        [Category("入院登记信息"), DisplayName("入院时间")]
+        [Category("\t入院登记信息"), DisplayName("入院时间")]
         public DateTime? Ryrq { get; set; }
-        [Category("入院登记信息"), DisplayName("门诊医生")]
+        [Category("\t入院登记信息"), DisplayName("门诊医生")]
         [Editor(typeof(MzDoctorEdit),typeof(UITypeEditor))]
         public CDoctor oMzDoctor { get; set; }
-        [Category("入院登记信息"), DisplayName("住院医生")]
+        [Category("\t入院登记信息"), DisplayName("住院医生")]
         [Editor(typeof(MzDoctorEdit), typeof(UITypeEditor))]
         public CDoctor oZyDoctor { get; set; }
-        [Category("入院登记信息"), DisplayName("入院诊断")]
+        [Category("\t入院登记信息"), DisplayName("入院诊断")]
         [Editor(typeof(NhIllEdit),typeof(UITypeEditor))]
         public CIll oRyIll { get; set; }
 
@@ -188,7 +194,7 @@ namespace NCMS_Local.DTO
         [Category("农合信息"), DisplayName("参保信息")]
         [Editor(typeof(NhInforReaderEdit), typeof(UITypeEditor))]
         [TypeConverter(typeof(ExpandableObjectConverter))]
-        public object NhInfo
+        public NhPersonInfoBase NhInfo
         {
             get { return _nhInfo; }
             set
@@ -208,25 +214,18 @@ namespace NCMS_Local.DTO
                 }
             }
         }
-        public short? HisRyksCode { get; set; }
-        public string HisRyksDesc{get;set;}
-        
-        public int? HisCzyCode { get; set; }
+        [Category("农合信息"), DisplayName("住院报销公式")]
+        public EnumZybxGS NhZybxgs { get; set; }
 
-        public string HisMzzdCode { get; set; }
-        public string HisMzzdDesc { get; set; }
-        public string HisRyzdCode{get;set;}
-        public string HisRyzdDesc{get;set;}
-        public short? HisDoctorCode { get; set; }
-        public string HisDoctorName { get; set; }
-        public short? HisMzDoctorCode { get; set; }
-        public string HisMzDoctorName { get; set; }
+        
 
         public PatientInfo()
         {
             this.oAge = new CAge() { Unit="岁"};
             this.Ryrq = DateTime.Now;
             this.HisZybrlx = EnumRyLb.普通病人;
+            this.NhZybxgs = EnumZybxGS.二级医院;
+            this.HisNationCode = EnumNation.汉族;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

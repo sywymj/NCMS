@@ -21,7 +21,7 @@ namespace NCMS_Local
         [Test]
         public void InpatientRegister()
         {
-            HisComponent hisComponent = new HisComponent(_connStr);
+            HisComponent hisComponent = new HisComponent();
 
             PatientInfo pinfo = new PatientInfo();
             

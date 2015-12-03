@@ -11,8 +11,8 @@ namespace NCMS_Local
     public class HisComponent
     {
         private string _hisConn = string.Empty;
-        public HisComponent(string hisConn){
-            this._hisConn=hisConn;
+        public HisComponent(){
+            this._hisConn=GSettings.HisConnStr;
         }
         public IEnumerable<CDoctor> GetDoctors()
         {
@@ -33,6 +33,25 @@ namespace NCMS_Local
             }
             return null;
         }
+        public int MakeZyh()
+        {
+            try
+            {
+                using (LTSQL.DCCbhisDataContext db = new LTSQL.DCCbhisDataContext(_hisConn))
+                {
+                    return db.ExecuteQuery<int>("SELECT MAXVAL=ISNULL(MAX(RYH),0)+1 FROM RY").First();
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return -1;
+            }
+            
+           
+
+        }
+
 
 
         public int InpatientRegister(DTO.PatientInfo pInfo)
@@ -92,23 +111,24 @@ namespace NCMS_Local
 
             ry.ZYH = pInfo.HisZyh.Value;
             ry.RYH = pInfo.HisRyh.Value;
-            ry.RYKS = pInfo.HisRyksCode.Value;
+            ry.RYKS = (short)pInfo.oZyDoctor.bm.bmdm;
             ry.ZYBRLX = (Byte)pInfo.HisZybrlx;
             ry.RYRQ = pInfo.Ryrq.Value;
+            
             //ry.JBSJ = DateTime.Now;
 
             ry.RYQKDM = 1;
-            ry.YS = pInfo.HisDoctorCode;
+            ry.YS = (short)pInfo.oZyDoctor.zgdm;
             ry.CZY = (short)GOperator.ID;
 
             ry.RYCH = 0;
-            ry.KSDM = pInfo.HisRyksCode;
+            ry.KSDM = (short)pInfo.oZyDoctor.bm.bmdm;
 
 
             basy.RYH = pInfo.HisZyh.Value;
-            basy.RYZD_ICD = pInfo.HisRyzdCode;
-            basy.RYZD = pInfo.HisRyzdDesc;
-            basy.MZZD_YS = pInfo.HisMzDoctorCode;
+            basy.RYZD_ICD = pInfo.oRyIll.IllCode;
+            basy.RYZD = pInfo.oRyIll.IllDesc;
+            basy.MZZD_YS = (short)pInfo.oMzDoctor.zgdm;
         }
     }
 }

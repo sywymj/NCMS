@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using NCMS_Local.LTSQL;
 using NCMS_Local;
+using NCMS_Local.DTO;
 namespace NCMS_Win
 {
     public partial class Form1 : Form
@@ -30,16 +31,20 @@ namespace NCMS_Win
             //              b.BM
             //          };
             //DataTable dtZgs=zgs.ToDataTable();
+
             pInfo = new NCMS_Local.DTO.PatientInfo();
+            
+            pInfo.HisZyh = hisObj.MakeZyh();
+
             this.propertyGrid1.SelectedObject = pInfo;
             //this.propertyGrid1.SelectedObject = new CustomClass();
             //propertyGrid1.ExpandAllGridItems();
             this.dataGridView1.DataSource = GSettings.Doctors;
         }
-
+        HisComponent hisObj = new HisComponent();
         private void button1_Click(object sender, EventArgs e)
         {
-
+            int zyh = hisObj.InpatientRegister(this.propertyGrid1.SelectedObject as PatientInfo);
         }
     }
 

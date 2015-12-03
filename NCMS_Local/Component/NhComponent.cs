@@ -10,9 +10,9 @@ namespace NCMS_Local.Component
     public class NhComponent
     {
         private string _hisConn = string.Empty;
-        public NhComponent(string hisConn)
+        public NhComponent()
         {
-            this._hisConn=hisConn;
+            this._hisConn=GSettings.NhConnStr;
         }
 
         public CIll GetIllsByIllCode(string pym)
