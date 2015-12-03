@@ -44,7 +44,17 @@ namespace NCMS_Win
         HisComponent hisObj = new HisComponent();
         private void button1_Click(object sender, EventArgs e)
         {
-            int zyh = hisObj.InpatientRegister(this.propertyGrid1.SelectedObject as PatientInfo);
+            //int zyh = hisObj.InpatientRegister(this.propertyGrid1.SelectedObject as PatientInfo);
+            try
+            {
+                Guid nhRegCode = hisObj.NewNhRegister(this.propertyGrid1.SelectedObject as PatientInfo);
+            }
+            catch (System.Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            
         }
     }
 

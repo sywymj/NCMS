@@ -45,6 +45,9 @@ namespace NCMS_Local.LTSQL
     partial void InsertBASY(BASY instance);
     partial void UpdateBASY(BASY instance);
     partial void DeleteBASY(BASY instance);
+    partial void InsertWyNhRegister(WyNhRegister instance);
+    partial void UpdateWyNhRegister(WyNhRegister instance);
+    partial void DeleteWyNhRegister(WyNhRegister instance);
     #endregion
 		
 		public DCCbhisDataContext() : 
@@ -114,6 +117,14 @@ namespace NCMS_Local.LTSQL
 			get
 			{
 				return this.GetTable<BASY>();
+			}
+		}
+		
+		public System.Data.Linq.Table<WyNhRegister> WyNhRegister
+		{
+			get
+			{
+				return this.GetTable<WyNhRegister>();
 			}
 		}
 	}
@@ -1247,6 +1258,8 @@ namespace NCMS_Local.LTSQL
 		
 		private EntitySet<RY> _RY;
 		
+		private EntitySet<WyNhRegister> _WyNhRegister;
+		
     #region 可扩展性方法定义
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -1292,6 +1305,7 @@ namespace NCMS_Local.LTSQL
 		public ZYBR()
 		{
 			this._RY = new EntitySet<RY>(new Action<RY>(this.attach_RY), new Action<RY>(this.detach_RY));
+			this._WyNhRegister = new EntitySet<WyNhRegister>(new Action<WyNhRegister>(this.attach_WyNhRegister), new Action<WyNhRegister>(this.detach_WyNhRegister));
 			OnCreated();
 		}
 		
@@ -1668,6 +1682,19 @@ namespace NCMS_Local.LTSQL
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ZYBR_WyNhRegister", Storage="_WyNhRegister", ThisKey="ZYH", OtherKey="Zyh")]
+		public EntitySet<WyNhRegister> WyNhRegister
+		{
+			get
+			{
+				return this._WyNhRegister;
+			}
+			set
+			{
+				this._WyNhRegister.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -1695,6 +1722,18 @@ namespace NCMS_Local.LTSQL
 		}
 		
 		private void detach_RY(RY entity)
+		{
+			this.SendPropertyChanging();
+			entity.ZYBR = null;
+		}
+		
+		private void attach_WyNhRegister(WyNhRegister entity)
+		{
+			this.SendPropertyChanging();
+			entity.ZYBR = this;
+		}
+		
+		private void detach_WyNhRegister(WyNhRegister entity)
 		{
 			this.SendPropertyChanging();
 			entity.ZYBR = null;
@@ -3347,6 +3386,613 @@ namespace NCMS_Local.LTSQL
 						this._RYH = default(int);
 					}
 					this.SendPropertyChanged("RY");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.WyNhRegister")]
+	public partial class WyNhRegister : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _NhRegID;
+		
+		private string _OrganCode;
+		
+		private string _AccountYear;
+		
+		private string _CoopMedCode;
+		
+		private string _ExpressionID;
+		
+		private string _PatientName;
+		
+		private int _AiIDNo;
+		
+		private string _IllCode;
+		
+		private string _IllName;
+		
+		private string _InDate;
+		
+		private string _Adke;
+		
+		private string _AdLimitDef;
+		
+		private string _DoctorName;
+		
+		private string _PatientID;
+		
+		private string _DiagNo;
+		
+		private string _ExpenseKind;
+		
+		private string _LimitIllCode;
+		
+		private byte _IsFail;
+		
+		private int _Zyh;
+		
+		private string _AreaCode;
+		
+		private System.Nullable<int> _TurnID;
+		
+		private string _FunHrStr;
+		
+		private EntityRef<ZYBR> _ZYBR;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnNhRegIDChanging(System.Guid value);
+    partial void OnNhRegIDChanged();
+    partial void OnOrganCodeChanging(string value);
+    partial void OnOrganCodeChanged();
+    partial void OnAccountYearChanging(string value);
+    partial void OnAccountYearChanged();
+    partial void OnCoopMedCodeChanging(string value);
+    partial void OnCoopMedCodeChanged();
+    partial void OnExpressionIDChanging(string value);
+    partial void OnExpressionIDChanged();
+    partial void OnPatientNameChanging(string value);
+    partial void OnPatientNameChanged();
+    partial void OnAiIDNoChanging(int value);
+    partial void OnAiIDNoChanged();
+    partial void OnIllCodeChanging(string value);
+    partial void OnIllCodeChanged();
+    partial void OnIllNameChanging(string value);
+    partial void OnIllNameChanged();
+    partial void OnInDateChanging(string value);
+    partial void OnInDateChanged();
+    partial void OnAdkeChanging(string value);
+    partial void OnAdkeChanged();
+    partial void OnAdLimitDefChanging(string value);
+    partial void OnAdLimitDefChanged();
+    partial void OnDoctorNameChanging(string value);
+    partial void OnDoctorNameChanged();
+    partial void OnPatientIDChanging(string value);
+    partial void OnPatientIDChanged();
+    partial void OnDiagNoChanging(string value);
+    partial void OnDiagNoChanged();
+    partial void OnExpenseKindChanging(string value);
+    partial void OnExpenseKindChanged();
+    partial void OnLimitIllCodeChanging(string value);
+    partial void OnLimitIllCodeChanged();
+    partial void OnIsFailChanging(byte value);
+    partial void OnIsFailChanged();
+    partial void OnZyhChanging(int value);
+    partial void OnZyhChanged();
+    partial void OnAreaCodeChanging(string value);
+    partial void OnAreaCodeChanged();
+    partial void OnTurnIDChanging(System.Nullable<int> value);
+    partial void OnTurnIDChanged();
+    partial void OnFunHrStrChanging(string value);
+    partial void OnFunHrStrChanged();
+    #endregion
+		
+		public WyNhRegister()
+		{
+			this._ZYBR = default(EntityRef<ZYBR>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NhRegID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid NhRegID
+		{
+			get
+			{
+				return this._NhRegID;
+			}
+			set
+			{
+				if ((this._NhRegID != value))
+				{
+					this.OnNhRegIDChanging(value);
+					this.SendPropertyChanging();
+					this._NhRegID = value;
+					this.SendPropertyChanged("NhRegID");
+					this.OnNhRegIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganCode", DbType="VarChar(6) NOT NULL", CanBeNull=false)]
+		public string OrganCode
+		{
+			get
+			{
+				return this._OrganCode;
+			}
+			set
+			{
+				if ((this._OrganCode != value))
+				{
+					this.OnOrganCodeChanging(value);
+					this.SendPropertyChanging();
+					this._OrganCode = value;
+					this.SendPropertyChanged("OrganCode");
+					this.OnOrganCodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AccountYear", DbType="VarChar(4) NOT NULL", CanBeNull=false)]
+		public string AccountYear
+		{
+			get
+			{
+				return this._AccountYear;
+			}
+			set
+			{
+				if ((this._AccountYear != value))
+				{
+					this.OnAccountYearChanging(value);
+					this.SendPropertyChanging();
+					this._AccountYear = value;
+					this.SendPropertyChanged("AccountYear");
+					this.OnAccountYearChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CoopMedCode", DbType="VarChar(18) NOT NULL", CanBeNull=false)]
+		public string CoopMedCode
+		{
+			get
+			{
+				return this._CoopMedCode;
+			}
+			set
+			{
+				if ((this._CoopMedCode != value))
+				{
+					this.OnCoopMedCodeChanging(value);
+					this.SendPropertyChanging();
+					this._CoopMedCode = value;
+					this.SendPropertyChanged("CoopMedCode");
+					this.OnCoopMedCodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExpressionID", DbType="VarChar(4) NOT NULL", CanBeNull=false)]
+		public string ExpressionID
+		{
+			get
+			{
+				return this._ExpressionID;
+			}
+			set
+			{
+				if ((this._ExpressionID != value))
+				{
+					this.OnExpressionIDChanging(value);
+					this.SendPropertyChanging();
+					this._ExpressionID = value;
+					this.SendPropertyChanged("ExpressionID");
+					this.OnExpressionIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PatientName", DbType="VarChar(10) NOT NULL", CanBeNull=false)]
+		public string PatientName
+		{
+			get
+			{
+				return this._PatientName;
+			}
+			set
+			{
+				if ((this._PatientName != value))
+				{
+					this.OnPatientNameChanging(value);
+					this.SendPropertyChanging();
+					this._PatientName = value;
+					this.SendPropertyChanged("PatientName");
+					this.OnPatientNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AiIDNo", DbType="Int NOT NULL")]
+		public int AiIDNo
+		{
+			get
+			{
+				return this._AiIDNo;
+			}
+			set
+			{
+				if ((this._AiIDNo != value))
+				{
+					this.OnAiIDNoChanging(value);
+					this.SendPropertyChanging();
+					this._AiIDNo = value;
+					this.SendPropertyChanged("AiIDNo");
+					this.OnAiIDNoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IllCode", DbType="VarChar(10) NOT NULL", CanBeNull=false)]
+		public string IllCode
+		{
+			get
+			{
+				return this._IllCode;
+			}
+			set
+			{
+				if ((this._IllCode != value))
+				{
+					this.OnIllCodeChanging(value);
+					this.SendPropertyChanging();
+					this._IllCode = value;
+					this.SendPropertyChanged("IllCode");
+					this.OnIllCodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IllName", DbType="VarChar(40) NOT NULL", CanBeNull=false)]
+		public string IllName
+		{
+			get
+			{
+				return this._IllName;
+			}
+			set
+			{
+				if ((this._IllName != value))
+				{
+					this.OnIllNameChanging(value);
+					this.SendPropertyChanging();
+					this._IllName = value;
+					this.SendPropertyChanged("IllName");
+					this.OnIllNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_InDate", DbType="VarChar(20) NOT NULL", CanBeNull=false)]
+		public string InDate
+		{
+			get
+			{
+				return this._InDate;
+			}
+			set
+			{
+				if ((this._InDate != value))
+				{
+					this.OnInDateChanging(value);
+					this.SendPropertyChanging();
+					this._InDate = value;
+					this.SendPropertyChanged("InDate");
+					this.OnInDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Adke", DbType="VarChar(12)")]
+		public string Adke
+		{
+			get
+			{
+				return this._Adke;
+			}
+			set
+			{
+				if ((this._Adke != value))
+				{
+					this.OnAdkeChanging(value);
+					this.SendPropertyChanging();
+					this._Adke = value;
+					this.SendPropertyChanged("Adke");
+					this.OnAdkeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AdLimitDef", DbType="VarChar(10) NOT NULL", CanBeNull=false)]
+		public string AdLimitDef
+		{
+			get
+			{
+				return this._AdLimitDef;
+			}
+			set
+			{
+				if ((this._AdLimitDef != value))
+				{
+					this.OnAdLimitDefChanging(value);
+					this.SendPropertyChanging();
+					this._AdLimitDef = value;
+					this.SendPropertyChanged("AdLimitDef");
+					this.OnAdLimitDefChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DoctorName", DbType="VarChar(12)")]
+		public string DoctorName
+		{
+			get
+			{
+				return this._DoctorName;
+			}
+			set
+			{
+				if ((this._DoctorName != value))
+				{
+					this.OnDoctorNameChanging(value);
+					this.SendPropertyChanging();
+					this._DoctorName = value;
+					this.SendPropertyChanged("DoctorName");
+					this.OnDoctorNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PatientID", DbType="VarChar(50)")]
+		public string PatientID
+		{
+			get
+			{
+				return this._PatientID;
+			}
+			set
+			{
+				if ((this._PatientID != value))
+				{
+					this.OnPatientIDChanging(value);
+					this.SendPropertyChanging();
+					this._PatientID = value;
+					this.SendPropertyChanged("PatientID");
+					this.OnPatientIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DiagNo", DbType="VarChar(2)")]
+		public string DiagNo
+		{
+			get
+			{
+				return this._DiagNo;
+			}
+			set
+			{
+				if ((this._DiagNo != value))
+				{
+					this.OnDiagNoChanging(value);
+					this.SendPropertyChanging();
+					this._DiagNo = value;
+					this.SendPropertyChanged("DiagNo");
+					this.OnDiagNoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExpenseKind", DbType="VarChar(2)")]
+		public string ExpenseKind
+		{
+			get
+			{
+				return this._ExpenseKind;
+			}
+			set
+			{
+				if ((this._ExpenseKind != value))
+				{
+					this.OnExpenseKindChanging(value);
+					this.SendPropertyChanging();
+					this._ExpenseKind = value;
+					this.SendPropertyChanged("ExpenseKind");
+					this.OnExpenseKindChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LimitIllCode", DbType="VarChar(4)")]
+		public string LimitIllCode
+		{
+			get
+			{
+				return this._LimitIllCode;
+			}
+			set
+			{
+				if ((this._LimitIllCode != value))
+				{
+					this.OnLimitIllCodeChanging(value);
+					this.SendPropertyChanging();
+					this._LimitIllCode = value;
+					this.SendPropertyChanged("LimitIllCode");
+					this.OnLimitIllCodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsFail", DbType="TinyInt NOT NULL")]
+		public byte IsFail
+		{
+			get
+			{
+				return this._IsFail;
+			}
+			set
+			{
+				if ((this._IsFail != value))
+				{
+					this.OnIsFailChanging(value);
+					this.SendPropertyChanging();
+					this._IsFail = value;
+					this.SendPropertyChanged("IsFail");
+					this.OnIsFailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Zyh", DbType="Int NOT NULL")]
+		public int Zyh
+		{
+			get
+			{
+				return this._Zyh;
+			}
+			set
+			{
+				if ((this._Zyh != value))
+				{
+					if (this._ZYBR.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnZyhChanging(value);
+					this.SendPropertyChanging();
+					this._Zyh = value;
+					this.SendPropertyChanged("Zyh");
+					this.OnZyhChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AreaCode", DbType="VarChar(12) NOT NULL", CanBeNull=false)]
+		public string AreaCode
+		{
+			get
+			{
+				return this._AreaCode;
+			}
+			set
+			{
+				if ((this._AreaCode != value))
+				{
+					this.OnAreaCodeChanging(value);
+					this.SendPropertyChanging();
+					this._AreaCode = value;
+					this.SendPropertyChanged("AreaCode");
+					this.OnAreaCodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TurnID", DbType="Int")]
+		public System.Nullable<int> TurnID
+		{
+			get
+			{
+				return this._TurnID;
+			}
+			set
+			{
+				if ((this._TurnID != value))
+				{
+					this.OnTurnIDChanging(value);
+					this.SendPropertyChanging();
+					this._TurnID = value;
+					this.SendPropertyChanged("TurnID");
+					this.OnTurnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FunHrStr", DbType="VarChar(200)")]
+		public string FunHrStr
+		{
+			get
+			{
+				return this._FunHrStr;
+			}
+			set
+			{
+				if ((this._FunHrStr != value))
+				{
+					this.OnFunHrStrChanging(value);
+					this.SendPropertyChanging();
+					this._FunHrStr = value;
+					this.SendPropertyChanged("FunHrStr");
+					this.OnFunHrStrChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ZYBR_WyNhRegister", Storage="_ZYBR", ThisKey="Zyh", OtherKey="ZYH", IsForeignKey=true)]
+		public ZYBR ZYBR
+		{
+			get
+			{
+				return this._ZYBR.Entity;
+			}
+			set
+			{
+				ZYBR previousValue = this._ZYBR.Entity;
+				if (((previousValue != value) 
+							|| (this._ZYBR.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._ZYBR.Entity = null;
+						previousValue.WyNhRegister.Remove(this);
+					}
+					this._ZYBR.Entity = value;
+					if ((value != null))
+					{
+						value.WyNhRegister.Add(this);
+						this._Zyh = value.ZYH;
+					}
+					else
+					{
+						this._Zyh = default(int);
+					}
+					this.SendPropertyChanged("ZYBR");
 				}
 			}
 		}

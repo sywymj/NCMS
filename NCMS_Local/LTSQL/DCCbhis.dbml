@@ -70,6 +70,7 @@
       <Column Name="NL" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
       <Column Name="JSDW" Type="System.String" DbType="Char(10)" CanBeNull="true" />
       <Association Name="ZYBR_RY" Member="RY" ThisKey="ZYH" OtherKey="ZYH" Type="RY" />
+      <Association Name="ZYBR_WyNhRegister" Member="WyNhRegister" ThisKey="ZYH" OtherKey="Zyh" Type="WyNhRegister" />
     </Type>
   </Table>
   <Table Name="dbo.RY" Member="RY">
@@ -142,6 +143,33 @@
       <Column Name="kkcd" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
       <Column Name="cyzyzd_zdyj" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
       <Association Name="RY_BASY" Member="RY" ThisKey="RYH" OtherKey="RYH" Type="RY" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.WyNhRegister" Member="WyNhRegister">
+    <Type Name="WyNhRegister">
+      <Column Name="NhRegID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="OrganCode" Type="System.String" DbType="VarChar(6) NOT NULL" CanBeNull="false" />
+      <Column Name="AccountYear" Type="System.String" DbType="VarChar(4) NOT NULL" CanBeNull="false" />
+      <Column Name="CoopMedCode" Type="System.String" DbType="VarChar(18) NOT NULL" CanBeNull="false" />
+      <Column Name="ExpressionID" Type="System.String" DbType="VarChar(4) NOT NULL" CanBeNull="false" />
+      <Column Name="PatientName" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="AiIDNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IllCode" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="IllName" Type="System.String" DbType="VarChar(40) NOT NULL" CanBeNull="false" />
+      <Column Name="InDate" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="Adke" Type="System.String" DbType="VarChar(12)" CanBeNull="true" />
+      <Column Name="AdLimitDef" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="DoctorName" Type="System.String" DbType="VarChar(12)" CanBeNull="true" />
+      <Column Name="PatientID" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="DiagNo" Type="System.String" DbType="VarChar(2)" CanBeNull="true" />
+      <Column Name="ExpenseKind" Type="System.String" DbType="VarChar(2)" CanBeNull="true" />
+      <Column Name="LimitIllCode" Type="System.String" DbType="VarChar(4)" CanBeNull="true" />
+      <Column Name="IsFail" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="Zyh" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="AreaCode" Type="System.String" DbType="VarChar(12) NOT NULL" CanBeNull="false" />
+      <Column Name="TurnID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FunHrStr" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Association Name="ZYBR_WyNhRegister" Member="ZYBR" ThisKey="Zyh" OtherKey="ZYH" Type="ZYBR" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

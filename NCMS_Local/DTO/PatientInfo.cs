@@ -8,6 +8,14 @@ using System.Text;
 
 namespace NCMS_Local.DTO
 {
+    public enum EnumExpenseKind
+    {
+        普通住院=21,
+        单病种住院=22,
+        正常分娩住院=23,
+        其他住院=29,
+        其他=90
+    }
     public enum EnumZybxGS
     {
         二级医院=2,
@@ -169,7 +177,7 @@ namespace NCMS_Local.DTO
         //[Category(""),DisplayName("")]
         [Category("\t入院登记信息"), DisplayName("住院号"),RefreshProperties(RefreshProperties.All)]
         public int? HisZyh { get; set; }
-        //[Browsable(false)]
+        [Browsable(false)]
         public int? HisRyh
         {
             get { return HisZyh; }
@@ -216,8 +224,8 @@ namespace NCMS_Local.DTO
         }
         [Category("农合信息"), DisplayName("住院报销公式")]
         public EnumZybxGS NhZybxgs { get; set; }
-
-        
+        [Category("农合信息"), DisplayName("补偿类别")]
+        public EnumExpenseKind NhExpenseKind { get; set; }
 
         public PatientInfo()
         {
@@ -226,6 +234,7 @@ namespace NCMS_Local.DTO
             this.HisZybrlx = EnumRyLb.普通病人;
             this.NhZybxgs = EnumZybxGS.二级医院;
             this.HisNationCode = EnumNation.汉族;
+            this.NhExpenseKind = EnumExpenseKind.普通住院;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
