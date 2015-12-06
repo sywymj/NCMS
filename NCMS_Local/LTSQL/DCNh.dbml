@@ -10,4 +10,30 @@
       <Column Name="If_Modified" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
+  <Table Name="dbo.P_HiHosItem" Member="P_HiHosItem">
+    <Type Name="P_HiHosItem">
+      <Column Name="OrganId" Type="System.String" DbType="VarChar(8) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ztyear" Type="System.String" DbType="VarChar(4) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="HosCode" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="HosKind" Type="System.String" DbType="VarChar(2)" CanBeNull="true" />
+      <Column Name="OrgCode" Type="System.String" DbType="VarChar(12) NOT NULL" CanBeNull="false" />
+      <Column Name="OrgFlag" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="HosItem" Type="System.String" DbType="VarChar(80)" CanBeNull="true" />
+      <Column Name="HosSpec" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="Unit" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="Manufacturer" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="HosType" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="InCode" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="InKind" Type="System.String" DbType="VarChar(12)" CanBeNull="true" />
+      <Column Name="ItemName" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="FeeTypeCode" Type="System.String" DbType="VarChar(12)" CanBeNull="true" />
+      <Column Name="FeeTypeName" Type="System.String" DbType="VarChar(60)" CanBeNull="true" />
+      <Column Name="Grade" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="wipeout" Type="System.String" DbType="VarChar(2)" CanBeNull="true" />
+      <Column Name="LimitPrice1" Type="System.Decimal" DbType="Decimal(10,2) NOT NULL" CanBeNull="false" />
+      <Column Name="LimitPrice2" Type="System.Decimal" DbType="Decimal(10,2) NOT NULL" CanBeNull="false" />
+      <Column Name="LimitPrice3" Type="System.Decimal" DbType="Decimal(10,2) NOT NULL" CanBeNull="false" />
+      <Column Name="HosGrade" Type="System.String" DbType="VarChar(4)" CanBeNull="true" />
+    </Type>
+  </Table>
 </Database>

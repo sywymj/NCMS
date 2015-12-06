@@ -88,5 +88,8 @@ namespace NCMS_Local
         [DllImport("LxClient.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
         public static extern int zzSaveInHosInfo([MarshalAs(UnmanagedType.LPStr)]string AsOrganID, [MarshalAs(UnmanagedType.LPStr)]string aAreaCode, [MarshalAs(UnmanagedType.LPStr)]string AsCoopMedCode, [MarshalAs(UnmanagedType.LPStr)]string AsExpressionsID, int AiIDNo, int aTurnID, [MarshalAs(UnmanagedType.LPStr)]string AsIllCode, [MarshalAs(UnmanagedType.LPStr)]string AsIllName, [MarshalAs(UnmanagedType.LPStr)]string AInDate, [MarshalAs(UnmanagedType.LPStr)]string Adke, [MarshalAs(UnmanagedType.LPStr)]string AdLimitDef, [MarshalAs(UnmanagedType.LPStr)]string AsDoctor, [MarshalAs(UnmanagedType.LPStr)]string AsPatientId, [MarshalAs(UnmanagedType.LPStr)]string AsExpenseKind, [MarshalAs(UnmanagedType.LPStr)]string AsLimitIllCode, [MarshalAs(UnmanagedType.LPStr)]StringBuilder dataBuf);
 
+        [DllImport("LxClient.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
+        public static extern int SaveFreeList([MarshalAs(UnmanagedType.LPStr)]string AsOrganID, [MarshalAs(UnmanagedType.LPStr)]string AsCoopMedCode, int AiIDNo, int AiDiagNo, [MarshalAs(UnmanagedType.LPStr)]string AsItemCode, [MarshalAs(UnmanagedType.LPStr)]string AsHosCode, [MarshalAs(UnmanagedType.LPStr)]string ADInputDate, double AfPrice, double AfNum, double AfFee, [MarshalAs(UnmanagedType.LPStr)]string AsUnit, [MarshalAs(UnmanagedType.LPStr)]string AsOfficeName, [MarshalAs(UnmanagedType.LPStr)]string AsDoctor, [MarshalAs(UnmanagedType.LPStr)]string AsCompound, [MarshalAs(UnmanagedType.LPStr)]StringBuilder dataBuf);
+
     }
 }

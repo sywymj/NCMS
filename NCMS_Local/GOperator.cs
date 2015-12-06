@@ -15,9 +15,9 @@ namespace NCMS_Local
 
     public static class GSettings
     {
-        internal static string HisConnStr = @"Data Source=.;Initial Catalog=cbhis;Integrated Security=True";
+        //internal static string HisConnStr = @"Data Source=.;Initial Catalog=cbhis;Integrated Security=True";
         //internal static string HisConnStr = @"Data Source=192.0.2.2;Initial Catalog=wycs;uid=sa;pwd=11003";
-        //internal static string HisConnStr = @"Data Source=61.184.91.108;Initial Catalog=wycs;uid=sa;pwd=11003";
+        internal static string HisConnStr = @"Data Source=61.184.91.108;Initial Catalog=wycs;uid=sa;pwd=11003";
         //internal static string NhConnStr = @"Data Source=.;Initial Catalog=HNXT_interface;Integrated Security=True";
         internal static string NhConnStr = @"Data Source=61.184.91.108;Initial Catalog=HNXT_interface;uid=sa;pwd=11003";
         public static IEnumerable<CDoctor> Doctors = null;

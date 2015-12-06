@@ -30,6 +30,9 @@ namespace NCMS_Local.LTSQL
 		
     #region 可扩展性方法定义
     partial void OnCreated();
+    partial void InsertP_HiHosItem(P_HiHosItem instance);
+    partial void UpdateP_HiHosItem(P_HiHosItem instance);
+    partial void DeleteP_HiHosItem(P_HiHosItem instance);
     #endregion
 		
 		public DCNhDataContext() : 
@@ -67,6 +70,14 @@ namespace NCMS_Local.LTSQL
 			get
 			{
 				return this.GetTable<p_Illness>();
+			}
+		}
+		
+		public System.Data.Linq.Table<P_HiHosItem> P_HiHosItem
+		{
+			get
+			{
+				return this.GetTable<P_HiHosItem>();
 			}
 		}
 	}
@@ -184,6 +195,572 @@ namespace NCMS_Local.LTSQL
 				{
 					this._If_Modified = value;
 				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.P_HiHosItem")]
+	public partial class P_HiHosItem : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _OrganId;
+		
+		private string _ztyear;
+		
+		private string _HosCode;
+		
+		private string _HosKind;
+		
+		private string _OrgCode;
+		
+		private System.Nullable<int> _OrgFlag;
+		
+		private string _HosItem;
+		
+		private string _HosSpec;
+		
+		private string _Unit;
+		
+		private string _Manufacturer;
+		
+		private string _HosType;
+		
+		private string _InCode;
+		
+		private string _InKind;
+		
+		private string _ItemName;
+		
+		private string _FeeTypeCode;
+		
+		private string _FeeTypeName;
+		
+		private string _Grade;
+		
+		private string _wipeout;
+		
+		private decimal _LimitPrice1;
+		
+		private decimal _LimitPrice2;
+		
+		private decimal _LimitPrice3;
+		
+		private string _HosGrade;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnOrganIdChanging(string value);
+    partial void OnOrganIdChanged();
+    partial void OnztyearChanging(string value);
+    partial void OnztyearChanged();
+    partial void OnHosCodeChanging(string value);
+    partial void OnHosCodeChanged();
+    partial void OnHosKindChanging(string value);
+    partial void OnHosKindChanged();
+    partial void OnOrgCodeChanging(string value);
+    partial void OnOrgCodeChanged();
+    partial void OnOrgFlagChanging(System.Nullable<int> value);
+    partial void OnOrgFlagChanged();
+    partial void OnHosItemChanging(string value);
+    partial void OnHosItemChanged();
+    partial void OnHosSpecChanging(string value);
+    partial void OnHosSpecChanged();
+    partial void OnUnitChanging(string value);
+    partial void OnUnitChanged();
+    partial void OnManufacturerChanging(string value);
+    partial void OnManufacturerChanged();
+    partial void OnHosTypeChanging(string value);
+    partial void OnHosTypeChanged();
+    partial void OnInCodeChanging(string value);
+    partial void OnInCodeChanged();
+    partial void OnInKindChanging(string value);
+    partial void OnInKindChanged();
+    partial void OnItemNameChanging(string value);
+    partial void OnItemNameChanged();
+    partial void OnFeeTypeCodeChanging(string value);
+    partial void OnFeeTypeCodeChanged();
+    partial void OnFeeTypeNameChanging(string value);
+    partial void OnFeeTypeNameChanged();
+    partial void OnGradeChanging(string value);
+    partial void OnGradeChanged();
+    partial void OnwipeoutChanging(string value);
+    partial void OnwipeoutChanged();
+    partial void OnLimitPrice1Changing(decimal value);
+    partial void OnLimitPrice1Changed();
+    partial void OnLimitPrice2Changing(decimal value);
+    partial void OnLimitPrice2Changed();
+    partial void OnLimitPrice3Changing(decimal value);
+    partial void OnLimitPrice3Changed();
+    partial void OnHosGradeChanging(string value);
+    partial void OnHosGradeChanged();
+    #endregion
+		
+		public P_HiHosItem()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganId", DbType="VarChar(8) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string OrganId
+		{
+			get
+			{
+				return this._OrganId;
+			}
+			set
+			{
+				if ((this._OrganId != value))
+				{
+					this.OnOrganIdChanging(value);
+					this.SendPropertyChanging();
+					this._OrganId = value;
+					this.SendPropertyChanged("OrganId");
+					this.OnOrganIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ztyear", DbType="VarChar(4) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string ztyear
+		{
+			get
+			{
+				return this._ztyear;
+			}
+			set
+			{
+				if ((this._ztyear != value))
+				{
+					this.OnztyearChanging(value);
+					this.SendPropertyChanging();
+					this._ztyear = value;
+					this.SendPropertyChanged("ztyear");
+					this.OnztyearChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HosCode", DbType="VarChar(20) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string HosCode
+		{
+			get
+			{
+				return this._HosCode;
+			}
+			set
+			{
+				if ((this._HosCode != value))
+				{
+					this.OnHosCodeChanging(value);
+					this.SendPropertyChanging();
+					this._HosCode = value;
+					this.SendPropertyChanged("HosCode");
+					this.OnHosCodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HosKind", DbType="VarChar(2)")]
+		public string HosKind
+		{
+			get
+			{
+				return this._HosKind;
+			}
+			set
+			{
+				if ((this._HosKind != value))
+				{
+					this.OnHosKindChanging(value);
+					this.SendPropertyChanging();
+					this._HosKind = value;
+					this.SendPropertyChanged("HosKind");
+					this.OnHosKindChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrgCode", DbType="VarChar(12) NOT NULL", CanBeNull=false)]
+		public string OrgCode
+		{
+			get
+			{
+				return this._OrgCode;
+			}
+			set
+			{
+				if ((this._OrgCode != value))
+				{
+					this.OnOrgCodeChanging(value);
+					this.SendPropertyChanging();
+					this._OrgCode = value;
+					this.SendPropertyChanged("OrgCode");
+					this.OnOrgCodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrgFlag", DbType="Int")]
+		public System.Nullable<int> OrgFlag
+		{
+			get
+			{
+				return this._OrgFlag;
+			}
+			set
+			{
+				if ((this._OrgFlag != value))
+				{
+					this.OnOrgFlagChanging(value);
+					this.SendPropertyChanging();
+					this._OrgFlag = value;
+					this.SendPropertyChanged("OrgFlag");
+					this.OnOrgFlagChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HosItem", DbType="VarChar(80)")]
+		public string HosItem
+		{
+			get
+			{
+				return this._HosItem;
+			}
+			set
+			{
+				if ((this._HosItem != value))
+				{
+					this.OnHosItemChanging(value);
+					this.SendPropertyChanging();
+					this._HosItem = value;
+					this.SendPropertyChanged("HosItem");
+					this.OnHosItemChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HosSpec", DbType="VarChar(40)")]
+		public string HosSpec
+		{
+			get
+			{
+				return this._HosSpec;
+			}
+			set
+			{
+				if ((this._HosSpec != value))
+				{
+					this.OnHosSpecChanging(value);
+					this.SendPropertyChanging();
+					this._HosSpec = value;
+					this.SendPropertyChanged("HosSpec");
+					this.OnHosSpecChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Unit", DbType="VarChar(10)")]
+		public string Unit
+		{
+			get
+			{
+				return this._Unit;
+			}
+			set
+			{
+				if ((this._Unit != value))
+				{
+					this.OnUnitChanging(value);
+					this.SendPropertyChanging();
+					this._Unit = value;
+					this.SendPropertyChanged("Unit");
+					this.OnUnitChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Manufacturer", DbType="VarChar(40)")]
+		public string Manufacturer
+		{
+			get
+			{
+				return this._Manufacturer;
+			}
+			set
+			{
+				if ((this._Manufacturer != value))
+				{
+					this.OnManufacturerChanging(value);
+					this.SendPropertyChanging();
+					this._Manufacturer = value;
+					this.SendPropertyChanged("Manufacturer");
+					this.OnManufacturerChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HosType", DbType="VarChar(20)")]
+		public string HosType
+		{
+			get
+			{
+				return this._HosType;
+			}
+			set
+			{
+				if ((this._HosType != value))
+				{
+					this.OnHosTypeChanging(value);
+					this.SendPropertyChanging();
+					this._HosType = value;
+					this.SendPropertyChanged("HosType");
+					this.OnHosTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_InCode", DbType="VarChar(20)")]
+		public string InCode
+		{
+			get
+			{
+				return this._InCode;
+			}
+			set
+			{
+				if ((this._InCode != value))
+				{
+					this.OnInCodeChanging(value);
+					this.SendPropertyChanging();
+					this._InCode = value;
+					this.SendPropertyChanged("InCode");
+					this.OnInCodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_InKind", DbType="VarChar(12)")]
+		public string InKind
+		{
+			get
+			{
+				return this._InKind;
+			}
+			set
+			{
+				if ((this._InKind != value))
+				{
+					this.OnInKindChanging(value);
+					this.SendPropertyChanging();
+					this._InKind = value;
+					this.SendPropertyChanged("InKind");
+					this.OnInKindChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ItemName", DbType="VarChar(100)")]
+		public string ItemName
+		{
+			get
+			{
+				return this._ItemName;
+			}
+			set
+			{
+				if ((this._ItemName != value))
+				{
+					this.OnItemNameChanging(value);
+					this.SendPropertyChanging();
+					this._ItemName = value;
+					this.SendPropertyChanged("ItemName");
+					this.OnItemNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FeeTypeCode", DbType="VarChar(12)")]
+		public string FeeTypeCode
+		{
+			get
+			{
+				return this._FeeTypeCode;
+			}
+			set
+			{
+				if ((this._FeeTypeCode != value))
+				{
+					this.OnFeeTypeCodeChanging(value);
+					this.SendPropertyChanging();
+					this._FeeTypeCode = value;
+					this.SendPropertyChanged("FeeTypeCode");
+					this.OnFeeTypeCodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FeeTypeName", DbType="VarChar(60)")]
+		public string FeeTypeName
+		{
+			get
+			{
+				return this._FeeTypeName;
+			}
+			set
+			{
+				if ((this._FeeTypeName != value))
+				{
+					this.OnFeeTypeNameChanging(value);
+					this.SendPropertyChanging();
+					this._FeeTypeName = value;
+					this.SendPropertyChanged("FeeTypeName");
+					this.OnFeeTypeNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Grade", DbType="VarChar(10)")]
+		public string Grade
+		{
+			get
+			{
+				return this._Grade;
+			}
+			set
+			{
+				if ((this._Grade != value))
+				{
+					this.OnGradeChanging(value);
+					this.SendPropertyChanging();
+					this._Grade = value;
+					this.SendPropertyChanged("Grade");
+					this.OnGradeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_wipeout", DbType="VarChar(2)")]
+		public string wipeout
+		{
+			get
+			{
+				return this._wipeout;
+			}
+			set
+			{
+				if ((this._wipeout != value))
+				{
+					this.OnwipeoutChanging(value);
+					this.SendPropertyChanging();
+					this._wipeout = value;
+					this.SendPropertyChanged("wipeout");
+					this.OnwipeoutChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LimitPrice1", DbType="Decimal(10,2) NOT NULL")]
+		public decimal LimitPrice1
+		{
+			get
+			{
+				return this._LimitPrice1;
+			}
+			set
+			{
+				if ((this._LimitPrice1 != value))
+				{
+					this.OnLimitPrice1Changing(value);
+					this.SendPropertyChanging();
+					this._LimitPrice1 = value;
+					this.SendPropertyChanged("LimitPrice1");
+					this.OnLimitPrice1Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LimitPrice2", DbType="Decimal(10,2) NOT NULL")]
+		public decimal LimitPrice2
+		{
+			get
+			{
+				return this._LimitPrice2;
+			}
+			set
+			{
+				if ((this._LimitPrice2 != value))
+				{
+					this.OnLimitPrice2Changing(value);
+					this.SendPropertyChanging();
+					this._LimitPrice2 = value;
+					this.SendPropertyChanged("LimitPrice2");
+					this.OnLimitPrice2Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LimitPrice3", DbType="Decimal(10,2) NOT NULL")]
+		public decimal LimitPrice3
+		{
+			get
+			{
+				return this._LimitPrice3;
+			}
+			set
+			{
+				if ((this._LimitPrice3 != value))
+				{
+					this.OnLimitPrice3Changing(value);
+					this.SendPropertyChanging();
+					this._LimitPrice3 = value;
+					this.SendPropertyChanged("LimitPrice3");
+					this.OnLimitPrice3Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HosGrade", DbType="VarChar(4)")]
+		public string HosGrade
+		{
+			get
+			{
+				return this._HosGrade;
+			}
+			set
+			{
+				if ((this._HosGrade != value))
+				{
+					this.OnHosGradeChanging(value);
+					this.SendPropertyChanging();
+					this._HosGrade = value;
+					this.SendPropertyChanged("HosGrade");
+					this.OnHosGradeChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 	}

@@ -20,6 +20,7 @@
       <Column Name="ISZZ" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
       <Association Name="BM_ZG" Member="ZG" ThisKey="BMDM" OtherKey="BMDM" Type="ZG" />
       <Association Name="BM_RY" Member="RY" ThisKey="BMDM" OtherKey="RYKS" Type="RY" />
+      <Association Name="BM_SFXM" Member="SFXM" ThisKey="BMDM" OtherKey="BMDM" Type="SFXM" />
     </Type>
   </Table>
   <Table Name="dbo.ZG" Member="ZG">
@@ -46,6 +47,9 @@
       <Column Name="BZ" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
       <Column Name="DZ" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
       <Column Name="WBM" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Association Name="ZG_HJD" Member="HJD" ThisKey="ZGDM" OtherKey="HJCZY" Type="HJD" />
+      <Association Name="ZG_HJD1" Member="HJD1" ThisKey="ZGDM" OtherKey="YS" Type="HJD" />
+      <Association Name="ZG_JZD" Member="JZD" ThisKey="ZGDM" OtherKey="YS" Type="JZD" />
       <Association Name="BM_ZG" Member="BM" ThisKey="BMDM" OtherKey="BMDM" Type="BM" IsForeignKey="true" />
     </Type>
   </Table>
@@ -71,6 +75,8 @@
       <Column Name="JSDW" Type="System.String" DbType="Char(10)" CanBeNull="true" />
       <Association Name="ZYBR_RY" Member="RY" ThisKey="ZYH" OtherKey="ZYH" Type="RY" />
       <Association Name="ZYBR_WyNhRegister" Member="WyNhRegister" ThisKey="ZYH" OtherKey="Zyh" Type="WyNhRegister" />
+      <Association Name="ZYBR_WyNhFeeList" Member="WyNhFeeList" ThisKey="ZYH" OtherKey="Zyh" Type="WyNhFeeList" />
+      <Association Name="ZYBR_JZD" Member="JZD" ThisKey="ZYH" OtherKey="ZYH" Type="JZD" />
     </Type>
   </Table>
   <Table Name="dbo.RY" Member="RY">
@@ -170,6 +176,274 @@
       <Column Name="TurnID" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="FunHrStr" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
       <Association Name="ZYBR_WyNhRegister" Member="ZYBR" ThisKey="Zyh" OtherKey="ZYH" Type="ZYBR" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.WyNhHiHosItem" Member="WyNhHiHosItem">
+    <Type Name="WyNhHiHosItem">
+      <Column Name="OrganId" Type="System.String" DbType="VarChar(8) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ztyear" Type="System.String" DbType="VarChar(4) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="HosCode" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="HosKind" Type="System.String" DbType="VarChar(2)" CanBeNull="true" />
+      <Column Name="OrgCode" Type="System.String" DbType="VarChar(12) NOT NULL" CanBeNull="false" />
+      <Column Name="OrgFlag" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="HosItem" Type="System.String" DbType="VarChar(80)" CanBeNull="true" />
+      <Column Name="HosSpec" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="Unit" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="Manufacturer" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="HosType" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="InCode" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="InKind" Type="System.String" DbType="VarChar(12)" CanBeNull="true" />
+      <Column Name="ItemName" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="FeeTypeCode" Type="System.String" DbType="VarChar(12)" CanBeNull="true" />
+      <Column Name="FeeTypeName" Type="System.String" DbType="VarChar(60)" CanBeNull="true" />
+      <Column Name="Grade" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="wipeout" Type="System.String" DbType="VarChar(2)" CanBeNull="true" />
+      <Column Name="LimitPrice1" Type="System.Decimal" DbType="Decimal(10,2) NOT NULL" CanBeNull="false" />
+      <Column Name="LimitPrice2" Type="System.Decimal" DbType="Decimal(10,2) NOT NULL" CanBeNull="false" />
+      <Column Name="LimitPrice3" Type="System.Decimal" DbType="Decimal(10,2) NOT NULL" CanBeNull="false" />
+      <Column Name="HosGrade" Type="System.String" DbType="VarChar(4)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.WyNhFeeList" Member="WyNhFeeList">
+    <Type Name="WyNhFeeList">
+      <Column Name="Cfh" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Zyh" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="HosCode" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="NhCode" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="UseDate" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="Price" Type="System.Decimal" DbType="Decimal(18,4) NOT NULL" CanBeNull="false" />
+      <Column Name="Num" Type="System.Decimal" DbType="Decimal(18,4) NOT NULL" CanBeNull="false" />
+      <Column Name="Fee" Type="System.Decimal" DbType="Decimal(18,4) NOT NULL" CanBeNull="false" />
+      <Column Name="OfficeName" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="Unit" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="Doctor" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="FeeNo" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Association Name="ZYBR_WyNhFeeList" Member="ZYBR" ThisKey="Zyh" OtherKey="ZYH" Type="ZYBR" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.JZD" Member="JZD">
+    <Type Name="JZD">
+      <Column Name="JZDH" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RQ" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="JE" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
+      <Column Name="CZY" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="YS" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="ZYH" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="KDKS" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="ZXKS" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="ZF" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="ZFCZY" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="HJDH" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ZTJZ_CYFPH" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SB_UPLOAD" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="zxys" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="zxrq" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="DY" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="YSJE" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="tdh" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ModifyDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="lsh" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="SFJZ" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Association Name="JZD_JZDMX" Member="JZDMX" ThisKey="JZDH" OtherKey="JZDH" Type="JZDMX" />
+      <Association Name="ZYBR_JZD" Member="ZYBR" ThisKey="ZYH" OtherKey="ZYH" Type="ZYBR" IsForeignKey="true" />
+      <Association Name="ZG_JZD" Member="ZG_jzd_ys" ThisKey="YS" OtherKey="ZGDM" Type="ZG" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.JZDMX" Member="JZDMX">
+    <Type Name="JZDMX">
+      <Column Name="JZDH" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="XH" Type="System.Int16" DbType="SmallInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="SFXMDM" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="CS" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="DJ" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="JE" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
+      <Column Name="YSJE" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="YBBX" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="DZ" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="YBLB" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="RebateScale" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="yzid" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="JZD_JZDMX" Member="JZD" ThisKey="JZDH" OtherKey="JZDH" Type="JZD" IsForeignKey="true" />
+      <Association Name="SFXM_JZDMX" Member="SFXM" ThisKey="SFXMDM" OtherKey="SFXMDM" Type="SFXM" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.HJD" Member="HJD">
+    <Type Name="HJD">
+      <Column Name="HJDH" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="YFDM" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="MZH" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RYH" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="HJCZY" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="MZFPH" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FYCZY" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="KDKS" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="YS" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="HJRQ" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="FYRQ" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ZT" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="ZF" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="ZFCZY" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="SHYS" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="BRXM" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="JZDH" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FS" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="XB" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="NL" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="JSDW" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="HDR" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="IsTY" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="FYDJH" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SENDBILLNO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ModifyDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="lsh" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="SickType" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="jzbz" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Association Name="ZG_HJD" Member="ZG_HJCZY" Storage="_ZG" ThisKey="HJCZY" OtherKey="ZGDM" Type="ZG" IsForeignKey="true" />
+      <Association Name="ZG_HJD1" Member="ZG_YS" ThisKey="YS" OtherKey="ZGDM" Type="ZG" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.HJDMX" Member="HJDMX">
+    <Type Name="HJDMX">
+      <Column Name="HJDH" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="XH" Type="System.Int16" DbType="SmallInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="YPGGDM" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="YPDWDM" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SL" Type="System.Decimal" DbType="Decimal(13,4) NOT NULL" CanBeNull="false" />
+      <Column Name="JE" Type="System.Decimal" DbType="Decimal(13,4) NOT NULL" CanBeNull="false" />
+      <Column Name="JDSL" Type="System.Decimal" DbType="Decimal(13,4) NOT NULL" CanBeNull="false" />
+      <Column Name="YFRKXH" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="YFRKDH" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="YSJE" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="YBBX" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="DZ" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="YBLB" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="YTY" Type="System.Decimal" DbType="Decimal(10,4)" CanBeNull="true" />
+      <Column Name="TY" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="SCSDM" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="YF" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="YL" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="RebateScale" Type="System.Decimal" DbType="Decimal(7,3)" CanBeNull="true" />
+      <Column Name="RKXH" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="TYS" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="ypmc" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="yzid" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LSJ" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="PFJ" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="JJ" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="DL" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="JIAOZ" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="JYCS" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="BEIZ" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Association Name="YPGG_HJDMX" Member="YPGG" ThisKey="YPGGDM" OtherKey="YPGGDM" Type="YPGG" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SFXM" Member="SFXM">
+    <Type Name="SFXM">
+      <Column Name="SFXMDM" Type="System.Int16" DbType="SmallInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="SFXMMC" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="DW" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="DJ" Type="System.Decimal" DbType="SmallMoney" CanBeNull="true" />
+      <Column Name="SFDJ" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="YBBM" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="KZBM" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="PYM" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="XMBM" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="YJKMDM" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="EJKMDM" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="BMDM" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="BZ" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="BMMC" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="SFKY" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="YBLBDM" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="DZ" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="bs" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="YBMC" Type="System.String" DbType="VarChar(120)" CanBeNull="true" />
+      <Column Name="HZ_XMBM" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="YBBM_2" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="InhosPrice" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="lx" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="pltx" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="zxdid" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="jjlx" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="fbdm" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="wbm" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="nhdj" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="ybdj" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="IsPrint" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="ZXYQ" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="ZYZXYQ" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="JJTX" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="part" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="fit" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="ItemKindID" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Association Name="SFXM_JZDMX" Member="JZDMX" ThisKey="SFXMDM" OtherKey="SFXMDM" Type="JZDMX" />
+      <Association Name="SFXM_YP" Member="YP" ThisKey="SFXMDM" OtherKey="sfxmdm" Type="YP" />
+      <Association Name="BM_SFXM" Member="BM" ThisKey="BMDM" OtherKey="BMDM" Type="BM" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.YP" Member="YP">
+    <Type Name="YP">
+      <Column Name="YPDM" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="YPMC" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="PYM" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="SFJY" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="YPSFXMDM" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="YPKMDM" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="YPLXDM" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="YPLX" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="Med_ZBLB" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="YBBM" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="OTHERCODE" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="OTHERCODE_NAME" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="fltx" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="zxdid" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="jjlx" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="wbm" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="ypzl" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="fbdm" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="sfxmdm" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="KZMC" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="JBMLYP" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="CFZW" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="JJSM" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="XZTS" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Association Name="YP_YPGG" Member="YPGG" ThisKey="YPDM" OtherKey="YPDM" Type="YPGG" />
+      <Association Name="SFXM_YP" Member="SFXM" ThisKey="sfxmdm" OtherKey="SFXMDM" Type="SFXM" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.YPGG" Member="YPGG">
+    <Type Name="YPGG">
+      <Column Name="YPGGDM" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="YPGGMC" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="HW" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="YPJXDM" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="ZXDW" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="JCL" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
+      <Column Name="HL" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="BZ" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="PZWH" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="CF" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="ZZ" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="YPYFDM" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="YPYLDM" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="YPDM" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="JJ" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="ZYSX" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="YBBM" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="YBMC" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="DZ" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="YPBZ" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="SCSDM" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="HZ_XMBM" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="GHSDM" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="YBBM_2" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="SFKY" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="zxjl" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="HZ_XMMC" Type="System.String" DbType="VarChar(120)" CanBeNull="true" />
+      <Column Name="MT_CLDW" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="MT_CLBZ" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Association Name="YPGG_HJDMX" Member="HJDMX" ThisKey="YPGGDM" OtherKey="YPGGDM" Type="HJDMX" />
+      <Association Name="YP_YPGG" Member="YP" ThisKey="YPDM" OtherKey="YPDM" Type="YP" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

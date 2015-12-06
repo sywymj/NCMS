@@ -217,5 +217,171 @@ namespace NCMS_Local
             basy.RYZD = pInfo.oRyIll.IllDesc;
             basy.MZZD_YS = (short)pInfo.oMzDoctor.zgdm;
         }
+
+        
+        public int JzdToNhFeeListByZyh(int zyh)
+        {
+            DCCbhisDataContext hisDb = new DCCbhisDataContext(GSettings.HisConnStr);
+            //DCNhDataContext nhDb = new DCNhDataContext(GSettings.NhConnStr);
+            int error = 0;
+            try
+            {
+                var ypjzds = from ypjzd in hisDb.JZD where ypjzd.ZYH == zyh && ypjzd.ZF == 0  && ypjzd.HJDH != null && ypjzd.SB_UPLOAD==0 select ypjzd;
+#region 处理药品
+                foreach (var jzd in ypjzds)
+                {
+                    //开始处理一张药品记账单
+                    try
+                    {
+                        var nhFeeItems = from _hjdmx in hisDb.HJDMX
+                                         join _hjd in hisDb.HJD on _hjdmx.HJDH equals _hjd.HJDH
+                                         where _hjd.JZDH == jzd.JZDH
+                                         select new
+                                         {
+                                             Cfh = _hjd.JZDH,
+                                             xh = _hjdmx.XH,
+                                             Zyh = jzd.ZYH,
+                                             HosCode = _hjdmx.YPGGDM,
+                                             UseDate = _hjd.HJRQ,
+                                             Price = _hjdmx.JE / _hjdmx.SL,
+                                             Num = _hjdmx.SL,
+                                             Fee = _hjdmx.JE,
+                                             OfficeName = _hjd.KDKS,
+                                             Doctor = _hjd.ZG_YS.ZGXM
+                                         };
+                        foreach (var _item in nhFeeItems)
+                        {
+                            hisDb.WyNhFeeList.InsertOnSubmit(new WyNhFeeList()
+                            {
+                                Cfh = string.Format("{0}{1:D3}", _item.Cfh, _item.xh
+                                    ),
+                                Zyh = _item.Zyh,
+                                HosCode = string.Format("YP{0}", _item.HosCode),
+                                UseDate = _item.UseDate.Value.ToString("yyyy-MM-dd hh:mm:ss"),
+                                Price = _item.Price,
+                                Num = _item.Num,
+                                Fee = _item.Fee,
+                                OfficeName = Convert.ToString(_item.OfficeName),
+                                Doctor = _item.Doctor
+                            });
+                        }
+                        jzd.SB_UPLOAD = 1;
+                        hisDb.SubmitChanges();
+                    }
+                    catch (System.Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        error++;
+                    }
+                }
+#endregion
+
+                var zljzds = from ypjzd in hisDb.JZD where ypjzd.ZYH == zyh && ypjzd.ZF == 0 && ypjzd.HJDH == null && ypjzd.SB_UPLOAD == 0 select ypjzd;
+#region 处理诊疗
+                foreach (var jzd in zljzds)
+                {
+                    //开始处理一张诊疗单据
+                    try
+                    {
+                        foreach (var item in jzd.JZDMX)
+                        {
+                            hisDb.WyNhFeeList.InsertOnSubmit(new WyNhFeeList()
+                            {
+                                Cfh = string.Format("{0}{1:D3}", jzd.JZDH, item.XH),
+                                Zyh=jzd.ZYH,
+                                HosCode=string.Format("ZL{0}",item.SFXMDM),
+                                UseDate=jzd.RQ.ToString("yyyy-MM-dd hh:mm:ss"),
+                                Price=item.JE/item.CS??1,
+                                Num=item.CS??1,
+                                Fee=item.JE,
+                                OfficeName=Convert.ToString(jzd.ZXKS),
+                                Doctor=jzd.ZG_jzd_ys.ZGXM                                
+                            });
+                        }
+                        jzd.SB_UPLOAD = 1;
+                        hisDb.SubmitChanges();
+                    }
+                    catch (System.Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        error++;
+                    }
+                }
+#endregion
+            }
+            catch (System.Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return error;
+        }
+
+        public IEnumerable<string> ProcessFeeListByZyh(int zyh,bool Direct)
+        {
+            List<string> lsNoNhCodes = new List<string>();
+            DCCbhisDataContext hisDb = new DCCbhisDataContext(GSettings.HisConnStr);
+            DCNhDataContext nhDb = new DCNhDataContext(GSettings.NhConnStr);
+            var feeItems = from _f in hisDb.WyNhFeeList where _f.Zyh == zyh && _f.FeeNo == null select _f;
+            var _NhPersonInfo=(from _f in hisDb.WyNhRegister where _f.Zyh==zyh && _f.IsFail==(byte)0 select _f).FirstOrDefault();
+            if (_NhPersonInfo==null)
+            {
+                lsNoNhCodes.Add(" 未找到患者有效的农合入院登记信息");
+                return lsNoNhCodes;
+            }
+            StringBuilder sb = null;
+            foreach (var feeItem in feeItems)
+            {
+                try
+                {
+                    //var _nhcode=(from _f in nhDb.P_HiHosItem where _f.HosCode==feeItem.HosCode && _f.OrganId==_NhPersonInfo.OrganCode && _f.ztyear==_NhPersonInfo.AccountYear select _f).FirstOrDefault();
+
+                    var _nhcode = (from _f in nhDb.P_HiHosItem where _f.HosCode == feeItem.HosCode && _f.OrganId =="420302" && _f.ztyear == _NhPersonInfo.AccountYear select _f).FirstOrDefault();
+                    if (_nhcode==null)
+                    {
+                        lsNoNhCodes.Add(string.Format(@"{0}农合项目编码为空",  feeItem.HosCode));
+                    }
+                    if (Direct || _nhcode!=null)
+                    {
+                        sb = new StringBuilder(256);
+                        int hr = NhLocalWrap.SaveFreeList(
+                            string.Format("{0}$${1}", _NhPersonInfo.OrganCode, _NhPersonInfo.AccountYear),
+                            _NhPersonInfo.CoopMedCode,
+                            _NhPersonInfo.AiIDNo,
+                            int.Parse(_NhPersonInfo.DiagNo),
+                            null,
+                            feeItem.HosCode,
+                            //feeItem.UseDate,
+                            DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"),
+                            (double)feeItem.Price, (double)feeItem.Num, (double)feeItem.Fee,
+                            null,
+                            feeItem.OfficeName,
+                            feeItem.Doctor,
+                            "1",
+                            sb
+                            );
+                        if (hr<0)
+                        {
+                            throw new Exception(string.Format(@"{0}单据上传错误:{1}", feeItem.Cfh, sb.ToString()));
+                        }
+                        if (_nhcode!=null)
+                        {
+                            feeItem.NhCode = _nhcode.InCode;
+                        }
+                        feeItem.FeeNo = sb.ToString();
+                        hisDb.SubmitChanges();
+                    }
+
+                    
+                }
+                catch (System.Exception ex)
+                {
+                    lsNoNhCodes.Add(ex.Message);
+                }
+            }
+
+
+            return lsNoNhCodes;
+        }
     }
 }
