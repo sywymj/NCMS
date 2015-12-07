@@ -257,7 +257,7 @@ namespace NCMS_Local
                                     ),
                                 Zyh = _item.Zyh,
                                 HosCode = string.Format("YP{0}", _item.HosCode),
-                                UseDate = _item.UseDate.Value.ToString("yyyy-MM-dd hh:mm:ss"),
+                                UseDate = _item.UseDate.Value.ToString("yyyy-MM-dd HH:mm:ss"),
                                 Price = _item.Price,
                                 Num = _item.Num,
                                 Fee = _item.Fee,
@@ -290,7 +290,7 @@ namespace NCMS_Local
                                 Cfh = string.Format("{0}{1:D3}", jzd.JZDH, item.XH),
                                 Zyh=jzd.ZYH,
                                 HosCode=string.Format("ZL{0}",item.SFXMDM),
-                                UseDate=jzd.RQ.ToString("yyyy-MM-dd hh:mm:ss"),
+                                UseDate=jzd.RQ.ToString("yyyy-MM-dd HH:mm:ss"),
                                 Price=item.JE/item.CS??1,
                                 Num=item.CS??1,
                                 Fee=item.JE,
@@ -330,6 +330,17 @@ namespace NCMS_Local
                 return lsNoNhCodes;
             }
             StringBuilder sb = null;
+            int hr = -1;
+
+            //sb = new StringBuilder(256);
+            //hr = NhLocalWrap.DeleteFeeList(
+            //    string.Format("{0}$${1}", _NhPersonInfo.OrganCode, _NhPersonInfo.AccountYear),
+            //                _NhPersonInfo.CoopMedCode,
+            //                _NhPersonInfo.AiIDNo,
+            //                int.Parse(_NhPersonInfo.DiagNo),
+            //                sb
+            //    );
+
             foreach (var feeItem in feeItems)
             {
                 try
@@ -344,7 +355,7 @@ namespace NCMS_Local
                     if (Direct || _nhcode!=null)
                     {
                         sb = new StringBuilder(256);
-                        int hr = NhLocalWrap.SaveFreeList(
+                        hr = NhLocalWrap.SaveFreeList(
                             string.Format("{0}$${1}", _NhPersonInfo.OrganCode, _NhPersonInfo.AccountYear),
                             _NhPersonInfo.CoopMedCode,
                             _NhPersonInfo.AiIDNo,
@@ -352,7 +363,7 @@ namespace NCMS_Local
                             null,
                             feeItem.HosCode,
                             //feeItem.UseDate,
-                            DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"),
+                            DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                             (double)feeItem.Price, (double)feeItem.Num, (double)feeItem.Fee,
                             null,
                             feeItem.OfficeName,
@@ -380,6 +391,18 @@ namespace NCMS_Local
                 }
             }
 
+            sb = new StringBuilder(256);
+            hr = NhLocalWrap.PreClearing(
+                            string.Format("{0}$${1}", _NhPersonInfo.OrganCode, _NhPersonInfo.AccountYear),
+                            _NhPersonInfo.CoopMedCode,
+                            _NhPersonInfo.AiIDNo,
+                            int.Parse(_NhPersonInfo.DiagNo),
+                            0, 100,
+                            DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                            DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                            "1",
+                            sb
+                            );
 
             return lsNoNhCodes;
         }

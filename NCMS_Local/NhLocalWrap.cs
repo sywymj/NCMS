@@ -91,5 +91,14 @@ namespace NCMS_Local
         [DllImport("LxClient.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
         public static extern int SaveFreeList([MarshalAs(UnmanagedType.LPStr)]string AsOrganID, [MarshalAs(UnmanagedType.LPStr)]string AsCoopMedCode, int AiIDNo, int AiDiagNo, [MarshalAs(UnmanagedType.LPStr)]string AsItemCode, [MarshalAs(UnmanagedType.LPStr)]string AsHosCode, [MarshalAs(UnmanagedType.LPStr)]string ADInputDate, double AfPrice, double AfNum, double AfFee, [MarshalAs(UnmanagedType.LPStr)]string AsUnit, [MarshalAs(UnmanagedType.LPStr)]string AsOfficeName, [MarshalAs(UnmanagedType.LPStr)]string AsDoctor, [MarshalAs(UnmanagedType.LPStr)]string AsCompound, [MarshalAs(UnmanagedType.LPStr)]StringBuilder dataBuf);
 
+        [DllImport("LxClient.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
+        public static extern int ProcessFeeList([MarshalAs(UnmanagedType.LPStr)]string AsOrganID, [MarshalAs(UnmanagedType.LPStr)]string AsCoopMedCode, int AiIDNo, int AiDiagNo,[MarshalAs(UnmanagedType.LPStr)]StringBuilder dataBuf);
+
+        [DllImport("LxClient.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
+        public static extern int PreClearing([MarshalAs(UnmanagedType.LPStr)]string AsOrganID, [MarshalAs(UnmanagedType.LPStr)]string AsCoopMedCode, int AiIDNo, int AiDiagNo, int APreClearFlag, int ADayCount, [MarshalAs(UnmanagedType.LPStr)]string AOutDate, [MarshalAs(UnmanagedType.LPStr)]string AJsDate, [MarshalAs(UnmanagedType.LPStr)]string AOutStatus, [MarshalAs(UnmanagedType.LPStr)]StringBuilder dataBuf);
+
+        [DllImport("LxClient.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
+        public static extern int DeleteFeeList([MarshalAs(UnmanagedType.LPStr)]string AsOrganID,[MarshalAs(UnmanagedType.LPStr)]string  AsCoopMedCode,int AiIDNo,int  AiDiagNo, [MarshalAs(UnmanagedType.LPStr)]StringBuilder dataBuf);
+
     }
 }

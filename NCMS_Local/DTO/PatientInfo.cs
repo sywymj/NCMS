@@ -20,7 +20,8 @@ namespace NCMS_Local.DTO
     {
         二级医院=2,
         低保五保二级医院=10,
-        产后并发症或合并症=13
+        产后并发症或合并症=13,
+        跨区域结算县级=63
     }
     public enum EnumNation
     {
@@ -218,6 +219,14 @@ namespace NCMS_Local.DTO
                         this.BirthDay = DateTime.Parse(oo.birthday);
                         this.PSN = oo.psn;
                         this.HisZybrlx = EnumRyLb.农村合作医疗病人;
+                        if (_nhInfo is HrGetZzinfo_zz)
+                        {
+                            this.NhZybxgs = EnumZybxGS.跨区域结算县级;
+                        }
+                        else
+                        {
+                            this.NhZybxgs = EnumZybxGS.二级医院;
+                        }
                     }
                 }
             }

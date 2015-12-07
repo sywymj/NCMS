@@ -1,4 +1,5 @@
-﻿using NCMS_Local.DTOUI;
+﻿using NCMS_Local;
+using NCMS_Local.DTOUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,11 @@ namespace NCMS_Win
         [STAThread]
         static void Main()
         {
+
+            //HisComponent hisComponent = new HisComponent();
+            //int hr = hisComponent.JzdToNhFeeListByZyh(45094);
+            //List<string> ls = (List<string>)hisComponent.ProcessFeeListByZyh(45094, false);
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());

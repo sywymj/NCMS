@@ -19,11 +19,8 @@ namespace NCMS_Local
             s = "hello world";
         }
         [Test]
-        [Path]
         public void InpatientRegister()
         {
-            
-
             HisComponent hisComponent = new HisComponent();
 
             PatientInfo pinfo = new PatientInfo();
