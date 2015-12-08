@@ -16,9 +16,14 @@ namespace NCMS_Win
         static void Main()
         {
 
-            //HisComponent hisComponent = new HisComponent();
-            //int hr = hisComponent.JzdToNhFeeListByZyh(45094);
-            //List<string> ls = (List<string>)hisComponent.ProcessFeeListByZyh(45094, false);
+            HisComponent hisComponent = new HisComponent();
+
+            //上传费用
+            int hr = hisComponent.JzdToNhFeeListByZyh(45094);
+            List<string> ls = (List<string>)hisComponent.ProcessFeeListByZyh(45094, true);
+
+            //清除所有费用；
+            //string hr = hisComponent.ClearAllUploadedFeeByZyh(45094);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

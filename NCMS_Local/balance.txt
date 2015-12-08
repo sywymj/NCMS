@@ -1,0 +1,253 @@
+SELECT YS, YCY, YCYRQ FROM RY WHERE RYH=45384
+
+go
+SELECT S_VALUE FROM SYSCONFIG WHERE NAME='ALLOW_INHOS_OUT'
+
+go
+SELECT HJDH FROM HJD WHERE RYH=45384 AND FYDJH IS NOT NULL AND ZT=0 AND ZF=0
+
+go
+select jklxmc from zyjklx
+
+go
+select S_value from sysconfig where Name='ZYSF_XSEFY_INCLUDE'
+
+go
+记床位费
+exec 住院收费_记单个病人床位费 45384
+            
+go
+获取费用一级科目代码
+exec sp_GetInHosSumFee @Zyh=45384, @LSH='%'
+
+go
+select BRXM from zybr WHERE zyh=45384
+
+查询是否有未发药单据
+go
+select a.jzdh,a.rq,a.je,a.hjdh,a.zyh,kdks=c.bmmc,zxks=d.bmmc,
+	czy=e.zgxm,ys=f.zgxm
+from jzd a join hjd b on a.hjdh=b.hjdh
+	join bm c on a.kdks=c.bmdm
+	join bm d on a.zxks=d.bmdm
+	join zg e on a.czy=e.zgdm
+	left join zg f on a.ys=f.zgdm
+
+where a.zyh='45384' and a.hjdh is not null and b.fyrq is null 
+   and b.zf<>1
+
+go
+select top 1 bqye from cyfp where zyh=45384 and cyxh is null order by rq desc, ztjz_zzrq desc, cyfph desc
+
+go
+获取zje,yszje,yjk,xsejzje,xsecwf
+exec sp_GetInHosSumFee_List '45384'
+
+go
+select ybbx=sum(tczf),zhzf=sum(grzhzf) from ybbxjl where zyh=45384 and cyxh is null
+
+go
+select S_VALUE from sysconfig where name='Forbid_OutHos'
+
+go
+//查询是否有划价单已作废，记账单未作废的单据
+select jzdh from jzd where jzdh in (select jzdh from hjd where zf=1) and zyh=45384 and zf=0
+
+go
+select s_value from sysconfig where name='ZYSF_NOCY_DYHJJE'
+
+go
+select ksdm from ry where zyh=45384
+
+go
+SELECT GETDATE()
+
+go
+SELECT ZYH FROM RY WHERE ZYH=45384 AND CYRQ IS NOT NULL
+
+go
+select YBBM, RegID, Flag, HZ_REG from ry where zyh=45384
+
+go
+BEGIN TRAN 
+go
+SELECT S_VALUE FROM dbo.SYSCONFIG WHERE NAME='CWJG_BILLMANAGE_OPTION'
+
+go
+SELECT SJH=ISNULL(MAX(CYFPH),1) FROM CYFP WHERE CYFPH>0 AND CZY=74
+
+go
+SELECT KSDJH,JSDJH FROM DQDJH WHERE DJLXDM=4 AND CZY=74
+
+go
+SELECT * FROM CYFP WHERE CYFPH=30001
+
+go
+SELECT KSDJH,JSDJH FROM DQDJH WHERE DJLXDM=4 AND CZY=74
+
+go
+SELECT KSDJH, JSDJH FROM BYDJH WHERE DJLXDM=4 AND CZY=74
+
+go
+select isnull(max(cyxh),0)+1 from cy
+
+go
+INSERT INTO CY(CYXH, ZYH, CYFPH, KSDM, CYRQ, HJJE, HJJE_YS,  YJJE, BJJE, QFJE, QF, BXJE, QFLBMC, CZY, FKFS, JSDW, ZF, JBSJ) VALUES(12318, 45384, 30001, 42, '2015-12-08 15:50:24', 3402.16, 3402.16, 3500, -97.84, 0, 0, 0, NULL, 74, '现金', '', 0, GetDate())
+  
+go
+INSERT INTO CYFP(CYFPH, CYXH, RQ, JSDW, HJJE, HJJE_YS, YJJE, BJJE, CZY, BXJE, ZYH, SQYE, ZF) SELECT CYFPH, CYXH, CYRQ,'', HJJE, HJJE_YS, YJJE, BJJE, CZY, BXJE, ZYH, 0, 0 FROM CY WHERE CYXH = 12318
+
+go
+INSERT INTO CYFPMX(CYFPH, XH, YJKMDM, JE, YSJE) VALUES(30001, 1, 15, 97.3, 97.3)
+
+go
+INSERT INTO CYFPMX(CYFPH, XH, YJKMDM, JE, YSJE) VALUES(30001, 2, 4, 60, 60)
+
+go
+INSERT INTO CYFPMX(CYFPH, XH, YJKMDM, JE, YSJE) VALUES(30001, 3, 11, 57, 57)
+
+go
+INSERT INTO CYFPMX(CYFPH, XH, YJKMDM, JE, YSJE) VALUES(30001, 4, 9, 63, 63)
+
+go
+INSERT INTO CYFPMX(CYFPH, XH, YJKMDM, JE, YSJE) VALUES(30001, 5, 5, 74, 74)
+
+go
+INSERT INTO CYFPMX(CYFPH, XH, YJKMDM, JE, YSJE) VALUES(30001, 6, 14, 464, 464)
+
+go
+INSERT INTO CYFPMX(CYFPH, XH, YJKMDM, JE, YSJE) VALUES(30001, 7, 13, 11.5, 11.5)
+
+go
+INSERT INTO CYFPMX(CYFPH, XH, YJKMDM, JE, YSJE) VALUES(30001, 8, 8, 1167, 1167)
+
+go
+INSERT INTO CYFPMX(CYFPH, XH, YJKMDM, JE, YSJE) VALUES(30001, 9, 1, 432.86, 432.86)
+
+go
+INSERT INTO CYFPMX(CYFPH, XH, YJKMDM, JE, YSJE) VALUES(30001, 10, 10, 40, 40)
+
+go
+INSERT INTO CYFPMX(CYFPH, XH, YJKMDM, JE, YSJE) VALUES(30001, 11, 6, 935.5, 935.5)
+
+go
+UPDATE RY SET ZT=1, JBSJ=b.JBSJ, CYRQ=b.CYRQ, CYBJJE =-a.YE, YE=0 FROM RY a JOIN CY b ON a.ZYH = b.ZYH WHERE b.CYXH=12318
+
+go
+update zybr_child set cyrq='2015-12-08 15:50:24' where zyh=45384
+
+go
+UPDATE BC SET ZYH=NULL,FCRQ=NULL, FYJSRQ=NULL WHERE ZYH=45384
+
+go
+UPDATE BCSYJL SET JSRQ=b.CYRQ, BS=2 FROM BCSYJL a JOIN RY b ON a.ZYH = b.ZYH WHERE b.ZYH=45384 AND a.JSRQ IS NULL
+
+go
+UPDATE AssBanding SET STATE=0 WHERE ZYH=45384
+
+go
+SELECT S_VALUE FROM dbo.SYSCONFIG WHERE NAME='CWJG_BILLMANAGE_OPTION'
+
+go
+COMMIT TRAN 
+go
+select YBBM, RegID, Flag, HZ_REG from ry where zyh=45384
+
+go
+select PatientID from ry where zyh = 45384 
+
+go
+exec sp_executesql N'INSERT INTO lumigent..leAuditCollectEventData(eventtime, eventclass, alerttypeid, eventsubclass, starttime, endtime, textdata, success, clienthostname, applicationname, ntusername, ntdomainname, sqlsecurityloginname, spid, databaseid, databasename, objectid, objecttype, objectname, objectowner, permissions, targetrolename, targetloginname, targetusername) VALUES(@P1, @P2, @P3, @P4, @P5, @P6, @P7, @P8, @P9, @P10, @P11, @P12, @P13, @P14, @P15, @P16, @P17, @P18, @P19, @P20, @P21, @P22, @P23, @P24)', N'@P1 datetime,@P2 int,@P3 int,@P4 int,@P5 datetime,@P6 datetime,@P7 ntext,@P8 int,@P9 nvarchar(128),@P10 nvarchar(128),@P11 nvarchar(128),@P12 nvarchar(128),@P13 nvarchar(128),@P14 int,@P15 int,@P16 nvarchar(128),@P17 int,@P18 int,@P19 nvarchar(128),@P20 nvarchar(128),@P21 int,@P22 nvarchar(128),@P23 nvarchar(128),@P24 nvarchar(128)', '12  8 2015  3:50:43:357PM', 14, 1001, NULL, '12  8 2015  3:50:43:357PM', NULL, NULL, 1, N'20120718-1726', NULL, NULL, NULL, N'cbsoft', 59, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+go
+SET NO_BROWSETABLE ON
+go
+declare @P1 int
+set @P1=1
+exec sp_prepare @P1 output, NULL, N'SELECT * FROM SYSCONFIG WHERE NAME=''PRINT_MZFP_KM''
+', 1
+select @P1
+go
+exec sp_unprepare 1
+go
+SELECT * FROM SYSCONFIG WHERE NAME='PRINT_MZFP_KM'
+
+go
+declare @P1 int
+set @P1=2
+exec sp_prepare @P1 output, NULL, N'SELECT * FROM SYSCONFIG WHERE NAME=''PRINT_MZFP_KM1''
+', 1
+select @P1
+go
+exec sp_unprepare 2
+go
+SELECT * FROM SYSCONFIG WHERE NAME='PRINT_MZFP_KM1'
+
+go
+declare @P1 int
+set @P1=3
+exec sp_prepare @P1 output, NULL, N'SELECT * FROM SYSCONFIG WHERE NAME=''PRINT_MZFP_LIST''
+', 1
+select @P1
+go
+exec sp_unprepare 3
+go
+SELECT * FROM SYSCONFIG WHERE NAME='PRINT_MZFP_LIST'
+
+go
+declare @P1 int
+set @P1=4
+exec sp_prepare @P1 output, NULL, N'SELECT * FROM SYSCONFIG WHERE NAME=''PRINT_CYFP_KM1''
+', 1
+select @P1
+go
+exec sp_unprepare 4
+go
+SELECT * FROM SYSCONFIG WHERE NAME='PRINT_CYFP_KM1'
+
+go
+declare @P1 int
+set @P1=5
+exec sp_prepare @P1 output, NULL, N'SELECT * FROM SYSCONFIG WHERE NAME=''PRINT_CYFP_LIST''
+', 1
+select @P1
+go
+exec sp_unprepare 5
+go
+SELECT * FROM SYSCONFIG WHERE NAME='PRINT_CYFP_LIST'
+
+go
+declare @P1 int
+set @P1=6
+exec sp_prepare @P1 output, NULL, N'SELECT S_VALUE FROM SYSCONFIG WHERE NAME=''MZSF_IF_FKDP''
+', 1
+select @P1
+go
+exec sp_unprepare 6
+go
+SELECT S_VALUE FROM SYSCONFIG WHERE NAME='MZSF_IF_FKDP'
+
+go
+declare @P1 int
+set @P1=7
+exec sp_prepare @P1 output, NULL, N'SELECT S_VALUE FROM SYSCONFIG WHERE NAME=''HOSPITAL_ID''
+', 1
+select @P1
+go
+exec sp_unprepare 7
+go
+SELECT S_VALUE FROM SYSCONFIG WHERE NAME='HOSPITAL_ID'
+
+go
+declare @P1 int
+set @P1=8
+exec sp_prepare @P1 output, NULL, N'EXEC 票据打印_出院发票明细_一级科目_1 30001
+', 1
+select @P1
+go
+SET FMTONLY ON exec sp_execute 8 SET FMTONLY OFF
+go
+exec sp_unprepare 8
+go
+EXEC 票据打印_出院发票明细_一级科目_1 30001
+
+go

@@ -1,0 +1,113 @@
+select cyxh, CZy from cy where zyh=45384 and zf=0 ORDER BY CYXH DESC
+
+go
+SELECT S_VALUE FROM SYSCONFIG WHERE NAME='CANCELATION_CYFP_CZY'
+
+go
+select cyfph, zyjz from cyfp where cyxh=12318 and LSH IS NULL
+
+go
+SELECT S_VALUE FROM SYSCONFIG WHERE NAME='allow_Cancel_OutBalance'
+
+go
+SELECT GETDATE()
+
+go
+select * from ry where zyh=45384
+
+go
+select * from ry where zyh=45384
+
+go
+BEGIN TRAN 
+go
+insert into cy(cyxh,zyh,cyfph,ksdm,cyrq,hjje,hjje_ys,yjje,bjje,qfje,qf,zfczy,bxje, qflbmc,czy,zfrq, fkfs,jsdw, JBSJ, ChildHJJE) select -cyxh,zyh,cyfph=(case when cyfph is null then null else -cyfph end),ksdm,'2015-12-08 15:52:26.700',-hjje,-hjje_ys,-yjje,-bjje,-qfje,qf,74,-bxje,qflbmc,74,'2015-12-08 15:52:26.700',fkfs,jsdw, GetDate(), -ChildHJJE from cy where cyxh=12318
+
+go
+insert into cyfp(cyfph,cyxh,rq,jsdw,hjje,hjje_ys,yjje,bjje,czy,bxje,zyh,SQYE, LSH, MotherCYFPH, ChildHJJE) select -cyfph,-cyxh,'2015-12-08 15:52:26.700',jsdw,-hjje,-hjje_ys,-yjje,-bjje,74,-bxje,zyh,-SQYE, LSH, -MotherCYFPH, -ChildHJJE from cyfp where cyxh=12318and zf=0
+
+go
+insert into cyfpmx(cyfph,xh,yjkmdm,je, ysje, MotherCYFPH) select -cyfph,xh,yjkmdm,-je, -ysje, -MotherCYFPH from cyfpmx where cyfph in(select cyfph from cyfp where cyxh=12318 and zf=0)
+
+go
+update cyfp set zf=1,zfczy=74 where abs(cyfph) in (select cyfph from cyfp where cyxh=12318 and zf=0)
+
+go
+update cy set zf=1,zfczy=74 where abs(cyxh)=12318
+
+go
+update ry set cyrq=null,jbsj = null,zt=0,ye=-cybjje,cybjje=0 where zyh=45384
+
+go
+update AssBanding set state=1 where zyh=45384
+
+go
+update zybr_child set cyrq=null where zyh=45384
+
+go
+SELECT S_VALUE FROM dbo.SYSCONFIG WHERE NAME='CWJG_BILLMANAGE_OPTION'
+
+go
+COMMIT TRAN 
+go
+select sum(jzzje) As jzzje, sum(cwfzje) As cwfzje from zybr_childFee where zyh=45384
+
+go
+SELECT HZ_HZZH, HZ_REG FROM RY WHERE ZYH=45384
+
+go
+SELECT * FROM v_zybrInfo where zyh=45384
+
+go
+SELECT sum(tczf) as tczf, sum(grzhzf) as grzhzf, sum(xjzf) as xjzf from ybbxjl where zyh=45384
+
+go
+select ryh from ry where ycy=1 and zyh=45384
+
+go
+SELECT BCH FROM BC WHERE ZYH=45384
+
+go
+select ryh,mzzd_icd,mzzd,ryzd_icd,ryzd,cyzyzd_icd,cyzyzd,cyzyzd_lx,mzzd_ys  from basy where ryh=45384
+
+go
+select * from cyzd where zyh='45384'
+
+go
+select ryh from ry where zyh=45384 and zt<>0
+
+go
+SELECT PatientID FROM RY WHERE ZYH=45384
+
+go
+SELECT ICCardNO FROM patientreg WHERE PatientID=0
+
+go
+SELECT jkje= isnull(sum(je),0) FROM zyjk WHERE ztjz_cyfph is null and ZYH=45384
+
+go
+SELECT hjje= isnull(sum(hjje),0) FROM CYFP WHERE CYXH is null and ZYH=45384
+
+go
+select GetDate()
+
+go
+select dbo.getTsByZyh(45384,'2015-12-08 15:52:28')
+
+go
+select ryh from ry where ycy=1 and zyh=45384
+
+go
+select b.bmmc,a.bch,a.fjh,a.fcrq,c.bcdjmc,c.rcwf
+
+from bc a join bm b on a.bmdm=b.bmdm
+	join bcdj c on a.bcdjdm=c.bcdjdm
+where a.zyh='45384'
+
+go
+select cyrq, zt, ksdm from ry where zyh=45384
+
+go
+select zgdm from czfjqx where zgdm=74 and czfw=42 and mkdm=5
+
+go

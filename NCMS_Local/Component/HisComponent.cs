@@ -5,6 +5,7 @@ using System.Text;
 using NCMS_Local.LTSQL;
 using NCMS_Local.DTO;
 using NCMS_Local.NHFUN;
+using System.Data;
 
 namespace NCMS_Local
 {
@@ -169,7 +170,7 @@ namespace NCMS_Local
             nhPerson.AiIDNo = pInfo.NhInfo.aiIDNo;
             nhPerson.IllCode = pInfo.oRyIll.IllCode;
             nhPerson.IllName = pInfo.oRyIll.IllDesc;
-            nhPerson.InDate = (pInfo.Ryrq ?? DateTime.Now).ToString("yyyy-MM-dd hh:mm:ss");
+            nhPerson.InDate = (pInfo.Ryrq ?? DateTime.Now).ToString("yyyy-MM-dd HH:mm:ss");
             nhPerson.AdLimitDef = GSettings.AdLimitDef;
             nhPerson.DoctorName = string.Format("{0}", pInfo.oZyDoctor.zgmc);
             nhPerson.PatientID = string.Format("{0}@@{1}@@{0}@@{2}",pInfo.HisZyh,pInfo.oZyDoctor.bm.bmdm,GSettings.OperatorName);
@@ -317,13 +318,80 @@ namespace NCMS_Local
             return error;
         }
 
+        public WyNhRegister GetNhPersonInfoByZyh(int zyh)
+        {
+            try
+            {
+                DCCbhisDataContext hisDb = new DCCbhisDataContext(GSettings.HisConnStr);
+                DCNhDataContext nhDb = new DCNhDataContext(GSettings.NhConnStr);
+                var feeItems = from _f in hisDb.WyNhFeeList where _f.Zyh == zyh && _f.FeeNo == null select _f;
+                var _NhPersonInfo = (from _f in hisDb.WyNhRegister where _f.Zyh == zyh && _f.IsFail == (byte)0 select _f).FirstOrDefault();
+                return _NhPersonInfo;
+            }
+            catch (System.Exception ex)
+            {
+                return null;
+            }
+        }
+        public string ClearAllUploadedFeeByZyh(int zyh)
+        {
+            string hr = string.Empty;
+            StringBuilder sb = null;
+            int iHr = 0;
+
+
+            System.Data.SqlClient.SqlConnection conn=new System.Data.SqlClient.SqlConnection(GSettings.HisConnStr);
+            DCCbhisDataContext hisDb = new DCCbhisDataContext(conn);
+            System.Data.SqlClient.SqlTransaction trans=null;
+            try
+            {
+                var _NhPersonInfo = GetNhPersonInfoByZyh(zyh);
+                if (_NhPersonInfo == null)
+                {
+                    throw new Exception("获取农合患者信息错误！");
+                }
+                sb = new StringBuilder(256);
+                iHr = NhLocalWrap.DeleteFeeList(
+                    string.Format("{0}$${1}", _NhPersonInfo.OrganCode, _NhPersonInfo.AccountYear),
+                                _NhPersonInfo.CoopMedCode,
+                                _NhPersonInfo.AiIDNo,
+                                int.Parse(_NhPersonInfo.DiagNo),
+                                sb
+                    );
+                if (iHr<0)
+                {
+                    throw new Exception(sb.ToString());
+                }
+                conn.Open();
+                trans = conn.BeginTransaction();
+                hisDb.Transaction = trans;
+                hisDb.ExecuteCommand("delete from wynhfeelist where zyh={0}", zyh);
+                hisDb.ExecuteCommand("update jzd set sb_upload=0 where zyh={0}", zyh);
+
+                trans.Commit();
+            }
+            catch (System.Exception ex)
+            {
+                if (trans!=null)
+                {
+                    trans.Rollback();
+                }
+                hr = ex.Message;
+            }
+            finally{
+                conn.Close();
+            }
+            return hr;
+        }
+
+
         public IEnumerable<string> ProcessFeeListByZyh(int zyh,bool Direct)
         {
             List<string> lsNoNhCodes = new List<string>();
             DCCbhisDataContext hisDb = new DCCbhisDataContext(GSettings.HisConnStr);
             DCNhDataContext nhDb = new DCNhDataContext(GSettings.NhConnStr);
-            var feeItems = from _f in hisDb.WyNhFeeList where _f.Zyh == zyh && _f.FeeNo == null select _f;
-            var _NhPersonInfo=(from _f in hisDb.WyNhRegister where _f.Zyh==zyh && _f.IsFail==(byte)0 select _f).FirstOrDefault();
+
+            var _NhPersonInfo = GetNhPersonInfoByZyh(zyh);
             if (_NhPersonInfo==null)
             {
                 lsNoNhCodes.Add(" 未找到患者有效的农合入院登记信息");
@@ -332,22 +400,15 @@ namespace NCMS_Local
             StringBuilder sb = null;
             int hr = -1;
 
-            //sb = new StringBuilder(256);
-            //hr = NhLocalWrap.DeleteFeeList(
-            //    string.Format("{0}$${1}", _NhPersonInfo.OrganCode, _NhPersonInfo.AccountYear),
-            //                _NhPersonInfo.CoopMedCode,
-            //                _NhPersonInfo.AiIDNo,
-            //                int.Parse(_NhPersonInfo.DiagNo),
-            //                sb
-            //    );
+            var feeItems = from _f in hisDb.WyNhFeeList where _f.Zyh == zyh && _f.FeeNo == null select _f;
 
             foreach (var feeItem in feeItems)
             {
                 try
                 {
-                    //var _nhcode=(from _f in nhDb.P_HiHosItem where _f.HosCode==feeItem.HosCode && _f.OrganId==_NhPersonInfo.OrganCode && _f.ztyear==_NhPersonInfo.AccountYear select _f).FirstOrDefault();
+                    var _nhcode = (from _f in nhDb.P_HiHosItem where _f.HosCode == feeItem.HosCode && _f.OrganId == _NhPersonInfo.OrganCode && _f.ztyear == _NhPersonInfo.AccountYear select _f).FirstOrDefault();
 
-                    var _nhcode = (from _f in nhDb.P_HiHosItem where _f.HosCode == feeItem.HosCode && _f.OrganId =="420302" && _f.ztyear == _NhPersonInfo.AccountYear select _f).FirstOrDefault();
+                    //var _nhcode = (from _f in nhDb.P_HiHosItem where _f.HosCode == feeItem.HosCode && _f.OrganId =="420302" && _f.ztyear == _NhPersonInfo.AccountYear select _f).FirstOrDefault();
                     if (_nhcode==null)
                     {
                         lsNoNhCodes.Add(string.Format(@"{0}农合项目编码为空",  feeItem.HosCode));
@@ -397,7 +458,7 @@ namespace NCMS_Local
                             _NhPersonInfo.CoopMedCode,
                             _NhPersonInfo.AiIDNo,
                             int.Parse(_NhPersonInfo.DiagNo),
-                            0, 100,
+                            0, 2,
                             DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                             DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                             "1",
