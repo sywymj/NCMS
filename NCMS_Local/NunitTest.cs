@@ -24,11 +24,13 @@ namespace NCMS_Local
             HisComponent hisComponent = new HisComponent();
             try
             {
-                
-                int hr=hisComponent.JzdToNhFeeListByZyh(45094);
-                Assert.AreEqual(0, hr);
-                List<string> ls = (List<string>)hisComponent.ProcessFeeListByZyh(45094,true);
-                Assert.AreEqual(0,ls.Count);
+                string hr=hisComponent.HisBalance(45384);
+
+   
+                //int hr=hisComponent.JzdToNhFeeListByZyh(45094);
+                //Assert.AreEqual(0, hr);
+                //List<string> ls = (List<string>)hisComponent.ProcessFeeListByZyh(45094,true);
+                //Assert.AreEqual(0,ls.Count);
             }
             catch (System.Exception ex)
             {

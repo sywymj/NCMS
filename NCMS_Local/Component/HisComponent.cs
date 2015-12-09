@@ -467,5 +467,34 @@ namespace NCMS_Local
 
             return lsNoNhCodes;
         }
+
+        public string HisBalance(int zyh)
+        {
+            string hr = string.Empty;
+            DCCbhisDataContext hisDb = new DCCbhisDataContext(GSettings.HisConnStr);
+            try
+            {
+                //记床位费;
+                hisDb.ExecuteCommand("exec 住院收费_记单个病人床位费 {0}", zyh);
+                //查询已记账未发药的单据
+                var noPutHjds = hisDb.ExecuteQuery<string>(@"select a.hjdh from jzd a join hjd b on a.hjdh=b.hjdh join bm c on a.kdks=c.bmdm	join bm d on a.zxks=d.bmdm	join zg e on a.czy=e.zgdm	left join zg f on a.ys=f.zgdm where a.zyh='{0}' and a.hjdh is not null and b.fyrq is null and b.zf<>1", zyh).ToArray();
+                if (noPutHjds!=null)
+                {
+                    throw new Exception(string.Format(@"划价单：{0} 已记账未发药！", string.Join(",", noPutHjds)));
+                }
+
+                //查询划价单已作废，记账单未作废的单据
+                var noDelInvoidJzds = hisDb.ExecuteQuery<string>(@"select jzdh from jzd where jzdh in (select jzdh from hjd where zf=1) and zyh={0} and zf=0",zyh).ToArray();
+                if (noDelInvoidJzds!=null)
+                {
+                    throw new Exception(string.Format(@"划价单：{0} 已记账未发药！", string.Join(",", noDelInvoidJzds)));
+                }
+            }
+            catch (System.Exception ex)
+            {
+                hr = ex.Message;
+            }
+            return hr;
+        }
     }
 }
