@@ -47,9 +47,10 @@
       <Column Name="BZ" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
       <Column Name="DZ" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
       <Column Name="WBM" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Association Name="ZG_JZD" Member="JZD" ThisKey="ZGDM" OtherKey="YS" Type="JZD" />
       <Association Name="ZG_HJD" Member="HJD" ThisKey="ZGDM" OtherKey="HJCZY" Type="HJD" />
       <Association Name="ZG_HJD1" Member="HJD1" ThisKey="ZGDM" OtherKey="YS" Type="HJD" />
-      <Association Name="ZG_JZD" Member="JZD" ThisKey="ZGDM" OtherKey="YS" Type="JZD" />
+      <Association Name="ZG_DQDJH" Member="DQDJH" ThisKey="ZGDM" OtherKey="CZY" Type="DQDJH" />
       <Association Name="BM_ZG" Member="BM" ThisKey="BMDM" OtherKey="BMDM" Type="BM" IsForeignKey="true" />
     </Type>
   </Table>
@@ -77,6 +78,7 @@
       <Association Name="ZYBR_WyNhRegister" Member="WyNhRegister" ThisKey="ZYH" OtherKey="Zyh" Type="WyNhRegister" />
       <Association Name="ZYBR_WyNhFeeList" Member="WyNhFeeList" ThisKey="ZYH" OtherKey="Zyh" Type="WyNhFeeList" />
       <Association Name="ZYBR_JZD" Member="JZD" ThisKey="ZYH" OtherKey="ZYH" Type="JZD" />
+      <Association Name="ZYBR_CY" Member="CY" ThisKey="ZYH" OtherKey="ZYH" Type="CY" />
     </Type>
   </Table>
   <Table Name="dbo.RY" Member="RY">
@@ -444,6 +446,84 @@
       <Column Name="MT_CLBZ" Type="System.Decimal" DbType="Money" CanBeNull="true" />
       <Association Name="YPGG_HJDMX" Member="HJDMX" ThisKey="YPGGDM" OtherKey="YPGGDM" Type="HJDMX" />
       <Association Name="YP_YPGG" Member="YP" ThisKey="YPDM" OtherKey="YPDM" Type="YP" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CY" Member="CY">
+    <Type Name="CY">
+      <Column Name="CYXH" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ZYH" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CYFPH" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ksdm" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="CYRQ" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="HJJE" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
+      <Column Name="YJJE" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
+      <Column Name="BJJE" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
+      <Column Name="QFJE" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
+      <Column Name="QF" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="ZF" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="ZFCZY" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="BXJE" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
+      <Column Name="QFLBMC" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="czy" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="zfrq" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="HJJE_YS" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="fkfs" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="jsdw" Type="System.String" DbType="VarChar(60)" CanBeNull="true" />
+      <Column Name="jbsj" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ChildHJJE" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Association Name="CY_CYFP" Member="CYFP" ThisKey="CYXH" OtherKey="CYXH" Type="CYFP" />
+      <Association Name="ZYBR_CY" Member="ZYBR" ThisKey="ZYH" OtherKey="ZYH" Type="ZYBR" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CYFP" Member="CYFP">
+    <Type Name="CYFP">
+      <Column Name="CYFPH" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CYXH" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RQ" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="JSDW" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="HJJE" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="YJJE" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="BJJE" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="ZF" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="CZY" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="ZYJZ" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CZJZ" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="BXJE" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="ZYH" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SQYE" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="ZTJZ_QSRQ" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ZTJZ_ZZRQ" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="zfczy" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="BQYE" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="HJJE_YS" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="lsh" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="MotherCYFPH" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ChildHJJE" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Association Name="CYFP_CYFPMX" Member="CYFPMX" ThisKey="CYFPH" OtherKey="CYFPH" Type="CYFPMX" />
+      <Association Name="CY_CYFP" Member="CY" ThisKey="CYXH" OtherKey="CYXH" Type="CY" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CYFPMX" Member="CYFPMX">
+    <Type Name="CYFPMX">
+      <Column Name="CYFPH" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="XH" Type="System.Int16" DbType="SmallInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="YJKMDM" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="JE" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
+      <Column Name="YSJE" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="MotherCYFPH" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="CYFP_CYFPMX" Member="CYFP" ThisKey="CYFPH" OtherKey="CYFPH" Type="CYFP" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DQDJH" Member="DQDJH">
+    <Type Name="DQDJH">
+      <Column Name="XH" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DJLXDM" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="CZY" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="CZYXM" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="KSDJH" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="JSDJH" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DQDJH" Member="DQDJH1" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="ZG_DQDJH" Member="ZG" ThisKey="CZY" OtherKey="ZGDM" Type="ZG" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

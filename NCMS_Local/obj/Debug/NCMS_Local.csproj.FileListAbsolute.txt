@@ -8,14 +8,6 @@ d:\用户目录\我的文档\visual studio 2012\Projects\NCMS_Local\obj\Debug\NC
 d:\用户目录\我的文档\visual studio 2012\Projects\NCMS_Local\obj\Debug\NCMS_Local.UI.FormInpatient.resources
 d:\用户目录\我的文档\visual studio 2012\Projects\NCMS_Local\obj\Debug\NCMS_Local.csproj.GenerateResource.Cache
 d:\用户目录\我的文档\visual studio 2012\Projects\NCMS_Local\bin\Debug\NCMS_Local.dll.config
-F:\NCMS\NCMS_Local\bin\Debug\NCMS_Local.dll.config
-F:\NCMS\NCMS_Local\bin\Debug\NCMS_Local.dll
-F:\NCMS\NCMS_Local\bin\Debug\NCMS_Local.pdb
-F:\NCMS\NCMS_Local\obj\Debug\NCMS_Local.csprojResolveAssemblyReference.cache
-F:\NCMS\NCMS_Local\obj\Debug\NCMS_Local.UI.FormInpatient.resources
-F:\NCMS\NCMS_Local\obj\Debug\NCMS_Local.csproj.GenerateResource.Cache
-F:\NCMS\NCMS_Local\obj\Debug\NCMS_Local.dll
-F:\NCMS\NCMS_Local\obj\Debug\NCMS_Local.pdb
 E:\NCMS\NCMS\NCMS_Local\obj\Debug\NCMS_Local.csprojResolveAssemblyReference.cache
 E:\NCMS\NCMS\NCMS_Local\obj\Debug\NCMS_Local.UI.FormInpatient.resources
 E:\NCMS\NCMS\NCMS_Local\obj\Debug\NCMS_Local.csproj.GenerateResource.Cache
@@ -31,6 +23,14 @@ E:\NCMS\NCMS\NCMS_Local\bin\Debug\nunit.framework.xml
 E:\NCMS\NCMS\NCMS_Local\obj\Debug\NCMS_Local.DTOUI.DUIDoctorSel.resources
 E:\NCMS\NCMS\NCMS_Local\obj\Debug\NCMS_Local.DTOUI.DUIIllSel.resources
 E:\NCMS\NCMS\NCMS_Local\obj\Debug\NCMS_Local.DTOUI.DTOUINhInfoReader.resources
+F:\NCMS\NCMS_Local\bin\Debug\NCMS_Local.dll.config
+F:\NCMS\NCMS_Local\bin\Debug\NCMS_Local.dll
+F:\NCMS\NCMS_Local\bin\Debug\NCMS_Local.pdb
+F:\NCMS\NCMS_Local\obj\Debug\NCMS_Local.csprojResolveAssemblyReference.cache
 F:\NCMS\NCMS_Local\obj\Debug\NCMS_Local.DTOUI.DTOUINhInfoReader.resources
 F:\NCMS\NCMS_Local\obj\Debug\NCMS_Local.DTOUI.DUIDoctorSel.resources
 F:\NCMS\NCMS_Local\obj\Debug\NCMS_Local.DTOUI.DUIIllSel.resources
+F:\NCMS\NCMS_Local\obj\Debug\NCMS_Local.UI.FormInpatient.resources
+F:\NCMS\NCMS_Local\obj\Debug\NCMS_Local.csproj.GenerateResource.Cache
+F:\NCMS\NCMS_Local\obj\Debug\NCMS_Local.dll
+F:\NCMS\NCMS_Local\obj\Debug\NCMS_Local.pdb

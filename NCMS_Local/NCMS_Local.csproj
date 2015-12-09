@@ -87,6 +87,7 @@
       <DependentUpon>DUIIllSel.cs</DependentUpon>
     </Compile>
     <Compile Include="DTO\DTOConvert.cs" />
+    <Compile Include="DTO\ParamBalance.cs" />
     <Compile Include="DTO\PatientInfo.cs" />
     <Compile Include="Component\HisComponent.cs" />
     <Compile Include="GOperator.cs" />

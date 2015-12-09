@@ -75,6 +75,18 @@ namespace NCMS_Local.LTSQL
     partial void InsertYPGG(YPGG instance);
     partial void UpdateYPGG(YPGG instance);
     partial void DeleteYPGG(YPGG instance);
+    partial void InsertCY(CY instance);
+    partial void UpdateCY(CY instance);
+    partial void DeleteCY(CY instance);
+    partial void InsertCYFP(CYFP instance);
+    partial void UpdateCYFP(CYFP instance);
+    partial void DeleteCYFP(CYFP instance);
+    partial void InsertCYFPMX(CYFPMX instance);
+    partial void UpdateCYFPMX(CYFPMX instance);
+    partial void DeleteCYFPMX(CYFPMX instance);
+    partial void InsertDQDJH(DQDJH instance);
+    partial void UpdateDQDJH(DQDJH instance);
+    partial void DeleteDQDJH(DQDJH instance);
     #endregion
 		
 		public DCCbhisDataContext() : 
@@ -224,6 +236,38 @@ namespace NCMS_Local.LTSQL
 			get
 			{
 				return this.GetTable<YPGG>();
+			}
+		}
+		
+		public System.Data.Linq.Table<CY> CY
+		{
+			get
+			{
+				return this.GetTable<CY>();
+			}
+		}
+		
+		public System.Data.Linq.Table<CYFP> CYFP
+		{
+			get
+			{
+				return this.GetTable<CYFP>();
+			}
+		}
+		
+		public System.Data.Linq.Table<CYFPMX> CYFPMX
+		{
+			get
+			{
+				return this.GetTable<CYFPMX>();
+			}
+		}
+		
+		public System.Data.Linq.Table<DQDJH> DQDJH
+		{
+			get
+			{
+				return this.GetTable<DQDJH>();
 			}
 		}
 	}
@@ -784,11 +828,13 @@ namespace NCMS_Local.LTSQL
 		
 		private string _WBM;
 		
+		private EntitySet<JZD> _JZD;
+		
 		private EntitySet<HJD> _HJD;
 		
 		private EntitySet<HJD> _HJD1;
 		
-		private EntitySet<JZD> _JZD;
+		private EntitySet<DQDJH> _DQDJH;
 		
 		private EntityRef<BM> _BM;
 		
@@ -844,9 +890,10 @@ namespace NCMS_Local.LTSQL
 		
 		public ZG()
 		{
+			this._JZD = new EntitySet<JZD>(new Action<JZD>(this.attach_JZD), new Action<JZD>(this.detach_JZD));
 			this._HJD = new EntitySet<HJD>(new Action<HJD>(this.attach_HJD), new Action<HJD>(this.detach_HJD));
 			this._HJD1 = new EntitySet<HJD>(new Action<HJD>(this.attach_HJD1), new Action<HJD>(this.detach_HJD1));
-			this._JZD = new EntitySet<JZD>(new Action<JZD>(this.attach_JZD), new Action<JZD>(this.detach_JZD));
+			this._DQDJH = new EntitySet<DQDJH>(new Action<DQDJH>(this.attach_DQDJH), new Action<DQDJH>(this.detach_DQDJH));
 			this._BM = default(EntityRef<BM>);
 			OnCreated();
 		}
@@ -1295,6 +1342,19 @@ namespace NCMS_Local.LTSQL
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ZG_JZD", Storage="_JZD", ThisKey="ZGDM", OtherKey="YS")]
+		public EntitySet<JZD> JZD
+		{
+			get
+			{
+				return this._JZD;
+			}
+			set
+			{
+				this._JZD.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ZG_HJD", Storage="_HJD", ThisKey="ZGDM", OtherKey="HJCZY")]
 		public EntitySet<HJD> HJD
 		{
@@ -1321,16 +1381,16 @@ namespace NCMS_Local.LTSQL
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ZG_JZD", Storage="_JZD", ThisKey="ZGDM", OtherKey="YS")]
-		public EntitySet<JZD> JZD
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ZG_DQDJH", Storage="_DQDJH", ThisKey="ZGDM", OtherKey="CZY")]
+		public EntitySet<DQDJH> DQDJH
 		{
 			get
 			{
-				return this._JZD;
+				return this._DQDJH;
 			}
 			set
 			{
-				this._JZD.Assign(value);
+				this._DQDJH.Assign(value);
 			}
 		}
 		
@@ -1388,6 +1448,18 @@ namespace NCMS_Local.LTSQL
 			}
 		}
 		
+		private void attach_JZD(JZD entity)
+		{
+			this.SendPropertyChanging();
+			entity.ZG_jzd_ys = this;
+		}
+		
+		private void detach_JZD(JZD entity)
+		{
+			this.SendPropertyChanging();
+			entity.ZG_jzd_ys = null;
+		}
+		
 		private void attach_HJD(HJD entity)
 		{
 			this.SendPropertyChanging();
@@ -1412,16 +1484,16 @@ namespace NCMS_Local.LTSQL
 			entity.ZG_YS = null;
 		}
 		
-		private void attach_JZD(JZD entity)
+		private void attach_DQDJH(DQDJH entity)
 		{
 			this.SendPropertyChanging();
-			entity.ZG_jzd_ys = this;
+			entity.ZG = this;
 		}
 		
-		private void detach_JZD(JZD entity)
+		private void detach_DQDJH(DQDJH entity)
 		{
 			this.SendPropertyChanging();
-			entity.ZG_jzd_ys = null;
+			entity.ZG = null;
 		}
 	}
 	
@@ -1475,6 +1547,8 @@ namespace NCMS_Local.LTSQL
 		
 		private EntitySet<JZD> _JZD;
 		
+		private EntitySet<CY> _CY;
+		
     #region 可扩展性方法定义
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -1523,6 +1597,7 @@ namespace NCMS_Local.LTSQL
 			this._WyNhRegister = new EntitySet<WyNhRegister>(new Action<WyNhRegister>(this.attach_WyNhRegister), new Action<WyNhRegister>(this.detach_WyNhRegister));
 			this._WyNhFeeList = new EntitySet<WyNhFeeList>(new Action<WyNhFeeList>(this.attach_WyNhFeeList), new Action<WyNhFeeList>(this.detach_WyNhFeeList));
 			this._JZD = new EntitySet<JZD>(new Action<JZD>(this.attach_JZD), new Action<JZD>(this.detach_JZD));
+			this._CY = new EntitySet<CY>(new Action<CY>(this.attach_CY), new Action<CY>(this.detach_CY));
 			OnCreated();
 		}
 		
@@ -1938,6 +2013,19 @@ namespace NCMS_Local.LTSQL
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ZYBR_CY", Storage="_CY", ThisKey="ZYH", OtherKey="ZYH")]
+		public EntitySet<CY> CY
+		{
+			get
+			{
+				return this._CY;
+			}
+			set
+			{
+				this._CY.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -2001,6 +2089,18 @@ namespace NCMS_Local.LTSQL
 		}
 		
 		private void detach_JZD(JZD entity)
+		{
+			this.SendPropertyChanging();
+			entity.ZYBR = null;
+		}
+		
+		private void attach_CY(CY entity)
+		{
+			this.SendPropertyChanging();
+			entity.ZYBR = this;
+		}
+		
+		private void detach_CY(CY entity)
 		{
 			this.SendPropertyChanging();
 			entity.ZYBR = null;
@@ -10399,6 +10499,1722 @@ namespace NCMS_Local.LTSQL
 		{
 			this.SendPropertyChanging();
 			entity.YPGG = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.CY")]
+	public partial class CY : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _CYXH;
+		
+		private int _ZYH;
+		
+		private System.Nullable<int> _CYFPH;
+		
+		private short _ksdm;
+		
+		private System.DateTime _CYRQ;
+		
+		private decimal _HJJE;
+		
+		private decimal _YJJE;
+		
+		private decimal _BJJE;
+		
+		private decimal _QFJE;
+		
+		private byte _QF;
+		
+		private byte _ZF;
+		
+		private System.Nullable<short> _ZFCZY;
+		
+		private decimal _BXJE;
+		
+		private string _QFLBMC;
+		
+		private System.Nullable<short> _czy;
+		
+		private System.Nullable<System.DateTime> _zfrq;
+		
+		private System.Nullable<decimal> _HJJE_YS;
+		
+		private string _fkfs;
+		
+		private string _jsdw;
+		
+		private System.Nullable<System.DateTime> _jbsj;
+		
+		private System.Nullable<decimal> _ChildHJJE;
+		
+		private EntitySet<CYFP> _CYFP;
+		
+		private EntityRef<ZYBR> _ZYBR;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnCYXHChanging(int value);
+    partial void OnCYXHChanged();
+    partial void OnZYHChanging(int value);
+    partial void OnZYHChanged();
+    partial void OnCYFPHChanging(System.Nullable<int> value);
+    partial void OnCYFPHChanged();
+    partial void OnksdmChanging(short value);
+    partial void OnksdmChanged();
+    partial void OnCYRQChanging(System.DateTime value);
+    partial void OnCYRQChanged();
+    partial void OnHJJEChanging(decimal value);
+    partial void OnHJJEChanged();
+    partial void OnYJJEChanging(decimal value);
+    partial void OnYJJEChanged();
+    partial void OnBJJEChanging(decimal value);
+    partial void OnBJJEChanged();
+    partial void OnQFJEChanging(decimal value);
+    partial void OnQFJEChanged();
+    partial void OnQFChanging(byte value);
+    partial void OnQFChanged();
+    partial void OnZFChanging(byte value);
+    partial void OnZFChanged();
+    partial void OnZFCZYChanging(System.Nullable<short> value);
+    partial void OnZFCZYChanged();
+    partial void OnBXJEChanging(decimal value);
+    partial void OnBXJEChanged();
+    partial void OnQFLBMCChanging(string value);
+    partial void OnQFLBMCChanged();
+    partial void OnczyChanging(System.Nullable<short> value);
+    partial void OnczyChanged();
+    partial void OnzfrqChanging(System.Nullable<System.DateTime> value);
+    partial void OnzfrqChanged();
+    partial void OnHJJE_YSChanging(System.Nullable<decimal> value);
+    partial void OnHJJE_YSChanged();
+    partial void OnfkfsChanging(string value);
+    partial void OnfkfsChanged();
+    partial void OnjsdwChanging(string value);
+    partial void OnjsdwChanged();
+    partial void OnjbsjChanging(System.Nullable<System.DateTime> value);
+    partial void OnjbsjChanged();
+    partial void OnChildHJJEChanging(System.Nullable<decimal> value);
+    partial void OnChildHJJEChanged();
+    #endregion
+		
+		public CY()
+		{
+			this._CYFP = new EntitySet<CYFP>(new Action<CYFP>(this.attach_CYFP), new Action<CYFP>(this.detach_CYFP));
+			this._ZYBR = default(EntityRef<ZYBR>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CYXH", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int CYXH
+		{
+			get
+			{
+				return this._CYXH;
+			}
+			set
+			{
+				if ((this._CYXH != value))
+				{
+					this.OnCYXHChanging(value);
+					this.SendPropertyChanging();
+					this._CYXH = value;
+					this.SendPropertyChanged("CYXH");
+					this.OnCYXHChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ZYH", DbType="Int NOT NULL")]
+		public int ZYH
+		{
+			get
+			{
+				return this._ZYH;
+			}
+			set
+			{
+				if ((this._ZYH != value))
+				{
+					if (this._ZYBR.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnZYHChanging(value);
+					this.SendPropertyChanging();
+					this._ZYH = value;
+					this.SendPropertyChanged("ZYH");
+					this.OnZYHChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CYFPH", DbType="Int")]
+		public System.Nullable<int> CYFPH
+		{
+			get
+			{
+				return this._CYFPH;
+			}
+			set
+			{
+				if ((this._CYFPH != value))
+				{
+					this.OnCYFPHChanging(value);
+					this.SendPropertyChanging();
+					this._CYFPH = value;
+					this.SendPropertyChanged("CYFPH");
+					this.OnCYFPHChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ksdm", DbType="SmallInt NOT NULL")]
+		public short ksdm
+		{
+			get
+			{
+				return this._ksdm;
+			}
+			set
+			{
+				if ((this._ksdm != value))
+				{
+					this.OnksdmChanging(value);
+					this.SendPropertyChanging();
+					this._ksdm = value;
+					this.SendPropertyChanged("ksdm");
+					this.OnksdmChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CYRQ", DbType="DateTime NOT NULL")]
+		public System.DateTime CYRQ
+		{
+			get
+			{
+				return this._CYRQ;
+			}
+			set
+			{
+				if ((this._CYRQ != value))
+				{
+					this.OnCYRQChanging(value);
+					this.SendPropertyChanging();
+					this._CYRQ = value;
+					this.SendPropertyChanged("CYRQ");
+					this.OnCYRQChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HJJE", DbType="Money NOT NULL")]
+		public decimal HJJE
+		{
+			get
+			{
+				return this._HJJE;
+			}
+			set
+			{
+				if ((this._HJJE != value))
+				{
+					this.OnHJJEChanging(value);
+					this.SendPropertyChanging();
+					this._HJJE = value;
+					this.SendPropertyChanged("HJJE");
+					this.OnHJJEChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_YJJE", DbType="Money NOT NULL")]
+		public decimal YJJE
+		{
+			get
+			{
+				return this._YJJE;
+			}
+			set
+			{
+				if ((this._YJJE != value))
+				{
+					this.OnYJJEChanging(value);
+					this.SendPropertyChanging();
+					this._YJJE = value;
+					this.SendPropertyChanged("YJJE");
+					this.OnYJJEChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BJJE", DbType="Money NOT NULL")]
+		public decimal BJJE
+		{
+			get
+			{
+				return this._BJJE;
+			}
+			set
+			{
+				if ((this._BJJE != value))
+				{
+					this.OnBJJEChanging(value);
+					this.SendPropertyChanging();
+					this._BJJE = value;
+					this.SendPropertyChanged("BJJE");
+					this.OnBJJEChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QFJE", DbType="Money NOT NULL")]
+		public decimal QFJE
+		{
+			get
+			{
+				return this._QFJE;
+			}
+			set
+			{
+				if ((this._QFJE != value))
+				{
+					this.OnQFJEChanging(value);
+					this.SendPropertyChanging();
+					this._QFJE = value;
+					this.SendPropertyChanged("QFJE");
+					this.OnQFJEChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QF", DbType="TinyInt NOT NULL")]
+		public byte QF
+		{
+			get
+			{
+				return this._QF;
+			}
+			set
+			{
+				if ((this._QF != value))
+				{
+					this.OnQFChanging(value);
+					this.SendPropertyChanging();
+					this._QF = value;
+					this.SendPropertyChanged("QF");
+					this.OnQFChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ZF", DbType="TinyInt NOT NULL")]
+		public byte ZF
+		{
+			get
+			{
+				return this._ZF;
+			}
+			set
+			{
+				if ((this._ZF != value))
+				{
+					this.OnZFChanging(value);
+					this.SendPropertyChanging();
+					this._ZF = value;
+					this.SendPropertyChanged("ZF");
+					this.OnZFChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ZFCZY", DbType="SmallInt")]
+		public System.Nullable<short> ZFCZY
+		{
+			get
+			{
+				return this._ZFCZY;
+			}
+			set
+			{
+				if ((this._ZFCZY != value))
+				{
+					this.OnZFCZYChanging(value);
+					this.SendPropertyChanging();
+					this._ZFCZY = value;
+					this.SendPropertyChanged("ZFCZY");
+					this.OnZFCZYChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BXJE", DbType="Money NOT NULL")]
+		public decimal BXJE
+		{
+			get
+			{
+				return this._BXJE;
+			}
+			set
+			{
+				if ((this._BXJE != value))
+				{
+					this.OnBXJEChanging(value);
+					this.SendPropertyChanging();
+					this._BXJE = value;
+					this.SendPropertyChanged("BXJE");
+					this.OnBXJEChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QFLBMC", DbType="VarChar(50)")]
+		public string QFLBMC
+		{
+			get
+			{
+				return this._QFLBMC;
+			}
+			set
+			{
+				if ((this._QFLBMC != value))
+				{
+					this.OnQFLBMCChanging(value);
+					this.SendPropertyChanging();
+					this._QFLBMC = value;
+					this.SendPropertyChanged("QFLBMC");
+					this.OnQFLBMCChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_czy", DbType="SmallInt")]
+		public System.Nullable<short> czy
+		{
+			get
+			{
+				return this._czy;
+			}
+			set
+			{
+				if ((this._czy != value))
+				{
+					this.OnczyChanging(value);
+					this.SendPropertyChanging();
+					this._czy = value;
+					this.SendPropertyChanged("czy");
+					this.OnczyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_zfrq", DbType="DateTime")]
+		public System.Nullable<System.DateTime> zfrq
+		{
+			get
+			{
+				return this._zfrq;
+			}
+			set
+			{
+				if ((this._zfrq != value))
+				{
+					this.OnzfrqChanging(value);
+					this.SendPropertyChanging();
+					this._zfrq = value;
+					this.SendPropertyChanged("zfrq");
+					this.OnzfrqChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HJJE_YS", DbType="Money")]
+		public System.Nullable<decimal> HJJE_YS
+		{
+			get
+			{
+				return this._HJJE_YS;
+			}
+			set
+			{
+				if ((this._HJJE_YS != value))
+				{
+					this.OnHJJE_YSChanging(value);
+					this.SendPropertyChanging();
+					this._HJJE_YS = value;
+					this.SendPropertyChanged("HJJE_YS");
+					this.OnHJJE_YSChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fkfs", DbType="VarChar(30)")]
+		public string fkfs
+		{
+			get
+			{
+				return this._fkfs;
+			}
+			set
+			{
+				if ((this._fkfs != value))
+				{
+					this.OnfkfsChanging(value);
+					this.SendPropertyChanging();
+					this._fkfs = value;
+					this.SendPropertyChanged("fkfs");
+					this.OnfkfsChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_jsdw", DbType="VarChar(60)")]
+		public string jsdw
+		{
+			get
+			{
+				return this._jsdw;
+			}
+			set
+			{
+				if ((this._jsdw != value))
+				{
+					this.OnjsdwChanging(value);
+					this.SendPropertyChanging();
+					this._jsdw = value;
+					this.SendPropertyChanged("jsdw");
+					this.OnjsdwChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_jbsj", DbType="DateTime")]
+		public System.Nullable<System.DateTime> jbsj
+		{
+			get
+			{
+				return this._jbsj;
+			}
+			set
+			{
+				if ((this._jbsj != value))
+				{
+					this.OnjbsjChanging(value);
+					this.SendPropertyChanging();
+					this._jbsj = value;
+					this.SendPropertyChanged("jbsj");
+					this.OnjbsjChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ChildHJJE", DbType="Money")]
+		public System.Nullable<decimal> ChildHJJE
+		{
+			get
+			{
+				return this._ChildHJJE;
+			}
+			set
+			{
+				if ((this._ChildHJJE != value))
+				{
+					this.OnChildHJJEChanging(value);
+					this.SendPropertyChanging();
+					this._ChildHJJE = value;
+					this.SendPropertyChanged("ChildHJJE");
+					this.OnChildHJJEChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="CY_CYFP", Storage="_CYFP", ThisKey="CYXH", OtherKey="CYXH")]
+		public EntitySet<CYFP> CYFP
+		{
+			get
+			{
+				return this._CYFP;
+			}
+			set
+			{
+				this._CYFP.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ZYBR_CY", Storage="_ZYBR", ThisKey="ZYH", OtherKey="ZYH", IsForeignKey=true)]
+		public ZYBR ZYBR
+		{
+			get
+			{
+				return this._ZYBR.Entity;
+			}
+			set
+			{
+				ZYBR previousValue = this._ZYBR.Entity;
+				if (((previousValue != value) 
+							|| (this._ZYBR.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._ZYBR.Entity = null;
+						previousValue.CY.Remove(this);
+					}
+					this._ZYBR.Entity = value;
+					if ((value != null))
+					{
+						value.CY.Add(this);
+						this._ZYH = value.ZYH;
+					}
+					else
+					{
+						this._ZYH = default(int);
+					}
+					this.SendPropertyChanged("ZYBR");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_CYFP(CYFP entity)
+		{
+			this.SendPropertyChanging();
+			entity.CY = this;
+		}
+		
+		private void detach_CYFP(CYFP entity)
+		{
+			this.SendPropertyChanging();
+			entity.CY = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.CYFP")]
+	public partial class CYFP : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _CYFPH;
+		
+		private System.Nullable<int> _CYXH;
+		
+		private System.DateTime _RQ;
+		
+		private string _JSDW;
+		
+		private System.Nullable<decimal> _HJJE;
+		
+		private System.Nullable<decimal> _YJJE;
+		
+		private System.Nullable<decimal> _BJJE;
+		
+		private byte _ZF;
+		
+		private short _CZY;
+		
+		private System.Nullable<int> _ZYJZ;
+		
+		private System.Nullable<int> _CZJZ;
+		
+		private System.Nullable<decimal> _BXJE;
+		
+		private int _ZYH;
+		
+		private System.Nullable<decimal> _SQYE;
+		
+		private System.Nullable<System.DateTime> _ZTJZ_QSRQ;
+		
+		private System.Nullable<System.DateTime> _ZTJZ_ZZRQ;
+		
+		private System.Nullable<short> _zfczy;
+		
+		private System.Nullable<decimal> _BQYE;
+		
+		private System.Nullable<decimal> _HJJE_YS;
+		
+		private string _lsh;
+		
+		private System.Nullable<int> _MotherCYFPH;
+		
+		private System.Nullable<decimal> _ChildHJJE;
+		
+		private EntitySet<CYFPMX> _CYFPMX;
+		
+		private EntityRef<CY> _CY;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnCYFPHChanging(int value);
+    partial void OnCYFPHChanged();
+    partial void OnCYXHChanging(System.Nullable<int> value);
+    partial void OnCYXHChanged();
+    partial void OnRQChanging(System.DateTime value);
+    partial void OnRQChanged();
+    partial void OnJSDWChanging(string value);
+    partial void OnJSDWChanged();
+    partial void OnHJJEChanging(System.Nullable<decimal> value);
+    partial void OnHJJEChanged();
+    partial void OnYJJEChanging(System.Nullable<decimal> value);
+    partial void OnYJJEChanged();
+    partial void OnBJJEChanging(System.Nullable<decimal> value);
+    partial void OnBJJEChanged();
+    partial void OnZFChanging(byte value);
+    partial void OnZFChanged();
+    partial void OnCZYChanging(short value);
+    partial void OnCZYChanged();
+    partial void OnZYJZChanging(System.Nullable<int> value);
+    partial void OnZYJZChanged();
+    partial void OnCZJZChanging(System.Nullable<int> value);
+    partial void OnCZJZChanged();
+    partial void OnBXJEChanging(System.Nullable<decimal> value);
+    partial void OnBXJEChanged();
+    partial void OnZYHChanging(int value);
+    partial void OnZYHChanged();
+    partial void OnSQYEChanging(System.Nullable<decimal> value);
+    partial void OnSQYEChanged();
+    partial void OnZTJZ_QSRQChanging(System.Nullable<System.DateTime> value);
+    partial void OnZTJZ_QSRQChanged();
+    partial void OnZTJZ_ZZRQChanging(System.Nullable<System.DateTime> value);
+    partial void OnZTJZ_ZZRQChanged();
+    partial void OnzfczyChanging(System.Nullable<short> value);
+    partial void OnzfczyChanged();
+    partial void OnBQYEChanging(System.Nullable<decimal> value);
+    partial void OnBQYEChanged();
+    partial void OnHJJE_YSChanging(System.Nullable<decimal> value);
+    partial void OnHJJE_YSChanged();
+    partial void OnlshChanging(string value);
+    partial void OnlshChanged();
+    partial void OnMotherCYFPHChanging(System.Nullable<int> value);
+    partial void OnMotherCYFPHChanged();
+    partial void OnChildHJJEChanging(System.Nullable<decimal> value);
+    partial void OnChildHJJEChanged();
+    #endregion
+		
+		public CYFP()
+		{
+			this._CYFPMX = new EntitySet<CYFPMX>(new Action<CYFPMX>(this.attach_CYFPMX), new Action<CYFPMX>(this.detach_CYFPMX));
+			this._CY = default(EntityRef<CY>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CYFPH", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int CYFPH
+		{
+			get
+			{
+				return this._CYFPH;
+			}
+			set
+			{
+				if ((this._CYFPH != value))
+				{
+					this.OnCYFPHChanging(value);
+					this.SendPropertyChanging();
+					this._CYFPH = value;
+					this.SendPropertyChanged("CYFPH");
+					this.OnCYFPHChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CYXH", DbType="Int")]
+		public System.Nullable<int> CYXH
+		{
+			get
+			{
+				return this._CYXH;
+			}
+			set
+			{
+				if ((this._CYXH != value))
+				{
+					if (this._CY.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCYXHChanging(value);
+					this.SendPropertyChanging();
+					this._CYXH = value;
+					this.SendPropertyChanged("CYXH");
+					this.OnCYXHChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RQ", DbType="DateTime NOT NULL")]
+		public System.DateTime RQ
+		{
+			get
+			{
+				return this._RQ;
+			}
+			set
+			{
+				if ((this._RQ != value))
+				{
+					this.OnRQChanging(value);
+					this.SendPropertyChanging();
+					this._RQ = value;
+					this.SendPropertyChanged("RQ");
+					this.OnRQChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_JSDW", DbType="VarChar(100)")]
+		public string JSDW
+		{
+			get
+			{
+				return this._JSDW;
+			}
+			set
+			{
+				if ((this._JSDW != value))
+				{
+					this.OnJSDWChanging(value);
+					this.SendPropertyChanging();
+					this._JSDW = value;
+					this.SendPropertyChanged("JSDW");
+					this.OnJSDWChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HJJE", DbType="Money")]
+		public System.Nullable<decimal> HJJE
+		{
+			get
+			{
+				return this._HJJE;
+			}
+			set
+			{
+				if ((this._HJJE != value))
+				{
+					this.OnHJJEChanging(value);
+					this.SendPropertyChanging();
+					this._HJJE = value;
+					this.SendPropertyChanged("HJJE");
+					this.OnHJJEChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_YJJE", DbType="Money")]
+		public System.Nullable<decimal> YJJE
+		{
+			get
+			{
+				return this._YJJE;
+			}
+			set
+			{
+				if ((this._YJJE != value))
+				{
+					this.OnYJJEChanging(value);
+					this.SendPropertyChanging();
+					this._YJJE = value;
+					this.SendPropertyChanged("YJJE");
+					this.OnYJJEChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BJJE", DbType="Money")]
+		public System.Nullable<decimal> BJJE
+		{
+			get
+			{
+				return this._BJJE;
+			}
+			set
+			{
+				if ((this._BJJE != value))
+				{
+					this.OnBJJEChanging(value);
+					this.SendPropertyChanging();
+					this._BJJE = value;
+					this.SendPropertyChanged("BJJE");
+					this.OnBJJEChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ZF", DbType="TinyInt NOT NULL")]
+		public byte ZF
+		{
+			get
+			{
+				return this._ZF;
+			}
+			set
+			{
+				if ((this._ZF != value))
+				{
+					this.OnZFChanging(value);
+					this.SendPropertyChanging();
+					this._ZF = value;
+					this.SendPropertyChanged("ZF");
+					this.OnZFChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CZY", DbType="SmallInt NOT NULL")]
+		public short CZY
+		{
+			get
+			{
+				return this._CZY;
+			}
+			set
+			{
+				if ((this._CZY != value))
+				{
+					this.OnCZYChanging(value);
+					this.SendPropertyChanging();
+					this._CZY = value;
+					this.SendPropertyChanged("CZY");
+					this.OnCZYChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ZYJZ", DbType="Int")]
+		public System.Nullable<int> ZYJZ
+		{
+			get
+			{
+				return this._ZYJZ;
+			}
+			set
+			{
+				if ((this._ZYJZ != value))
+				{
+					this.OnZYJZChanging(value);
+					this.SendPropertyChanging();
+					this._ZYJZ = value;
+					this.SendPropertyChanged("ZYJZ");
+					this.OnZYJZChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CZJZ", DbType="Int")]
+		public System.Nullable<int> CZJZ
+		{
+			get
+			{
+				return this._CZJZ;
+			}
+			set
+			{
+				if ((this._CZJZ != value))
+				{
+					this.OnCZJZChanging(value);
+					this.SendPropertyChanging();
+					this._CZJZ = value;
+					this.SendPropertyChanged("CZJZ");
+					this.OnCZJZChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BXJE", DbType="Money")]
+		public System.Nullable<decimal> BXJE
+		{
+			get
+			{
+				return this._BXJE;
+			}
+			set
+			{
+				if ((this._BXJE != value))
+				{
+					this.OnBXJEChanging(value);
+					this.SendPropertyChanging();
+					this._BXJE = value;
+					this.SendPropertyChanged("BXJE");
+					this.OnBXJEChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ZYH", DbType="Int NOT NULL")]
+		public int ZYH
+		{
+			get
+			{
+				return this._ZYH;
+			}
+			set
+			{
+				if ((this._ZYH != value))
+				{
+					this.OnZYHChanging(value);
+					this.SendPropertyChanging();
+					this._ZYH = value;
+					this.SendPropertyChanged("ZYH");
+					this.OnZYHChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SQYE", DbType="Money")]
+		public System.Nullable<decimal> SQYE
+		{
+			get
+			{
+				return this._SQYE;
+			}
+			set
+			{
+				if ((this._SQYE != value))
+				{
+					this.OnSQYEChanging(value);
+					this.SendPropertyChanging();
+					this._SQYE = value;
+					this.SendPropertyChanged("SQYE");
+					this.OnSQYEChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ZTJZ_QSRQ", DbType="DateTime")]
+		public System.Nullable<System.DateTime> ZTJZ_QSRQ
+		{
+			get
+			{
+				return this._ZTJZ_QSRQ;
+			}
+			set
+			{
+				if ((this._ZTJZ_QSRQ != value))
+				{
+					this.OnZTJZ_QSRQChanging(value);
+					this.SendPropertyChanging();
+					this._ZTJZ_QSRQ = value;
+					this.SendPropertyChanged("ZTJZ_QSRQ");
+					this.OnZTJZ_QSRQChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ZTJZ_ZZRQ", DbType="DateTime")]
+		public System.Nullable<System.DateTime> ZTJZ_ZZRQ
+		{
+			get
+			{
+				return this._ZTJZ_ZZRQ;
+			}
+			set
+			{
+				if ((this._ZTJZ_ZZRQ != value))
+				{
+					this.OnZTJZ_ZZRQChanging(value);
+					this.SendPropertyChanging();
+					this._ZTJZ_ZZRQ = value;
+					this.SendPropertyChanged("ZTJZ_ZZRQ");
+					this.OnZTJZ_ZZRQChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_zfczy", DbType="SmallInt")]
+		public System.Nullable<short> zfczy
+		{
+			get
+			{
+				return this._zfczy;
+			}
+			set
+			{
+				if ((this._zfczy != value))
+				{
+					this.OnzfczyChanging(value);
+					this.SendPropertyChanging();
+					this._zfczy = value;
+					this.SendPropertyChanged("zfczy");
+					this.OnzfczyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BQYE", DbType="Money")]
+		public System.Nullable<decimal> BQYE
+		{
+			get
+			{
+				return this._BQYE;
+			}
+			set
+			{
+				if ((this._BQYE != value))
+				{
+					this.OnBQYEChanging(value);
+					this.SendPropertyChanging();
+					this._BQYE = value;
+					this.SendPropertyChanged("BQYE");
+					this.OnBQYEChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HJJE_YS", DbType="Money")]
+		public System.Nullable<decimal> HJJE_YS
+		{
+			get
+			{
+				return this._HJJE_YS;
+			}
+			set
+			{
+				if ((this._HJJE_YS != value))
+				{
+					this.OnHJJE_YSChanging(value);
+					this.SendPropertyChanging();
+					this._HJJE_YS = value;
+					this.SendPropertyChanged("HJJE_YS");
+					this.OnHJJE_YSChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lsh", DbType="VarChar(20)")]
+		public string lsh
+		{
+			get
+			{
+				return this._lsh;
+			}
+			set
+			{
+				if ((this._lsh != value))
+				{
+					this.OnlshChanging(value);
+					this.SendPropertyChanging();
+					this._lsh = value;
+					this.SendPropertyChanged("lsh");
+					this.OnlshChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MotherCYFPH", DbType="Int")]
+		public System.Nullable<int> MotherCYFPH
+		{
+			get
+			{
+				return this._MotherCYFPH;
+			}
+			set
+			{
+				if ((this._MotherCYFPH != value))
+				{
+					this.OnMotherCYFPHChanging(value);
+					this.SendPropertyChanging();
+					this._MotherCYFPH = value;
+					this.SendPropertyChanged("MotherCYFPH");
+					this.OnMotherCYFPHChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ChildHJJE", DbType="Money")]
+		public System.Nullable<decimal> ChildHJJE
+		{
+			get
+			{
+				return this._ChildHJJE;
+			}
+			set
+			{
+				if ((this._ChildHJJE != value))
+				{
+					this.OnChildHJJEChanging(value);
+					this.SendPropertyChanging();
+					this._ChildHJJE = value;
+					this.SendPropertyChanged("ChildHJJE");
+					this.OnChildHJJEChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="CYFP_CYFPMX", Storage="_CYFPMX", ThisKey="CYFPH", OtherKey="CYFPH")]
+		public EntitySet<CYFPMX> CYFPMX
+		{
+			get
+			{
+				return this._CYFPMX;
+			}
+			set
+			{
+				this._CYFPMX.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="CY_CYFP", Storage="_CY", ThisKey="CYXH", OtherKey="CYXH", IsForeignKey=true)]
+		public CY CY
+		{
+			get
+			{
+				return this._CY.Entity;
+			}
+			set
+			{
+				CY previousValue = this._CY.Entity;
+				if (((previousValue != value) 
+							|| (this._CY.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._CY.Entity = null;
+						previousValue.CYFP.Remove(this);
+					}
+					this._CY.Entity = value;
+					if ((value != null))
+					{
+						value.CYFP.Add(this);
+						this._CYXH = value.CYXH;
+					}
+					else
+					{
+						this._CYXH = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("CY");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_CYFPMX(CYFPMX entity)
+		{
+			this.SendPropertyChanging();
+			entity.CYFP = this;
+		}
+		
+		private void detach_CYFPMX(CYFPMX entity)
+		{
+			this.SendPropertyChanging();
+			entity.CYFP = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.CYFPMX")]
+	public partial class CYFPMX : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _CYFPH;
+		
+		private short _XH;
+		
+		private short _YJKMDM;
+		
+		private decimal _JE;
+		
+		private System.Nullable<decimal> _YSJE;
+		
+		private System.Nullable<int> _MotherCYFPH;
+		
+		private EntityRef<CYFP> _CYFP;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnCYFPHChanging(int value);
+    partial void OnCYFPHChanged();
+    partial void OnXHChanging(short value);
+    partial void OnXHChanged();
+    partial void OnYJKMDMChanging(short value);
+    partial void OnYJKMDMChanged();
+    partial void OnJEChanging(decimal value);
+    partial void OnJEChanged();
+    partial void OnYSJEChanging(System.Nullable<decimal> value);
+    partial void OnYSJEChanged();
+    partial void OnMotherCYFPHChanging(System.Nullable<int> value);
+    partial void OnMotherCYFPHChanged();
+    #endregion
+		
+		public CYFPMX()
+		{
+			this._CYFP = default(EntityRef<CYFP>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CYFPH", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int CYFPH
+		{
+			get
+			{
+				return this._CYFPH;
+			}
+			set
+			{
+				if ((this._CYFPH != value))
+				{
+					if (this._CYFP.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCYFPHChanging(value);
+					this.SendPropertyChanging();
+					this._CYFPH = value;
+					this.SendPropertyChanged("CYFPH");
+					this.OnCYFPHChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_XH", DbType="SmallInt NOT NULL", IsPrimaryKey=true)]
+		public short XH
+		{
+			get
+			{
+				return this._XH;
+			}
+			set
+			{
+				if ((this._XH != value))
+				{
+					this.OnXHChanging(value);
+					this.SendPropertyChanging();
+					this._XH = value;
+					this.SendPropertyChanged("XH");
+					this.OnXHChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_YJKMDM", DbType="SmallInt NOT NULL")]
+		public short YJKMDM
+		{
+			get
+			{
+				return this._YJKMDM;
+			}
+			set
+			{
+				if ((this._YJKMDM != value))
+				{
+					this.OnYJKMDMChanging(value);
+					this.SendPropertyChanging();
+					this._YJKMDM = value;
+					this.SendPropertyChanged("YJKMDM");
+					this.OnYJKMDMChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_JE", DbType="Money NOT NULL")]
+		public decimal JE
+		{
+			get
+			{
+				return this._JE;
+			}
+			set
+			{
+				if ((this._JE != value))
+				{
+					this.OnJEChanging(value);
+					this.SendPropertyChanging();
+					this._JE = value;
+					this.SendPropertyChanged("JE");
+					this.OnJEChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_YSJE", DbType="Money")]
+		public System.Nullable<decimal> YSJE
+		{
+			get
+			{
+				return this._YSJE;
+			}
+			set
+			{
+				if ((this._YSJE != value))
+				{
+					this.OnYSJEChanging(value);
+					this.SendPropertyChanging();
+					this._YSJE = value;
+					this.SendPropertyChanged("YSJE");
+					this.OnYSJEChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MotherCYFPH", DbType="Int")]
+		public System.Nullable<int> MotherCYFPH
+		{
+			get
+			{
+				return this._MotherCYFPH;
+			}
+			set
+			{
+				if ((this._MotherCYFPH != value))
+				{
+					this.OnMotherCYFPHChanging(value);
+					this.SendPropertyChanging();
+					this._MotherCYFPH = value;
+					this.SendPropertyChanged("MotherCYFPH");
+					this.OnMotherCYFPHChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="CYFP_CYFPMX", Storage="_CYFP", ThisKey="CYFPH", OtherKey="CYFPH", IsForeignKey=true)]
+		public CYFP CYFP
+		{
+			get
+			{
+				return this._CYFP.Entity;
+			}
+			set
+			{
+				CYFP previousValue = this._CYFP.Entity;
+				if (((previousValue != value) 
+							|| (this._CYFP.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._CYFP.Entity = null;
+						previousValue.CYFPMX.Remove(this);
+					}
+					this._CYFP.Entity = value;
+					if ((value != null))
+					{
+						value.CYFPMX.Add(this);
+						this._CYFPH = value.CYFPH;
+					}
+					else
+					{
+						this._CYFPH = default(int);
+					}
+					this.SendPropertyChanged("CYFP");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DQDJH")]
+	public partial class DQDJH : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _XH;
+		
+		private short _DJLXDM;
+		
+		private short _CZY;
+		
+		private string _CZYXM;
+		
+		private System.Nullable<int> _KSDJH;
+		
+		private System.Nullable<int> _JSDJH;
+		
+		private System.Nullable<int> _DQDJH1;
+		
+		private EntityRef<ZG> _ZG;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnXHChanging(int value);
+    partial void OnXHChanged();
+    partial void OnDJLXDMChanging(short value);
+    partial void OnDJLXDMChanged();
+    partial void OnCZYChanging(short value);
+    partial void OnCZYChanged();
+    partial void OnCZYXMChanging(string value);
+    partial void OnCZYXMChanged();
+    partial void OnKSDJHChanging(System.Nullable<int> value);
+    partial void OnKSDJHChanged();
+    partial void OnJSDJHChanging(System.Nullable<int> value);
+    partial void OnJSDJHChanged();
+    partial void OnDQDJH1Changing(System.Nullable<int> value);
+    partial void OnDQDJH1Changed();
+    #endregion
+		
+		public DQDJH()
+		{
+			this._ZG = default(EntityRef<ZG>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_XH", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int XH
+		{
+			get
+			{
+				return this._XH;
+			}
+			set
+			{
+				if ((this._XH != value))
+				{
+					this.OnXHChanging(value);
+					this.SendPropertyChanging();
+					this._XH = value;
+					this.SendPropertyChanged("XH");
+					this.OnXHChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DJLXDM", DbType="SmallInt NOT NULL")]
+		public short DJLXDM
+		{
+			get
+			{
+				return this._DJLXDM;
+			}
+			set
+			{
+				if ((this._DJLXDM != value))
+				{
+					this.OnDJLXDMChanging(value);
+					this.SendPropertyChanging();
+					this._DJLXDM = value;
+					this.SendPropertyChanged("DJLXDM");
+					this.OnDJLXDMChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CZY", DbType="SmallInt NOT NULL")]
+		public short CZY
+		{
+			get
+			{
+				return this._CZY;
+			}
+			set
+			{
+				if ((this._CZY != value))
+				{
+					if (this._ZG.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCZYChanging(value);
+					this.SendPropertyChanging();
+					this._CZY = value;
+					this.SendPropertyChanged("CZY");
+					this.OnCZYChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CZYXM", DbType="VarChar(20)")]
+		public string CZYXM
+		{
+			get
+			{
+				return this._CZYXM;
+			}
+			set
+			{
+				if ((this._CZYXM != value))
+				{
+					this.OnCZYXMChanging(value);
+					this.SendPropertyChanging();
+					this._CZYXM = value;
+					this.SendPropertyChanged("CZYXM");
+					this.OnCZYXMChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_KSDJH", DbType="Int")]
+		public System.Nullable<int> KSDJH
+		{
+			get
+			{
+				return this._KSDJH;
+			}
+			set
+			{
+				if ((this._KSDJH != value))
+				{
+					this.OnKSDJHChanging(value);
+					this.SendPropertyChanging();
+					this._KSDJH = value;
+					this.SendPropertyChanged("KSDJH");
+					this.OnKSDJHChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_JSDJH", DbType="Int")]
+		public System.Nullable<int> JSDJH
+		{
+			get
+			{
+				return this._JSDJH;
+			}
+			set
+			{
+				if ((this._JSDJH != value))
+				{
+					this.OnJSDJHChanging(value);
+					this.SendPropertyChanging();
+					this._JSDJH = value;
+					this.SendPropertyChanged("JSDJH");
+					this.OnJSDJHChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="DQDJH", Storage="_DQDJH1", DbType="Int")]
+		public System.Nullable<int> DQDJH1
+		{
+			get
+			{
+				return this._DQDJH1;
+			}
+			set
+			{
+				if ((this._DQDJH1 != value))
+				{
+					this.OnDQDJH1Changing(value);
+					this.SendPropertyChanging();
+					this._DQDJH1 = value;
+					this.SendPropertyChanged("DQDJH1");
+					this.OnDQDJH1Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ZG_DQDJH", Storage="_ZG", ThisKey="CZY", OtherKey="ZGDM", IsForeignKey=true)]
+		public ZG ZG
+		{
+			get
+			{
+				return this._ZG.Entity;
+			}
+			set
+			{
+				ZG previousValue = this._ZG.Entity;
+				if (((previousValue != value) 
+							|| (this._ZG.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._ZG.Entity = null;
+						previousValue.DQDJH.Remove(this);
+					}
+					this._ZG.Entity = value;
+					if ((value != null))
+					{
+						value.DQDJH.Add(this);
+						this._CZY = value.ZGDM;
+					}
+					else
+					{
+						this._CZY = default(short);
+					}
+					this.SendPropertyChanged("ZG");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }

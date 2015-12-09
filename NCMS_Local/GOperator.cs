@@ -26,7 +26,7 @@ namespace NCMS_Local
         public static string OrganIDLocal = "420302";
         public static string OrganIDRemote = "420000";
         public static string AccountYear = "2015";
-        public static short OperatorID = 176;
+        public static short OperatorID = 74;
         public static string OperatorName = "刘霞";
         public static string AdLimitDef = "0";
 

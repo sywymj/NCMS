@@ -6,6 +6,7 @@ using NCMS_Local.LTSQL;
 using NCMS_Local.DTO;
 using NCMS_Local.NHFUN;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace NCMS_Local
 {
@@ -468,33 +469,191 @@ namespace NCMS_Local
             return lsNoNhCodes;
         }
 
-        public string HisBalance(int zyh)
+        public string HisBalance(ParamBalance pb)
         {
+            int zyh = pb.zyh;
             string hr = string.Empty;
-            DCCbhisDataContext hisDb = new DCCbhisDataContext(GSettings.HisConnStr);
+
+            SqlConnection hisConn = new SqlConnection(GSettings.HisConnStr);
+            SqlTransaction hisTrans = null;
+            DCCbhisDataContext hisDb = new DCCbhisDataContext(hisConn);
+
             try
             {
+                hisConn.Open();
+
+                var brInfo = (from _r in hisDb.RY where _r.ZYH == zyh && _r.ZT == 0 && _r.ZF == 0 select _r).FirstOrDefault();
+                if (brInfo==null)
+                {
+                    throw new Exception("未找到患者有效的在院信息或者该患者已办理出院");
+                }
+
+
                 //记床位费;
                 hisDb.ExecuteCommand("exec 住院收费_记单个病人床位费 {0}", zyh);
                 //查询已记账未发药的单据
-                var noPutHjds = hisDb.ExecuteQuery<string>(@"select a.hjdh from jzd a join hjd b on a.hjdh=b.hjdh join bm c on a.kdks=c.bmdm	join bm d on a.zxks=d.bmdm	join zg e on a.czy=e.zgdm	left join zg f on a.ys=f.zgdm where a.zyh='{0}' and a.hjdh is not null and b.fyrq is null and b.zf<>1", zyh).ToArray();
-                if (noPutHjds!=null)
+                var noPutHjds = hisDb.ExecuteQuery<string>(@"select a.hjdh from jzd a join hjd b on a.hjdh=b.hjdh join bm c on a.kdks=c.bmdm	join bm d on a.zxks=d.bmdm	join zg e on a.czy=e.zgdm	left join zg f on a.ys=f.zgdm where a.zyh={0} and a.hjdh is not null and b.fyrq is null and b.zf<>1", zyh).ToArray();
+                if (noPutHjds!=null&&noPutHjds.Length>0)
                 {
                     throw new Exception(string.Format(@"划价单：{0} 已记账未发药！", string.Join(",", noPutHjds)));
                 }
 
                 //查询划价单已作废，记账单未作废的单据
                 var noDelInvoidJzds = hisDb.ExecuteQuery<string>(@"select jzdh from jzd where jzdh in (select jzdh from hjd where zf=1) and zyh={0} and zf=0",zyh).ToArray();
-                if (noDelInvoidJzds!=null)
+                if (noDelInvoidJzds!=null &&noDelInvoidJzds.Length>0)
                 {
                     throw new Exception(string.Format(@"划价单：{0} 已记账未发药！", string.Join(",", noDelInvoidJzds)));
                 }
+                var operatorTicketSerial = (from _t in hisDb.DQDJH where _t.CZY == GSettings.OperatorID && _t.DJLXDM==4 select _t).FirstOrDefault();
+                if (operatorTicketSerial==null)
+                {
+                    throw new Exception("当前操作员未分配单据号!");
+                }
+                int curTickSerail = hisDb.ExecuteQuery<int>("SELECT SJH=ISNULL(MAX(CYFPH),1) FROM CYFP WHERE CYFPH>0 AND CZY={0}", GSettings.OperatorID).First();
+                if (curTickSerail==1)
+                {
+                    curTickSerail = operatorTicketSerial.KSDJH.Value;
+                } 
+                else
+                {
+                    curTickSerail += 1;
+                }
+                if (curTickSerail>operatorTicketSerial.JSDJH.Value)
+                {
+                    throw new Exception("当前操作员出院发票已用完，请联系分配人员重新分配住院发票！");
+                }
+                int cyxh = hisDb.ExecuteQuery<int>("select isnull(max(cyxh),0)+1 from cy").FirstOrDefault();
+                var sumFee = hisDb.ExecuteQuery<OutValue_sp_GetInHosSumFee_List>("exec sp_GetInHosSumFee_List {0}", zyh).FirstOrDefault();
+                var zjBqye = hisDb.ExecuteQuery<decimal>(@"select top 1 bqye from cyfp where zyh={0} and cyxh is null order by rq desc, ztjz_zzrq desc, cyfph desc", zyh).FirstOrDefault();
+                sumFee.yjk += zjBqye;
+
+                DateTime serverTime = hisDb.ExecuteQuery<DateTime>("select getdate()").FirstOrDefault();
+
+
+                //开始事务处理
+                hisTrans = hisConn.BeginTransaction();
+                hisDb.Transaction = hisTrans;
+                //①，insert to cy
+                CY newCy = new CY();
+                newCy.CYXH = cyxh;
+                newCy.ZYH = zyh;
+                newCy.CYFPH = curTickSerail;
+                newCy.ksdm = brInfo.KSDM.Value;
+                newCy.CYRQ = pb.outDate;
+                newCy.HJJE = sumFee.zje;
+                newCy.HJJE_YS = sumFee.yszje;
+                newCy.YJJE = sumFee.yjk;
+                newCy.BJJE = sumFee.yszje - sumFee.yjk;
+                newCy.QFJE = 0; newCy.QF = 0; newCy.BXJE = 0;
+                newCy.QFLBMC = null;
+                newCy.czy = GSettings.OperatorID;
+                newCy.fkfs = "现金";
+                newCy.jsdw = "";
+                newCy.ZF = 0;
+                newCy.jbsj = serverTime;
+                hisDb.CY.InsertOnSubmit(newCy);
+                hisDb.SubmitChanges();
+                //②，insert to cyfp
+                hisDb.ExecuteCommand(@"INSERT INTO CYFP(CYFPH, CYXH, RQ, JSDW, HJJE, HJJE_YS, YJJE, BJJE, CZY, BXJE, ZYH, SQYE, ZF) SELECT CYFPH,CYXH, CYRQ,'', HJJE, HJJE_YS, YJJE, BJJE, CZY, BXJE, ZYH, {1}, 0 FROM CY WHERE CYXH = {0}", cyxh,zjBqye);
+                //③，insert to cyfpmx
+                var cyfpmxs = hisDb.ExecuteQuery<OutValue_sp_GetInHosSumFee>("exec sp_GetInHosSumFee @Zyh={0}, @LSH='%'",zyh);
+                short _xh = 1;
+                foreach (var cyfpmx in cyfpmxs)
+                {
+                    hisDb.CYFPMX.InsertOnSubmit(new CYFPMX() {CYFPH=curTickSerail,XH=_xh++,YJKMDM=cyfpmx.yjkmdm,JE=cyfpmx.zje,YSJE=cyfpmx.ysje });
+                }
+                //④更新相关表，Ry，zybr_child,bc,bcsyjl
+                brInfo.ZT = 1;
+                brInfo.JBSJ = serverTime;
+                brInfo.CYRQ = pb.outDate;
+                brInfo.CYBJJE = -1 * brInfo.YE;
+                brInfo.YE = 0;
+                hisDb.SubmitChanges();
+
+                hisDb.ExecuteCommand(@"update zybr_child set cyrq={0} where zyh={1}", pb.outDate, zyh);
+                hisDb.ExecuteCommand(@"UPDATE BC SET ZYH=NULL,FCRQ=NULL, FYJSRQ=NULL WHERE ZYH={0}",zyh);
+                hisDb.ExecuteCommand(@"UPDATE BCSYJL SET JSRQ=b.CYRQ, BS=2 FROM BCSYJL a JOIN RY b ON a.ZYH = b.ZYH WHERE b.ZYH={0} AND a.JSRQ IS NULL", zyh);
+
+                
+                hisTrans.Commit();
             }
             catch (System.Exception ex)
             {
                 hr = ex.Message;
+                if (hisTrans!=null)
+                {
+                    hisTrans.Rollback();
+                }
+            }
+            finally
+            {
+                hisConn.Close();
             }
             return hr;
         }
+
+        public string HisBalanceDel(int zyh)
+        {
+            string hrString = string.Empty;
+
+            SqlConnection hisConn = new SqlConnection(GSettings.HisConnStr);
+            SqlTransaction hisTrans = null;
+            DCCbhisDataContext hisDb = new DCCbhisDataContext(hisConn);
+
+            try
+            {
+                hisConn.Open();
+                DateTime serverTime = hisDb.ExecuteQuery<DateTime>(@"select getdate()").First();
+
+                var cyInfo = (from _cy in hisDb.CY where _cy.ZYH == zyh && _cy.ZF == 0 orderby _cy.CYXH descending select _cy).FirstOrDefault();                
+                var cyfpInfo=(from _cyfp in hisDb.CYFP where _cyfp.CYXH==cyInfo.CYXH && _cyfp.lsh==null select _cyfp).FirstOrDefault();
+                if (cyInfo == null || cyfpInfo==null)
+                {
+                    throw new Exception("未找到有效的出院结算信息");
+                }
+
+                hisTrans = hisConn.BeginTransaction();
+                hisDb.Transaction = hisTrans;
+                //开始处理出院作废事务
+                hisDb.ExecuteCommand(@"insert into cy(cyxh,zyh,cyfph,ksdm,cyrq,hjje,hjje_ys,yjje,bjje,qfje,qf,zfczy,bxje, qflbmc,czy,zfrq, fkfs,jsdw, JBSJ, ChildHJJE) select -cyxh,zyh,cyfph=(case when cyfph is null then null else -cyfph end),ksdm,{0},-hjje,-hjje_ys,-yjje,-bjje,-qfje,qf,{1},-bxje,qflbmc,{1},{0},fkfs,jsdw, GetDate(), -ChildHJJE from cy where cyxh={2}", serverTime, GSettings.OperatorID, cyInfo.CYXH);
+                hisDb.ExecuteCommand(@"insert into cyfp(cyfph,cyxh,rq,jsdw,hjje,hjje_ys,yjje,bjje,czy,bxje,zyh,SQYE, LSH, MotherCYFPH, ChildHJJE) select -cyfph,-cyxh,{0},jsdw,-hjje,-hjje_ys,-yjje,-bjje,{1},-bxje,zyh,-SQYE, LSH, -MotherCYFPH, -ChildHJJE from cyfp where cyxh={2} and zf=0",serverTime,GSettings.OperatorID,cyInfo.CYXH);
+                hisDb.ExecuteCommand(@"insert into cyfpmx(cyfph,xh,yjkmdm,je, ysje, MotherCYFPH) select -cyfph,xh,yjkmdm,-je, -ysje, -MotherCYFPH from cyfpmx where cyfph in(select cyfph from cyfp where cyxh={0} and zf=0)", cyInfo.CYXH);
+                hisDb.ExecuteCommand(@"update cyfp set zf=1,zfczy={0} where abs(cyfph) in (select cyfph from cyfp where cyxh={1} and zf=0)", GSettings.OperatorID, cyInfo.CYXH);
+                hisDb.ExecuteCommand(@"update cy set zf=1,zfczy={0} where abs(cyxh)={1}", GSettings.OperatorID, cyInfo.CYXH);
+                hisDb.ExecuteCommand(@"update ry set cyrq=null,jbsj = null,zt=0,ye=-cybjje,cybjje=0 where zyh={0}", cyInfo.ZYH);
+                
+                hisTrans.Commit();
+            }
+            catch (System.Exception ex)
+            {
+                hrString = ex.Message;
+                if (hisTrans!=null)
+                {
+                    hisTrans.Rollback();
+                }
+            }
+            finally
+            {
+                hisConn.Close();
+            }
+            return hrString;
+        }
+    }
+
+
+    class OutValue_sp_GetInHosSumFee_List
+    {
+        public decimal zje { get; set; }
+        public decimal yszje { get; set; }
+        public decimal yjk { get; set; }
+        public decimal xsejzje { get; set; }
+        public decimal xsecwf { get; set; }
+    }
+    class OutValue_sp_GetInHosSumFee
+    {
+        public short yjkmdm { get; set; }
+        public string yjkmmc { get; set; }
+        public decimal zje { get; set; }
+        public decimal ysje { get; set; }
     }
 }

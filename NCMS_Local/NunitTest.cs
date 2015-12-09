@@ -24,8 +24,12 @@ namespace NCMS_Local
             HisComponent hisComponent = new HisComponent();
             try
             {
-                string hr=hisComponent.HisBalance(45384);
+                //string hr = hisComponent.HisBalanceDel(45384);
+                //Assert.AreEqual(string.Empty, hr);
 
+                ParamBalance pbalance = new ParamBalance() { zyh = 45384, outDate = DateTime.Now };
+                string hr = hisComponent.HisBalance(pbalance);
+                Assert.AreEqual(string.Empty, hr);
    
                 //int hr=hisComponent.JzdToNhFeeListByZyh(45094);
                 //Assert.AreEqual(0, hr);

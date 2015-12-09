@@ -60,7 +60,7 @@ namespace NCMS_Local.DTOUI
                     if (radioButtonKh.Checked)
                     {
                         //通过卡号获取农合证号
-                        sb = new StringBuilder(1024);
+                        sb = new StringBuilder(256);
                         hr=NhLocalWrap.GetCoopMedCodeByCardID(GSettings.ParamLocalOrganID, nhCodeID, sb);
                         if (hr<0)
                         {
@@ -69,7 +69,7 @@ namespace NCMS_Local.DTOUI
                         CoopMedCode = sb.ToString().Split(new string[]{"$$"}, StringSplitOptions.None)[0];
                         AiIDNo =int.Parse(sb.ToString().Split(new string[] { "$$" }, StringSplitOptions.None)[1]) ;
                     }
-                    sb = new StringBuilder(1024);
+                    sb = new StringBuilder(256);
                     hr = NhLocalWrap.GetHzPersonInfo(GSettings.ParamLocalOrganID, CoopMedCode, sb);
                     if (hr < 0)
                     {
@@ -84,16 +84,16 @@ namespace NCMS_Local.DTOUI
                     if (radioButtonKh.Checked)
                     {
                         //通过卡号获取农合号
-                        sb = new StringBuilder(1024);
+                        sb = new StringBuilder(256);
                         hr = NhLocalWrap.zzGetCoopMedCodeByCardID(GSettings.ParamRemoteOrganID,SelAreaID, nhCodeID, sb);
                         if (hr < 0)
                         {
                             throw new Exception(sb.ToString());
                         }
-                        CoopMedCode = sb.ToString().Split(new string[] { "|" }, StringSplitOptions.None)[0];
-                        AiIDNo = int.Parse(sb.ToString().Split(new string[] { "|" }, StringSplitOptions.None)[1]);
+                        CoopMedCode = sb.ToString().Split(new string[] { "$$" }, StringSplitOptions.None)[0];
+                        AiIDNo = int.Parse(sb.ToString().Split(new string[] { "$$" }, StringSplitOptions.None)[1]);
                     }
-                    sb = new StringBuilder(1024);
+                    sb = new StringBuilder(256);
                     hr = NhLocalWrap.GetZzinfo_zz(
                         string.Format(@"{0}$${1}", "1", GSettings.AccountYear),
                         string.Format("{0}$${1}$${2}$${3}", GSettings.OrganIDRemote, SelAreaID, CoopMedCode, AiIDNo),
