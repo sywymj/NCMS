@@ -100,5 +100,13 @@ namespace NCMS_Local
         [DllImport("LxClient.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
         public static extern int DeleteFeeList([MarshalAs(UnmanagedType.LPStr)]string AsOrganID,[MarshalAs(UnmanagedType.LPStr)]string  AsCoopMedCode,int AiIDNo,int  AiDiagNo, [MarshalAs(UnmanagedType.LPStr)]StringBuilder dataBuf);
 
+        [DllImport("LxClient.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
+        public static extern int zzGetDataBack([MarshalAs(UnmanagedType.LPStr)]string AOrganID, [MarshalAs(UnmanagedType.LPStr)]string aAreaCode, [MarshalAs(UnmanagedType.LPStr)]string aCoopMedCode, int aIDNo, int aDiagNo, [MarshalAs(UnmanagedType.LPStr)]string aExpressionsId, [MarshalAs(UnmanagedType.LPStr)]StringBuilder dataBuf);
+
+        [DllImport("LxClient.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
+        public static extern int zzBack_ClearData([MarshalAs(UnmanagedType.LPStr)]string AOrganID, [MarshalAs(UnmanagedType.LPStr)]string aAreaCode, [MarshalAs(UnmanagedType.LPStr)]string aCoopMedCode, [MarshalAs(UnmanagedType.LPStr)]string aIDNo, [MarshalAs(UnmanagedType.LPStr)]string aDiagNo, [MarshalAs(UnmanagedType.LPStr)]StringBuilder dataBuf);
+
+        [DllImport("LxClient.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
+        public static extern int CanceCalcFee([MarshalAs(UnmanagedType.LPStr)]string AsOrganID, [MarshalAs(UnmanagedType.LPStr)]string AsCoopMedCode, int AiIDNo, int AiDiagNo, [MarshalAs(UnmanagedType.LPStr)]StringBuilder dataBuf);
     }
 }

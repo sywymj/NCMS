@@ -177,6 +177,7 @@
       <Column Name="AreaCode" Type="System.String" DbType="VarChar(12) NOT NULL" CanBeNull="false" />
       <Column Name="TurnID" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="FunHrStr" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Association Name="WyNhRegister_WyNhBalance" Member="WyNhBalance" ThisKey="NhRegID" OtherKey="NhRegID" Type="WyNhBalance" />
       <Association Name="ZYBR_WyNhRegister" Member="ZYBR" ThisKey="Zyh" OtherKey="ZYH" Type="ZYBR" IsForeignKey="true" />
     </Type>
   </Table>
@@ -526,4 +527,36 @@
       <Association Name="ZG_DQDJH" Member="ZG" ThisKey="CZY" OtherKey="ZGDM" Type="ZG" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.WyNhBalance" Member="WyNhBalance">
+    <Type Name="WyNhBalance">
+      <Column Name="BalanceID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="NhRegID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="IsFail" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="DayCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="OutDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="JsDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Zyh" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Cyfph" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TotalFee" Type="System.Decimal" DbType="Decimal(18,4)" CanBeNull="true" />
+      <Column Name="ReimRangeFee" Type="System.Decimal" DbType="Decimal(18,4)" CanBeNull="true" />
+      <Column Name="ReimFee" Type="System.Decimal" DbType="Decimal(18,4)" CanBeNull="true" />
+      <Column Name="HospitalReduction" Type="System.Decimal" DbType="Decimal(18,4)" CanBeNull="true" />
+      <Column Name="CivilPay" Type="System.Decimal" DbType="Decimal(18,4)" CanBeNull="true" />
+      <Column Name="ScAmount" Type="System.Decimal" DbType="Decimal(18,4)" CanBeNull="true" />
+      <Column Name="HospitalCost" Type="System.Decimal" DbType="Decimal(18,4)" CanBeNull="true" />
+      <Column Name="BeginLimite" Type="System.Decimal" DbType="Decimal(18,4)" CanBeNull="true" />
+      <Column Name="SpecialIllHospitalCost" Type="System.Decimal" DbType="Decimal(18,4)" CanBeNull="true" />
+      <Column Name="YearLimite" Type="System.Decimal" DbType="Decimal(18,4)" CanBeNull="true" />
+      <Column Name="YearTotalReimFee" Type="System.Decimal" DbType="Decimal(18,4)" CanBeNull="true" />
+      <Column Name="T1" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="T2" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="T3" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="WyNhRegister_WyNhBalance" Member="WyNhRegister" ThisKey="NhRegID" OtherKey="NhRegID" Type="WyNhRegister" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Function Name="dbo.getTsByZyh" Method="getTsByZyh" IsComposable="true">
+    <Parameter Name="zyh" Type="System.Int32" DbType="Int" />
+    <Parameter Name="dt" Type="System.DateTime" DbType="DateTime" />
+    <Return Type="System.Int32" />
+  </Function>
 </Database>

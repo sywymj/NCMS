@@ -87,6 +87,9 @@ namespace NCMS_Local.LTSQL
     partial void InsertDQDJH(DQDJH instance);
     partial void UpdateDQDJH(DQDJH instance);
     partial void DeleteDQDJH(DQDJH instance);
+    partial void InsertWyNhBalance(WyNhBalance instance);
+    partial void UpdateWyNhBalance(WyNhBalance instance);
+    partial void DeleteWyNhBalance(WyNhBalance instance);
     #endregion
 		
 		public DCCbhisDataContext() : 
@@ -269,6 +272,20 @@ namespace NCMS_Local.LTSQL
 			{
 				return this.GetTable<DQDJH>();
 			}
+		}
+		
+		public System.Data.Linq.Table<WyNhBalance> WyNhBalance
+		{
+			get
+			{
+				return this.GetTable<WyNhBalance>();
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.getTsByZyh", IsComposable=true)]
+		public System.Nullable<int> getTsByZyh([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> zyh, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="DateTime")] System.Nullable<System.DateTime> dt)
+		{
+			return ((System.Nullable<int>)(this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), zyh, dt).ReturnValue));
 		}
 	}
 	
@@ -3828,6 +3845,8 @@ namespace NCMS_Local.LTSQL
 		
 		private string _FunHrStr;
 		
+		private EntitySet<WyNhBalance> _WyNhBalance;
+		
 		private EntityRef<ZYBR> _ZYBR;
 		
     #region 可扩展性方法定义
@@ -3882,6 +3901,7 @@ namespace NCMS_Local.LTSQL
 		
 		public WyNhRegister()
 		{
+			this._WyNhBalance = new EntitySet<WyNhBalance>(new Action<WyNhBalance>(this.attach_WyNhBalance), new Action<WyNhBalance>(this.detach_WyNhBalance));
 			this._ZYBR = default(EntityRef<ZYBR>);
 			OnCreated();
 		}
@@ -4330,6 +4350,19 @@ namespace NCMS_Local.LTSQL
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="WyNhRegister_WyNhBalance", Storage="_WyNhBalance", ThisKey="NhRegID", OtherKey="NhRegID")]
+		public EntitySet<WyNhBalance> WyNhBalance
+		{
+			get
+			{
+				return this._WyNhBalance;
+			}
+			set
+			{
+				this._WyNhBalance.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ZYBR_WyNhRegister", Storage="_ZYBR", ThisKey="Zyh", OtherKey="ZYH", IsForeignKey=true)]
 		public ZYBR ZYBR
 		{
@@ -4382,6 +4415,18 @@ namespace NCMS_Local.LTSQL
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_WyNhBalance(WyNhBalance entity)
+		{
+			this.SendPropertyChanging();
+			entity.WyNhRegister = this;
+		}
+		
+		private void detach_WyNhBalance(WyNhBalance entity)
+		{
+			this.SendPropertyChanging();
+			entity.WyNhRegister = null;
 		}
 	}
 	
@@ -12193,6 +12238,613 @@ namespace NCMS_Local.LTSQL
 						this._CZY = default(short);
 					}
 					this.SendPropertyChanged("ZG");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.WyNhBalance")]
+	public partial class WyNhBalance : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _BalanceID;
+		
+		private System.Guid _NhRegID;
+		
+		private byte _IsFail;
+		
+		private int _DayCount;
+		
+		private System.DateTime _OutDate;
+		
+		private System.DateTime _JsDate;
+		
+		private int _Zyh;
+		
+		private int _Cyfph;
+		
+		private System.Nullable<decimal> _TotalFee;
+		
+		private System.Nullable<decimal> _ReimRangeFee;
+		
+		private System.Nullable<decimal> _ReimFee;
+		
+		private System.Nullable<decimal> _HospitalReduction;
+		
+		private System.Nullable<decimal> _CivilPay;
+		
+		private System.Nullable<decimal> _ScAmount;
+		
+		private System.Nullable<decimal> _HospitalCost;
+		
+		private System.Nullable<decimal> _BeginLimite;
+		
+		private System.Nullable<decimal> _SpecialIllHospitalCost;
+		
+		private System.Nullable<decimal> _YearLimite;
+		
+		private System.Nullable<decimal> _YearTotalReimFee;
+		
+		private string _T1;
+		
+		private string _T2;
+		
+		private string _T3;
+		
+		private EntityRef<WyNhRegister> _WyNhRegister;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnBalanceIDChanging(System.Guid value);
+    partial void OnBalanceIDChanged();
+    partial void OnNhRegIDChanging(System.Guid value);
+    partial void OnNhRegIDChanged();
+    partial void OnIsFailChanging(byte value);
+    partial void OnIsFailChanged();
+    partial void OnDayCountChanging(int value);
+    partial void OnDayCountChanged();
+    partial void OnOutDateChanging(System.DateTime value);
+    partial void OnOutDateChanged();
+    partial void OnJsDateChanging(System.DateTime value);
+    partial void OnJsDateChanged();
+    partial void OnZyhChanging(int value);
+    partial void OnZyhChanged();
+    partial void OnCyfphChanging(int value);
+    partial void OnCyfphChanged();
+    partial void OnTotalFeeChanging(System.Nullable<decimal> value);
+    partial void OnTotalFeeChanged();
+    partial void OnReimRangeFeeChanging(System.Nullable<decimal> value);
+    partial void OnReimRangeFeeChanged();
+    partial void OnReimFeeChanging(System.Nullable<decimal> value);
+    partial void OnReimFeeChanged();
+    partial void OnHospitalReductionChanging(System.Nullable<decimal> value);
+    partial void OnHospitalReductionChanged();
+    partial void OnCivilPayChanging(System.Nullable<decimal> value);
+    partial void OnCivilPayChanged();
+    partial void OnScAmountChanging(System.Nullable<decimal> value);
+    partial void OnScAmountChanged();
+    partial void OnHospitalCostChanging(System.Nullable<decimal> value);
+    partial void OnHospitalCostChanged();
+    partial void OnBeginLimiteChanging(System.Nullable<decimal> value);
+    partial void OnBeginLimiteChanged();
+    partial void OnSpecialIllHospitalCostChanging(System.Nullable<decimal> value);
+    partial void OnSpecialIllHospitalCostChanged();
+    partial void OnYearLimiteChanging(System.Nullable<decimal> value);
+    partial void OnYearLimiteChanged();
+    partial void OnYearTotalReimFeeChanging(System.Nullable<decimal> value);
+    partial void OnYearTotalReimFeeChanged();
+    partial void OnT1Changing(string value);
+    partial void OnT1Changed();
+    partial void OnT2Changing(string value);
+    partial void OnT2Changed();
+    partial void OnT3Changing(string value);
+    partial void OnT3Changed();
+    #endregion
+		
+		public WyNhBalance()
+		{
+			this._WyNhRegister = default(EntityRef<WyNhRegister>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BalanceID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid BalanceID
+		{
+			get
+			{
+				return this._BalanceID;
+			}
+			set
+			{
+				if ((this._BalanceID != value))
+				{
+					this.OnBalanceIDChanging(value);
+					this.SendPropertyChanging();
+					this._BalanceID = value;
+					this.SendPropertyChanged("BalanceID");
+					this.OnBalanceIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NhRegID", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid NhRegID
+		{
+			get
+			{
+				return this._NhRegID;
+			}
+			set
+			{
+				if ((this._NhRegID != value))
+				{
+					if (this._WyNhRegister.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnNhRegIDChanging(value);
+					this.SendPropertyChanging();
+					this._NhRegID = value;
+					this.SendPropertyChanged("NhRegID");
+					this.OnNhRegIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsFail", DbType="TinyInt NOT NULL")]
+		public byte IsFail
+		{
+			get
+			{
+				return this._IsFail;
+			}
+			set
+			{
+				if ((this._IsFail != value))
+				{
+					this.OnIsFailChanging(value);
+					this.SendPropertyChanging();
+					this._IsFail = value;
+					this.SendPropertyChanged("IsFail");
+					this.OnIsFailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DayCount", DbType="Int NOT NULL")]
+		public int DayCount
+		{
+			get
+			{
+				return this._DayCount;
+			}
+			set
+			{
+				if ((this._DayCount != value))
+				{
+					this.OnDayCountChanging(value);
+					this.SendPropertyChanging();
+					this._DayCount = value;
+					this.SendPropertyChanged("DayCount");
+					this.OnDayCountChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OutDate", DbType="DateTime NOT NULL")]
+		public System.DateTime OutDate
+		{
+			get
+			{
+				return this._OutDate;
+			}
+			set
+			{
+				if ((this._OutDate != value))
+				{
+					this.OnOutDateChanging(value);
+					this.SendPropertyChanging();
+					this._OutDate = value;
+					this.SendPropertyChanged("OutDate");
+					this.OnOutDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_JsDate", DbType="DateTime NOT NULL")]
+		public System.DateTime JsDate
+		{
+			get
+			{
+				return this._JsDate;
+			}
+			set
+			{
+				if ((this._JsDate != value))
+				{
+					this.OnJsDateChanging(value);
+					this.SendPropertyChanging();
+					this._JsDate = value;
+					this.SendPropertyChanged("JsDate");
+					this.OnJsDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Zyh", DbType="Int NOT NULL")]
+		public int Zyh
+		{
+			get
+			{
+				return this._Zyh;
+			}
+			set
+			{
+				if ((this._Zyh != value))
+				{
+					this.OnZyhChanging(value);
+					this.SendPropertyChanging();
+					this._Zyh = value;
+					this.SendPropertyChanged("Zyh");
+					this.OnZyhChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Cyfph", DbType="Int NOT NULL")]
+		public int Cyfph
+		{
+			get
+			{
+				return this._Cyfph;
+			}
+			set
+			{
+				if ((this._Cyfph != value))
+				{
+					this.OnCyfphChanging(value);
+					this.SendPropertyChanging();
+					this._Cyfph = value;
+					this.SendPropertyChanged("Cyfph");
+					this.OnCyfphChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TotalFee", DbType="Decimal(18,4)")]
+		public System.Nullable<decimal> TotalFee
+		{
+			get
+			{
+				return this._TotalFee;
+			}
+			set
+			{
+				if ((this._TotalFee != value))
+				{
+					this.OnTotalFeeChanging(value);
+					this.SendPropertyChanging();
+					this._TotalFee = value;
+					this.SendPropertyChanged("TotalFee");
+					this.OnTotalFeeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReimRangeFee", DbType="Decimal(18,4)")]
+		public System.Nullable<decimal> ReimRangeFee
+		{
+			get
+			{
+				return this._ReimRangeFee;
+			}
+			set
+			{
+				if ((this._ReimRangeFee != value))
+				{
+					this.OnReimRangeFeeChanging(value);
+					this.SendPropertyChanging();
+					this._ReimRangeFee = value;
+					this.SendPropertyChanged("ReimRangeFee");
+					this.OnReimRangeFeeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReimFee", DbType="Decimal(18,4)")]
+		public System.Nullable<decimal> ReimFee
+		{
+			get
+			{
+				return this._ReimFee;
+			}
+			set
+			{
+				if ((this._ReimFee != value))
+				{
+					this.OnReimFeeChanging(value);
+					this.SendPropertyChanging();
+					this._ReimFee = value;
+					this.SendPropertyChanged("ReimFee");
+					this.OnReimFeeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HospitalReduction", DbType="Decimal(18,4)")]
+		public System.Nullable<decimal> HospitalReduction
+		{
+			get
+			{
+				return this._HospitalReduction;
+			}
+			set
+			{
+				if ((this._HospitalReduction != value))
+				{
+					this.OnHospitalReductionChanging(value);
+					this.SendPropertyChanging();
+					this._HospitalReduction = value;
+					this.SendPropertyChanged("HospitalReduction");
+					this.OnHospitalReductionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CivilPay", DbType="Decimal(18,4)")]
+		public System.Nullable<decimal> CivilPay
+		{
+			get
+			{
+				return this._CivilPay;
+			}
+			set
+			{
+				if ((this._CivilPay != value))
+				{
+					this.OnCivilPayChanging(value);
+					this.SendPropertyChanging();
+					this._CivilPay = value;
+					this.SendPropertyChanged("CivilPay");
+					this.OnCivilPayChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ScAmount", DbType="Decimal(18,4)")]
+		public System.Nullable<decimal> ScAmount
+		{
+			get
+			{
+				return this._ScAmount;
+			}
+			set
+			{
+				if ((this._ScAmount != value))
+				{
+					this.OnScAmountChanging(value);
+					this.SendPropertyChanging();
+					this._ScAmount = value;
+					this.SendPropertyChanged("ScAmount");
+					this.OnScAmountChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HospitalCost", DbType="Decimal(18,4)")]
+		public System.Nullable<decimal> HospitalCost
+		{
+			get
+			{
+				return this._HospitalCost;
+			}
+			set
+			{
+				if ((this._HospitalCost != value))
+				{
+					this.OnHospitalCostChanging(value);
+					this.SendPropertyChanging();
+					this._HospitalCost = value;
+					this.SendPropertyChanged("HospitalCost");
+					this.OnHospitalCostChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BeginLimite", DbType="Decimal(18,4)")]
+		public System.Nullable<decimal> BeginLimite
+		{
+			get
+			{
+				return this._BeginLimite;
+			}
+			set
+			{
+				if ((this._BeginLimite != value))
+				{
+					this.OnBeginLimiteChanging(value);
+					this.SendPropertyChanging();
+					this._BeginLimite = value;
+					this.SendPropertyChanged("BeginLimite");
+					this.OnBeginLimiteChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SpecialIllHospitalCost", DbType="Decimal(18,4)")]
+		public System.Nullable<decimal> SpecialIllHospitalCost
+		{
+			get
+			{
+				return this._SpecialIllHospitalCost;
+			}
+			set
+			{
+				if ((this._SpecialIllHospitalCost != value))
+				{
+					this.OnSpecialIllHospitalCostChanging(value);
+					this.SendPropertyChanging();
+					this._SpecialIllHospitalCost = value;
+					this.SendPropertyChanged("SpecialIllHospitalCost");
+					this.OnSpecialIllHospitalCostChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_YearLimite", DbType="Decimal(18,4)")]
+		public System.Nullable<decimal> YearLimite
+		{
+			get
+			{
+				return this._YearLimite;
+			}
+			set
+			{
+				if ((this._YearLimite != value))
+				{
+					this.OnYearLimiteChanging(value);
+					this.SendPropertyChanging();
+					this._YearLimite = value;
+					this.SendPropertyChanged("YearLimite");
+					this.OnYearLimiteChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_YearTotalReimFee", DbType="Decimal(18,4)")]
+		public System.Nullable<decimal> YearTotalReimFee
+		{
+			get
+			{
+				return this._YearTotalReimFee;
+			}
+			set
+			{
+				if ((this._YearTotalReimFee != value))
+				{
+					this.OnYearTotalReimFeeChanging(value);
+					this.SendPropertyChanging();
+					this._YearTotalReimFee = value;
+					this.SendPropertyChanged("YearTotalReimFee");
+					this.OnYearTotalReimFeeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_T1", DbType="VarChar(50)")]
+		public string T1
+		{
+			get
+			{
+				return this._T1;
+			}
+			set
+			{
+				if ((this._T1 != value))
+				{
+					this.OnT1Changing(value);
+					this.SendPropertyChanging();
+					this._T1 = value;
+					this.SendPropertyChanged("T1");
+					this.OnT1Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_T2", DbType="VarChar(50)")]
+		public string T2
+		{
+			get
+			{
+				return this._T2;
+			}
+			set
+			{
+				if ((this._T2 != value))
+				{
+					this.OnT2Changing(value);
+					this.SendPropertyChanging();
+					this._T2 = value;
+					this.SendPropertyChanged("T2");
+					this.OnT2Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_T3", DbType="VarChar(50)")]
+		public string T3
+		{
+			get
+			{
+				return this._T3;
+			}
+			set
+			{
+				if ((this._T3 != value))
+				{
+					this.OnT3Changing(value);
+					this.SendPropertyChanging();
+					this._T3 = value;
+					this.SendPropertyChanged("T3");
+					this.OnT3Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="WyNhRegister_WyNhBalance", Storage="_WyNhRegister", ThisKey="NhRegID", OtherKey="NhRegID", IsForeignKey=true)]
+		public WyNhRegister WyNhRegister
+		{
+			get
+			{
+				return this._WyNhRegister.Entity;
+			}
+			set
+			{
+				WyNhRegister previousValue = this._WyNhRegister.Entity;
+				if (((previousValue != value) 
+							|| (this._WyNhRegister.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._WyNhRegister.Entity = null;
+						previousValue.WyNhBalance.Remove(this);
+					}
+					this._WyNhRegister.Entity = value;
+					if ((value != null))
+					{
+						value.WyNhBalance.Add(this);
+						this._NhRegID = value.NhRegID;
+					}
+					else
+					{
+						this._NhRegID = default(System.Guid);
+					}
+					this.SendPropertyChanged("WyNhRegister");
 				}
 			}
 		}

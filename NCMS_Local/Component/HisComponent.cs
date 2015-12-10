@@ -220,7 +220,11 @@ namespace NCMS_Local
             basy.MZZD_YS = (short)pInfo.oMzDoctor.zgdm;
         }
 
-        
+        /// <summary>
+        /// 将记账单的费用转到WyNhFeeList中，然后调用ProcessFeeListByZyh将费用上传到农合服务器中；
+        /// </summary>
+        /// <param name="zyh"></param>
+        /// <returns></returns>
         public int JzdToNhFeeListByZyh(int zyh)
         {
             DCCbhisDataContext hisDb = new DCCbhisDataContext(GSettings.HisConnStr);
@@ -453,7 +457,7 @@ namespace NCMS_Local
                 }
             }
 
-            sb = new StringBuilder(256);
+            sb = new StringBuilder(500);
             hr = NhLocalWrap.PreClearing(
                             string.Format("{0}$${1}", _NhPersonInfo.OrganCode, _NhPersonInfo.AccountYear),
                             _NhPersonInfo.CoopMedCode,
@@ -473,6 +477,9 @@ namespace NCMS_Local
         {
             int zyh = pb.zyh;
             string hr = string.Empty;
+            StringBuilder sb = null;
+            int iHr = -1;
+            HrPreClearing hrPreClearing = null;
 
             SqlConnection hisConn = new SqlConnection(GSettings.HisConnStr);
             SqlTransaction hisTrans = null;
@@ -482,11 +489,12 @@ namespace NCMS_Local
             {
                 hisConn.Open();
 
-                var brInfo = (from _r in hisDb.RY where _r.ZYH == zyh && _r.ZT == 0 && _r.ZF == 0 select _r).FirstOrDefault();
+                var brInfo = (from _r in hisDb.RY where _r.ZYH == zyh && _r.ZT == 0 && _r.ZF == 0 && _r.RegID==null select _r).FirstOrDefault();
                 if (brInfo==null)
                 {
-                    throw new Exception("未找到患者有效的在院信息或者该患者已办理出院");
+                    throw new Exception("未找到患者有效的在院信息或者该患者不是现金及农合患者！");
                 }
+#region 预处理
 
 
                 //记床位费;
@@ -528,6 +536,44 @@ namespace NCMS_Local
                 sumFee.yjk += zjBqye;
 
                 DateTime serverTime = hisDb.ExecuteQuery<DateTime>("select getdate()").FirstOrDefault();
+#endregion
+#region 预结算
+                //预结算一下，并判断两边的费用是否一致；如果不一致则抛出错误，让结算人员重新上传费用；
+                var nhRegisterInfo = (from _r in hisDb.WyNhRegister where _r.Zyh == zyh && _r.IsFail == 0 select _r).FirstOrDefault();
+
+                if (nhRegisterInfo!=null)
+                {
+                    //先判断一下是否有有效的结算信息
+                    var _validBalance = (from _b in nhRegisterInfo.WyNhBalance where _b.IsFail == 0 select _b).FirstOrDefault();
+                    if (_validBalance!=null)
+                    {
+                        throw new Exception("该农合患者已存在有效的结算信息，请检查！");
+                    }
+
+                    //如果nhRegisterInfo不为Null，则是农合患者，先预结算一下；
+                    sb = new StringBuilder(500);
+                    iHr = NhLocalWrap.PreClearing(string.Format("{0}$${1}", nhRegisterInfo.OrganCode, nhRegisterInfo.AccountYear),
+                            nhRegisterInfo.CoopMedCode,
+                            nhRegisterInfo.AiIDNo,
+                            int.Parse(nhRegisterInfo.DiagNo),
+                            0, hisDb.getTsByZyh(zyh,pb.outDate).Value,
+                            pb.outDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                            serverTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                            "1",
+                            sb);
+                    if (iHr<0)
+                    {
+                        throw new Exception(string.Format(@"预结算错误：{0}", sb.ToString()));
+                    }
+                    hrPreClearing = sb.ToString();
+                    if (hrPreClearing.TotalFee!=sumFee.yszje)
+                    {
+                        throw new Exception("农合服务器金额和本地His金额不一致，请检查费用是否全部上传完毕！");
+                    }
+
+                }
+
+#endregion
 
 
                 //开始事务处理
@@ -574,15 +620,84 @@ namespace NCMS_Local
                 hisDb.ExecuteCommand(@"UPDATE BC SET ZYH=NULL,FCRQ=NULL, FYJSRQ=NULL WHERE ZYH={0}",zyh);
                 hisDb.ExecuteCommand(@"UPDATE BCSYJL SET JSRQ=b.CYRQ, BS=2 FROM BCSYJL a JOIN RY b ON a.ZYH = b.ZYH WHERE b.ZYH={0} AND a.JSRQ IS NULL", zyh);
 
-                
+                //如果是农合患者，则进行农合结算；
+                WyNhBalance nhBalance = null;
+                if (nhRegisterInfo!=null)
+                {
+                    nhBalance = new WyNhBalance();
+                    nhBalance.BalanceID = Guid.NewGuid();
+                    nhBalance.NhRegID = nhRegisterInfo.NhRegID;
+                    nhBalance.IsFail = 0;
+                    nhBalance.DayCount = hisDb.getTsByZyh(zyh, pb.outDate).Value;
+                    nhBalance.OutDate = pb.outDate;
+                    nhBalance.JsDate = serverTime;
+                    nhBalance.Zyh = zyh;
+                    nhBalance.Cyfph = curTickSerail;
+
+                    hisDb.WyNhBalance.InsertOnSubmit(nhBalance);
+                    hisDb.SubmitChanges();
+
+                    sb = new StringBuilder(500);
+                    iHr = NhLocalWrap.PreClearing(string.Format("{0}$${1}", nhRegisterInfo.OrganCode, nhRegisterInfo.AccountYear),
+                            nhRegisterInfo.CoopMedCode,
+                            nhRegisterInfo.AiIDNo,
+                            int.Parse(nhRegisterInfo.DiagNo),
+                            1, nhBalance.DayCount,
+                            nhBalance.OutDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                            nhBalance.JsDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                            "1",
+                            sb);
+                    if (iHr < 0)
+                    {
+                        throw new Exception(string.Format(@"结算错误：{0}", sb.ToString()));
+                    }
+                    hrPreClearing = sb.ToString();
+                }
                 hisTrans.Commit();
+
+                //实际结算工作已成功，做结算的后处理；；；update wynhbalance表，如果是异地还需要数据回写当地和管办服务器
+                if (nhRegisterInfo!=null && nhBalance!=null)
+                {
+                    //update 结算信息；
+                    nhBalance.TotalFee = hrPreClearing.TotalFee;
+                    nhBalance.ReimRangeFee = hrPreClearing.ReimRangeFee;
+                    nhBalance.ReimFee = hrPreClearing.ReimFee;
+                    nhBalance.HospitalReduction = hrPreClearing.HospitalReduction;
+                    nhBalance.CivilPay = hrPreClearing.CivilPay;
+                    nhBalance.ScAmount = hrPreClearing.ScAmount;
+                    nhBalance.HospitalCost = hrPreClearing.HospitalCost;
+                    nhBalance.BeginLimite = hrPreClearing.BeginLimite;
+                    nhBalance.SpecialIllHospitalCost = hrPreClearing.SpecialIllHospitalCost;
+                    nhBalance.YearLimite = hrPreClearing.YearLimite;
+                    nhBalance.YearTotalReimFee = hrPreClearing.YearTotalReimFee;
+                    hisDb.SubmitChanges();
+                    //如果是异地则回写当地和管办服务器
+                    if (nhRegisterInfo.OrganCode==GSettings.OrganIDRemote)
+                    {
+                        sb = new StringBuilder(500);
+                        iHr = NhLocalWrap.zzGetDataBack(GSettings.ParamRemoteOrganID, nhRegisterInfo.AreaCode, nhRegisterInfo.CoopMedCode, nhRegisterInfo.AiIDNo, Convert.ToInt32(nhRegisterInfo.DiagNo), nhRegisterInfo.ExpressionID, sb);
+                        if (iHr<0)
+                        {
+                            throw new Exception(string.Format(@"异地农合回写错误：{0}", sb.ToString()));
+                        }
+                    }
+
+                    
+
+
+                }
+                
             }
             catch (System.Exception ex)
             {
                 hr = ex.Message;
-                if (hisTrans!=null)
+                try
                 {
                     hisTrans.Rollback();
+                }
+                catch (System.Exception exx)
+                {
+                    Console.WriteLine("roll back Error" + exx.Message);
                 }
             }
             finally
@@ -600,6 +715,8 @@ namespace NCMS_Local
             SqlTransaction hisTrans = null;
             DCCbhisDataContext hisDb = new DCCbhisDataContext(hisConn);
 
+            StringBuilder sb = null;
+            int iHr = -1;
             try
             {
                 hisConn.Open();
@@ -611,6 +728,7 @@ namespace NCMS_Local
                 {
                     throw new Exception("未找到有效的出院结算信息");
                 }
+                var nhRegInfo = (from _b in hisDb.WyNhRegister where _b.Zyh == zyh && _b.IsFail == 0 select _b).FirstOrDefault();
 
                 hisTrans = hisConn.BeginTransaction();
                 hisDb.Transaction = hisTrans;
@@ -622,15 +740,48 @@ namespace NCMS_Local
                 hisDb.ExecuteCommand(@"update cy set zf=1,zfczy={0} where abs(cyxh)={1}", GSettings.OperatorID, cyInfo.CYXH);
                 hisDb.ExecuteCommand(@"update ry set cyrq=null,jbsj = null,zt=0,ye=-cybjje,cybjje=0 where zyh={0}", cyInfo.ZYH);
                 
+                if (nhRegInfo!=null)
+                {
+                    var nhBalanceInfo = (from _b in nhRegInfo.WyNhBalance where _b.IsFail == 0 select _b).FirstOrDefault();
+                    if (nhBalanceInfo!=null)
+                    {
+                        nhBalanceInfo.IsFail = 1;
+                        hisDb.SubmitChanges();
+                        if (nhRegInfo.OrganCode==GSettings.OrganIDRemote)
+                        {
+                            //如果是异地结算，则先清除回写信息；
+                            sb = new StringBuilder(500);
+                            iHr = NhLocalWrap.zzBack_ClearData(GSettings.ParamRemoteOrganID, nhRegInfo.AreaCode, nhRegInfo.CoopMedCode, nhRegInfo.AiIDNo.ToString(), nhRegInfo.DiagNo, sb);
+                            if (iHr<0)
+                            {
+                                throw new Exception("清除回写数据错误：" + sb.ToString());
+                            }
+                        }
+                        //回写数据清除后，调用CanceCalcFee取消结算；
+                        sb = new StringBuilder(256);
+                        iHr = NhLocalWrap.CanceCalcFee(string.Format(@"{0}$${1}", nhRegInfo.OrganCode, nhRegInfo.AccountYear), nhRegInfo.CoopMedCode, nhRegInfo.AiIDNo, Convert.ToInt32(nhRegInfo.DiagNo), sb);
+                        if (iHr<0)
+                        {
+                            throw new Exception(sb.ToString());
+                        }
+                    }
+                }
+
                 hisTrans.Commit();
             }
             catch (System.Exception ex)
             {
                 hrString = ex.Message;
-                if (hisTrans!=null)
+                try
                 {
                     hisTrans.Rollback();
                 }
+                catch (System.Exception exx)
+                {
+                    Console.WriteLine(exx.Message);
+                }
+                
+                
             }
             finally
             {

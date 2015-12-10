@@ -10,5 +10,7 @@ namespace NCMS_Local.DTO
         public int zyh { get; set; }
         public DateTime outDate { get; set; }
         public CIll cyIll { get; set; }
+        public bool isForced { get; set; }
+        
     }
 }

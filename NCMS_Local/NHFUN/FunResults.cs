@@ -198,4 +198,48 @@ namespace NCMS_Local.NHFUN
             
         }
     }
+
+    public class HrPreClearing
+    {
+        public decimal TotalFee { get; set; }
+        public decimal ReimRangeFee { get; set; }
+        public decimal ReimFee { get; set; }
+        public decimal HospitalReduction { get; set; }
+        public decimal CivilPay { get; set; }
+        public decimal ScAmount { get; set; }
+        public decimal HospitalCost { get; set; }
+        public decimal BeginLimite { get; set; }
+        public string Retain1 { get; set; }
+        public decimal SpecialIllHospitalCost { get; set; }
+        public string Retain2 { get; set; }
+        public decimal YearLimite { get; set; }
+        public decimal YearTotalReimFee { get; set; }
+
+        public static implicit operator HrPreClearing(string value)
+        {
+            try
+            {
+                string[] temStrArray = value.ToString().Split(new string[] { "|" }, StringSplitOptions.None);
+                return new HrPreClearing()
+                {
+                    TotalFee = Convert.ToDecimal(temStrArray[0]),
+                    ReimRangeFee = Convert.ToDecimal(temStrArray[1]),
+                    ReimFee = Convert.ToDecimal(temStrArray[2]),
+                    HospitalReduction = Convert.ToDecimal(temStrArray[3]),
+                    CivilPay = Convert.ToDecimal(temStrArray[4]),
+                    ScAmount = Convert.ToDecimal(temStrArray[5]),
+                    HospitalCost = Convert.ToDecimal(temStrArray[6]),
+                    BeginLimite = Convert.ToDecimal(temStrArray[7]),
+                    SpecialIllHospitalCost = Convert.ToDecimal(temStrArray[9]),
+                    YearLimite = Convert.ToDecimal(temStrArray[11]),
+                    YearTotalReimFee = Convert.ToDecimal(temStrArray[12])
+                };
+            }
+            catch (System.Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+        }
+    }
 }
