@@ -34,3 +34,4 @@ F:\NCMS\NCMS_Local\obj\Debug\NCMS_Local.UI.FormInpatient.resources
 F:\NCMS\NCMS_Local\obj\Debug\NCMS_Local.csproj.GenerateResource.Cache
 F:\NCMS\NCMS_Local\obj\Debug\NCMS_Local.dll
 F:\NCMS\NCMS_Local\obj\Debug\NCMS_Local.pdb
+E:\NCMS\NCMS\NCMS_Local\obj\Debug\NCMS_Local.Properties.Resources.resources
