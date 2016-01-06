@@ -41,12 +41,12 @@ namespace NCMS_Local.DTOUI
         {
             string SelAreaID=((AreaItem)this.comboBox1.SelectedItem).areaID;
             StringBuilder sb = null;
-            string CoopMedCode = string.Empty;
-            int AiIDNo = -1;
+            
+            int AiIDNo =1;
             int hr = -1;
             string nhCodeID = this.textBox1.Text.Trim();
             object targetObj = null;
-
+            string CoopMedCode = nhCodeID;
 
             if (string.IsNullOrEmpty(nhCodeID))
             {

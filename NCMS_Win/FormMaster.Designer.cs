@@ -31,19 +31,22 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMaster));
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.文件FToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.帮助HToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripTextBoxZyh = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripButtonQueryRegInfoByZyh = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButtonNewReg = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.propertyGridPatientInfo = new System.Windows.Forms.PropertyGrid();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
-            this.toolStripButtonQueryRegInfoByZyh = new System.Windows.Forms.ToolStripButton();
-            this.toolStripTextBoxZyh = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButtonNewReg = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonSaveReg = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonNhReg = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonNhCancelReg = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -71,21 +74,6 @@
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // toolStrip1
-            // 
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripLabel1,
-            this.toolStripTextBoxZyh,
-            this.toolStripButtonQueryRegInfoByZyh,
-            this.toolStripSeparator1,
-            this.toolStripSeparator2,
-            this.toolStripButtonNewReg});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 25);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(947, 25);
-            this.toolStrip1.TabIndex = 3;
-            this.toolStrip1.Text = "toolStrip1";
-            // 
             // 文件FToolStripMenuItem
             // 
             this.文件FToolStripMenuItem.Name = "文件FToolStripMenuItem";
@@ -105,6 +93,62 @@
             this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
             this.关于ToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.关于ToolStripMenuItem.Text = "关于NCMS_WIN";
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel1,
+            this.toolStripTextBoxZyh,
+            this.toolStripButtonQueryRegInfoByZyh,
+            this.toolStripSeparator1,
+            this.toolStripSeparator2,
+            this.toolStripButtonNewReg,
+            this.toolStripButtonSaveReg,
+            this.toolStripButtonNhReg,
+            this.toolStripButtonNhCancelReg});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 25);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(947, 25);
+            this.toolStrip1.TabIndex = 3;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(56, 22);
+            this.toolStripLabel1.Text = "住院号：";
+            // 
+            // toolStripTextBoxZyh
+            // 
+            this.toolStripTextBoxZyh.Name = "toolStripTextBoxZyh";
+            this.toolStripTextBoxZyh.Size = new System.Drawing.Size(100, 25);
+            // 
+            // toolStripButtonQueryRegInfoByZyh
+            // 
+            this.toolStripButtonQueryRegInfoByZyh.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonQueryRegInfoByZyh.Image")));
+            this.toolStripButtonQueryRegInfoByZyh.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonQueryRegInfoByZyh.Name = "toolStripButtonQueryRegInfoByZyh";
+            this.toolStripButtonQueryRegInfoByZyh.Size = new System.Drawing.Size(100, 22);
+            this.toolStripButtonQueryRegInfoByZyh.Text = "查询登记信息";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButtonNewReg
+            // 
+            this.toolStripButtonNewReg.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonNewReg.Image")));
+            this.toolStripButtonNewReg.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonNewReg.Name = "toolStripButtonNewReg";
+            this.toolStripButtonNewReg.Size = new System.Drawing.Size(64, 22);
+            this.toolStripButtonNewReg.Text = "新入院";
+            this.toolStripButtonNewReg.Click += new System.EventHandler(this.toolStripButtonNewReg_Click);
             // 
             // splitContainer1
             // 
@@ -142,43 +186,30 @@
             this.webBrowser1.Size = new System.Drawing.Size(626, 528);
             this.webBrowser1.TabIndex = 0;
             // 
-            // toolStripButtonQueryRegInfoByZyh
+            // toolStripButtonSaveReg
             // 
-            this.toolStripButtonQueryRegInfoByZyh.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonQueryRegInfoByZyh.Image")));
-            this.toolStripButtonQueryRegInfoByZyh.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonQueryRegInfoByZyh.Name = "toolStripButtonQueryRegInfoByZyh";
-            this.toolStripButtonQueryRegInfoByZyh.Size = new System.Drawing.Size(100, 22);
-            this.toolStripButtonQueryRegInfoByZyh.Text = "查询登记信息";
+            this.toolStripButtonSaveReg.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonSaveReg.Image")));
+            this.toolStripButtonSaveReg.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonSaveReg.Name = "toolStripButtonSaveReg";
+            this.toolStripButtonSaveReg.Size = new System.Drawing.Size(76, 22);
+            this.toolStripButtonSaveReg.Text = "入院保存";
+            this.toolStripButtonSaveReg.Click += new System.EventHandler(this.toolStripButtonSaveReg_Click);
             // 
-            // toolStripTextBoxZyh
+            // toolStripButtonNhReg
             // 
-            this.toolStripTextBoxZyh.Name = "toolStripTextBoxZyh";
-            this.toolStripTextBoxZyh.Size = new System.Drawing.Size(100, 25);
+            this.toolStripButtonNhReg.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonNhReg.Image")));
+            this.toolStripButtonNhReg.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonNhReg.Name = "toolStripButtonNhReg";
+            this.toolStripButtonNhReg.Size = new System.Drawing.Size(76, 22);
+            this.toolStripButtonNhReg.Text = "农合注册";
             // 
-            // toolStripSeparator1
+            // toolStripButtonNhCancelReg
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripLabel1
-            // 
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(56, 22);
-            this.toolStripLabel1.Text = "住院号：";
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripButtonNewReg
-            // 
-            this.toolStripButtonNewReg.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonNewReg.Image")));
-            this.toolStripButtonNewReg.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonNewReg.Name = "toolStripButtonNewReg";
-            this.toolStripButtonNewReg.Size = new System.Drawing.Size(64, 22);
-            this.toolStripButtonNewReg.Text = "新入院";
-            this.toolStripButtonNewReg.Click += new System.EventHandler(this.toolStripButtonNewReg_Click);
+            this.toolStripButtonNhCancelReg.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonNhCancelReg.Image")));
+            this.toolStripButtonNhCancelReg.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonNhCancelReg.Name = "toolStripButtonNhCancelReg";
+            this.toolStripButtonNhCancelReg.Size = new System.Drawing.Size(76, 22);
+            this.toolStripButtonNhCancelReg.Text = "农合注销";
             // 
             // FormMaster
             // 
@@ -223,6 +254,9 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton toolStripButtonNewReg;
+        private System.Windows.Forms.ToolStripButton toolStripButtonSaveReg;
+        private System.Windows.Forms.ToolStripButton toolStripButtonNhReg;
+        private System.Windows.Forms.ToolStripButton toolStripButtonNhCancelReg;
 
     }
 }

@@ -8,7 +8,7 @@ namespace NCMS_Local.NHFUN
 {
     public enum EnFamilyType
     {
-        一般农合 = 1,
+        一般农户 = 1,
         五保户 = 2,
         贫困户 = 3,
         特困户 = 4,
